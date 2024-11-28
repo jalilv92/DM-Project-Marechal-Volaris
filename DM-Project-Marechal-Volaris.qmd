@@ -1,0 +1,17 @@
+---
+title: "DM-Project-Marechal-Volaris"
+format: html
+editor: visual
+---
+
+## Loading the datasets
+
+```{r}
+here::i_am("DM-Project-Marechal-Volaris.Rproj")
+library(here)
+library(vroom)
+counties <- vroom("county_complete.csv")
+med_coverage <- vroom("ahrf2023.csv")
+covid <- vroom("coronavirus-covid-19-pandemic-usa-counties.csv")
+```
+

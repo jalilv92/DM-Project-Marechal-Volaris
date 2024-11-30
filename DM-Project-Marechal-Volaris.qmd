@@ -15,3 +15,12 @@ med_coverage <- vroom("ahrf2023.csv")
 covid <- vroom("coronavirus-covid-19-pandemic-usa-counties.csv")
 ```
 
+## Dataset Presentation 
+
+### The following explanations will concern the content of the three datasets studied in this project 
+
+### Data set 1 : "counties"
+### Data set 2 : "med_coverage"
+### Data set 3 : "covid"
+
+

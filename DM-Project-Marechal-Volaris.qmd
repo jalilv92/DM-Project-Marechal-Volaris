@@ -25,6 +25,27 @@ covid <- vroom("coronavirus-covid-19-pandemic-usa-counties.csv")
 
 ### Key variables : 
 
+### 1.	median_age_2017:Median age of the population in 2017. It reflects the age structure of the population and can influence economic activity and service demand.
+
+### 2.	bachelors_2017:Percentage of the population with a bachelor’s degree or higher in 2017. This indicates the educational attainment level, which is closely linked to economic opportunities and income levels.
+
+### 3.	hs_grad_2017: Percentage of the population with a high school diploma or equivalent in 2017. It measures basic educational attainment, a critical factor for workforce readiness.
+
+### 4.	some_college_2017: Percentage of the population with some college education but no degree in 2017. This reflects the segment of the population with post-secondary education but without completing a formal degree.
+
+### 5.	poverty_rate_2017: Percentage of the population living below the poverty line in 2017. It is a key measure of economic hardship and income disparity within the county.
+
+### 6.	unemployment_rate_2017: Unemployment rate in 2017. This is a vital indicator of the local labor market’s health and economic stability.
+
+### 7.	median_household_income_2017: Median household income in 2017. It provides a measure of the typical income of households in the region, indicating economic well-being.
+
+### 8.	female_2017: Percentage of the population identifying as female in 2017. Understanding gender distribution can inform economic and social policy decisions.
+
+### 9.	veterans_2017: Number of veterans living in the county in 2017. This highlights the demographic presence of individuals with military service and their potential economic and social needs.
+
+### 10.	foreign_born_2017: Percentage of the population born outside the United States in 2017. This variable is critical for understanding immigration patterns and their economic and cultural contributions.
+
+
 ## Data set 2 : "med_coverage"
 
 ### Basic informations :

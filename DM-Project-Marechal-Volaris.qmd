@@ -17,13 +17,31 @@ covid <- vroom("coronavirus-covid-19-pandemic-usa-counties.csv")
 ## Cleaning the datasets
 
 
-# Dataset Presentation
 
-## The following explanations will concern the content of the three datasets studied in this project
+
+# Dataset Presentation.
+
+##The following explanations will concern the content of the three datasets studied in this project
 
 ## Data set 1 : "counties"
 
 ### Basic informations :
+
+```{r}
+# Number of rows and columns
+num_rows <- nrow(counties)
+num_cols <- ncol(counties)
+
+# Create a table with basic information
+data_info <- data.frame(
+  Metric = c("Number of Rows", "Number of Columns"),
+  Value = c(num_rows, num_cols)
+)
+
+# Display the table
+print(data_info)
+```
+
 
 ### Key variables :
 
@@ -50,6 +68,22 @@ covid <- vroom("coronavirus-covid-19-pandemic-usa-counties.csv")
 ## Data set 2 : "med_coverage"
 
 ### Basic informations :
+
+```{r}
+# Number of rows and columns
+num_observations2 <- nrow(med_coverage)
+num_variables2 <- ncol(med_coverage)
+
+# Create a table with basic information
+data_info2 <- data.frame(
+  Metric = c("Number of Columns (Variables)", "Number of Rows (Observations)"),
+  Value = c(num_variables2, num_observations2)
+)
+
+# Display the table
+print(data_info2)
+```
+
 
 ### Key variables :
 
@@ -85,6 +119,21 @@ covid <- vroom("coronavirus-covid-19-pandemic-usa-counties.csv")
 
 ### Basic informations :
 
+```{r}
+# Number of rows and columns
+num_observations3 <- nrow(covid)
+num_variables3 <- ncol(covid)
+
+# Create a table with basic information
+data_info3 <- data.frame(
+  Metric = c("Number of Columns (Variables)", "Number of Rows (Observations)"),
+  Value = c(num_variables3, num_observations3)
+)
+
+# Display the table
+print(data_info3)
+```
+
 ### Key variables :
 
 ### 1. Total Death: Total number of deaths recorded in a county due to COVID-19. This is a key indicator of the pandemic’s severity in the region.
@@ -94,20 +143,7 @@ covid <- vroom("coronavirus-covid-19-pandemic-usa-counties.csv")
 ### 3. Admin 2 FIPS Code: Federal Information Processing Standards (FIPS) code, a numeric identifier for counties. It helps in mapping and analyzing data geographically.
 
 
-### Data set 1: "counties"
-
-##The first dataset studied here is an extensive summary of various socio-economic data regarding United States counties. For this project, we do not need all of the variables presented here, therefore it is necessary to do a selection among the 188 ones.
 
 
-## Dataset Presentation
 
-##The following explanations will concern the content of the three datasets studied in this project
-
-### Data set 1 : "counties"
-
-### Data set 2 : "med_coverage"
-
-### Data set 3 : "covid"
-
-## Cleaning the dataset
 >>>>>>> 9e5743d4b17787f36c3c05ef4511b923b9c423d2

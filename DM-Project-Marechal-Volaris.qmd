@@ -11,9 +11,11 @@ here::i_am("DM-Project-Marechal-Volaris.Rproj")
 library(here)
 library(vroom)
 counties <- vroom("county_complete.csv")
-med_coverage <- vroom("ahrf2023.csv")
+med_coverage <- vroom("dataset3.csv")
 covid <- vroom("coronavirus-covid-19-pandemic-usa-counties.csv")
 ```
+## Cleaning the datasets
+
 
 # Dataset Presentation
 
@@ -90,3 +92,22 @@ covid <- vroom("coronavirus-covid-19-pandemic-usa-counties.csv")
 ### 2. Total Confirmed: Total number of confirmed COVID-19 cases in the region. This variable shows the extent of the outbreak in the area.
 
 ### 3. Admin 2 FIPS Code: Federal Information Processing Standards (FIPS) code, a numeric identifier for counties. It helps in mapping and analyzing data geographically.
+
+
+### Data set 1: "counties"
+
+##The first dataset studied here is an extensive summary of various socio-economic data regarding United States counties. For this project, we do not need all of the variables presented here, therefore it is necessary to do a selection among the 188 ones.
+
+
+## Dataset Presentation
+
+##The following explanations will concern the content of the three datasets studied in this project
+
+### Data set 1 : "counties"
+
+### Data set 2 : "med_coverage"
+
+### Data set 3 : "covid"
+
+## Cleaning the dataset
+>>>>>>> 9e5743d4b17787f36c3c05ef4511b923b9c423d2

@@ -11,16 +11,24 @@ here::i_am("DM-Project-Marechal-Volaris.Rproj")
 library(here)
 library(vroom)
 counties <- vroom("county_complete.csv")
-med_coverage <- vroom("ahrf2023.csv")
+med_coverage <- vroom("dataset3.csv")
 covid <- vroom("coronavirus-covid-19-pandemic-usa-counties.csv")
 ```
+## Cleaning the datasets
 
-## Dataset Presentation 
+### Data set 1: "counties"
 
-### The following explanations will concern the content of the three datasets studied in this project 
+The first dataset studied here is an extensive summary of various socio-economic data regarding United States counties. For this project, we do not need all of the variables presented here, therefore it is necessary to do a selection among the 188 ones.
+
+
+## Dataset Presentation
+
+The following explanations will concern the content of the three datasets studied in this project
 
 ### Data set 1 : "counties"
+
 ### Data set 2 : "med_coverage"
+
 ### Data set 3 : "covid"
 
-
+## Cleaning the dataset

@@ -65,4 +65,9 @@ covid <- vroom("coronavirus-covid-19-pandemic-usa-counties.csv")
 
 ### Key variables : 
 
+### 1.	Total Death: Total number of deaths recorded in a county due to COVID-19. This is a key indicator of the pandemic’s severity in the region.
+
+### 2.	Total Confirmed: Total number of confirmed COVID-19 cases in the region. This variable shows the extent of the outbreak in the area.
+
+### 3.	Admin 2 FIPS Code: Federal Information Processing Standards (FIPS) code, a numeric identifier for counties. It helps in mapping and analyzing data geographically.
 

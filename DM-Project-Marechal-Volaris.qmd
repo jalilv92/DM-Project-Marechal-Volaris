@@ -4,7 +4,7 @@ format: html
 editor: visual
 ---
 
-## Loading the datasets
+# Loading the datasets
 
 ```{r}
 here::i_am("DM-Project-Marechal-Volaris.Rproj")
@@ -15,12 +15,54 @@ med_coverage <- vroom("ahrf2023.csv")
 covid <- vroom("coronavirus-covid-19-pandemic-usa-counties.csv")
 ```
 
-## Dataset Presentation 
+# Dataset Presentation 
 
-### The following explanations will concern the content of the three datasets studied in this project 
+## The following explanations will concern the content of the three datasets studied in this project 
 
-### Data set 1 : "counties"
-### Data set 2 : "med_coverage"
-### Data set 3 : "covid"
+## Data set 1 : "counties"
+
+### Basic informations :
+
+### Key variables : 
+
+## Data set 2 : "med_coverage"
+
+### Basic informations :
+
+### Key variables : 
+
+### 1.	Percent of Population with Incomes at or Below 100 Percent of the U.S. Federal Poverty Level Index of Medical Underservice Score: Index related to the percentage of the population below the poverty threshold, used to assess medical needs in the region.
+
+### 2.	Percentage of Population Age 65 and Over IMU Score: Score based on the percentage of the population aged 65 and over, reflecting the level of age-related vulnerability.
+
+### 3.	Infant Mortality Rate IMU Score: Score associated with the infant mortality rate, used to evaluate medical needs in underserved areas.
+
+### 4.	Percent of Population with Incomes at or Below 100 Percent of the U.S. Federal Poverty Level: Percentage of the population with income equal to or below 100% of the federal poverty level, reflecting poverty levels in the area studied.
+
+### 5.	Infant Mortality Rate: Infant mortality rate (deaths per 1,000 live births), a key indicator of overall health and available care in the region.
+
+### 6.	Providers per 1000 Population: Number of healthcare providers available per 1,000 residents, measuring access to medical care for the population.
+
+### 7.	Percentage of Population Age 65 and Over: Percentage of the population aged 65 and older. This figure helps evaluate the proportion of elderly people in the region, often associated with increased healthcare needs.
+
+### 8.	Index of Medical Underservice Score: Score indicating the level of medical underservice. The higher the score, the more underserved the area is considered.
+
+### 9.	Primary State Name: Name of the state where the underserved area is located. This helps contextualize designations geographically.
+
+### 10.	Common County Name: Name of the county associated with the designated area. This detail is useful for localized or specific analyses.
+
+### 11.	MUA/P ID: Unique identifier assigned to each area or professional designated as underserved. It helps differentiate entities in the database.
+
+### 12.	MUA/P Area Code: Geographic code representing the underserved area. It is used to link data to specific zones.
+
+### 13.	MUA/P Service Area Name: Name assigned to the medically underserved area or service. This provides clear and geographically localized identification.
+
+### 14.	Designation Type Code: Indicates the type of designation, such as a medically underserved area. This facilitates classification of designation types.
+
+## Data set 3 : "covid"
+
+### Basic informations :
+
+### Key variables : 
 
 

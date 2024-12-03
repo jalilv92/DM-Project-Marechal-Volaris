@@ -14,10 +14,6 @@ counties <- vroom("county_complete.csv")
 med_coverage <- vroom("dataset3.csv")
 covid <- vroom("coronavirus-covid-19-pandemic-usa-counties.csv")
 ```
-## Cleaning the datasets
-
-
-
 
 # Dataset Presentation.
 
@@ -41,7 +37,6 @@ data_info <- data.frame(
 # Display the table
 print(data_info)
 ```
-
 
 ### Key variables :
 
@@ -83,7 +78,6 @@ data_info2 <- data.frame(
 # Display the table
 print(data_info2)
 ```
-
 
 ### Key variables :
 
@@ -142,8 +136,22 @@ print(data_info3)
 
 ### 3. Admin 2 FIPS Code: Federal Information Processing Standards (FIPS) code, a numeric identifier for counties. It helps in mapping and analyzing data geographically.
 
+# Cleaning the datasets
 
+## Loading the needed libraries
 
+```{r}
+library(dplyr)
+library(tidyr)
+```
 
+## Dataset 1: "counties"
 
->>>>>>> 9e5743d4b17787f36c3c05ef4511b923b9c423d2
+"counties" offers us an extensive data set regarding various socio-economic variables. Its length, nonetheless, brings us to make choices and keep only the most important ones for our project. For example, we can observe that most variables are observed at multiple times. Although an interesting feature, our study does not need to take into account trends and, in order to obtain a clearer set of data, we can only keep the most recent observations, taken in 2019.
+
+```{r}
+clean_counties <- counties |>
+  select(fips, state, name, contains("2019"))
+```
+
+> > > > > > > 9e5743d4b17787f36c3c05ef4511b923b9c423d2

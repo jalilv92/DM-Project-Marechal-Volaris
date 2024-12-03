@@ -154,4 +154,16 @@ clean_counties <- counties |>
   select(fips, state, name, contains("2019"))
 ```
 
+## Dataset 2: "med_coverage"
+
+"med_coverage" is our second data set. It need to be viewed as a complement to "counties", to the extent that it has a much more complete approach regarding healthcare-related data. However, it is not solely on the county-level but is also based on census tracks, a smaller administrative level than counties. This particularity impacts the number of observations, close to 20,000,  whereas our other data sets have roughly 3,000 observations each. 
+Furthermore, the data set only takes into account Medically Underserved Areas within a county, biasing the comparative study of "med_coverage" and the other data sets. We can get past this issue thanks to the column `Medically Underserved Area/Population (MUA/P) Component Geographic Type Description`. Its value `Single County` implies that the whole county is a MUA. Filtering them would give us a county-level study of medical coverage.
+
+```{r}
+clean_med_coverage <- med_coverage |>
+  filter(`Medically Underserved Area/Population (MUA/P) Component Geographic Type Description`=="Single County")
+```
+
+The new dataset has fewer observations than the two others, since it only regards medically underserved counties.
+
 > > > > > > > 9e5743d4b17787f36c3c05ef4511b923b9c423d2

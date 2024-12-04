@@ -156,14 +156,66 @@ clean_counties <- counties |>
 
 ## Dataset 2: "med_coverage"
 
-"med_coverage" is our second data set. It need to be viewed as a complement to "counties", to the extent that it has a much more complete approach regarding healthcare-related data. However, it is not solely on the county-level but is also based on census tracks, a smaller administrative level than counties. This particularity impacts the number of observations, close to 20,000,  whereas our other data sets have roughly 3,000 observations each. 
-Furthermore, the data set only takes into account Medically Underserved Areas within a county, biasing the comparative study of "med_coverage" and the other data sets. We can get past this issue thanks to the column `Medically Underserved Area/Population (MUA/P) Component Geographic Type Description`. Its value `Single County` implies that the whole county is a MUA. Filtering them would give us a county-level study of medical coverage.
+"med_coverage" is our second data set. It need to be viewed as a complement to "counties", to the extent that it has a much more complete approach regarding healthcare-related data. However, it is not solely on the county-level but is also based on census tracks, a smaller administrative level than counties. This particularity impacts the number of observations, close to 20,000, whereas our other data sets have roughly 3,000 observations each. Furthermore, the data set only takes into account Medically Underserved Areas within a county, biasing the comparative study of "med_coverage" and the other data sets. We can get past this issue thanks to the column `Medically Underserved Area/Population (MUA/P) Component Geographic Type Description`. Its value `Single County` implies that the whole county is a MUA. Filtering them would give us a county-level study of medical coverage.
 
 ```{r}
 clean_med_coverage <- med_coverage |>
   filter(`Medically Underserved Area/Population (MUA/P) Component Geographic Type Description`=="Single County")
 ```
 
-The new dataset has fewer observations than the two others, since it only regards medically underserved counties.
+The new dataset has fewer observations than the two others, since it only regards medically underserved counties. We can now drop useless and redundant variables and drop observations for counties who are no longer considered as medically underserved.
+
+```{r}
+clean_med_coverage2 <- clean_med_coverage |>
+  filter(`MUA/P Status Description`=="Designated") |>
+  select(-`MUA/P Update Date`,
+         -`Designation Type Code`,
+         -`Designation Type`,
+         -`MUA/P Status Code`,
+         -`MUA/P Status Description`,
+         -`Medically Underserved Area/Population (MUA/P) Withdrawal Date`,
+         -`Medically Underserved Area/Population (MUA/P) Withdrawal Date in Text Format`,
+         -`Break in Designation`,
+         -`MUA/P Population Type Code`,
+         -`Medically Underserved Area/Population (MUA/P) Metropolitan Indicator`,
+         -`Medically Underserved Area/Population (MUA/P) Metropolitan Description`,
+         -`Medically Underserved Area/Population (MUA/P) Component Geographic Type Code`,
+         -`County or County Equivalent Federal Information Processing Standard Code`,
+         -`County Subdivision Name`,
+         -`County Subdivision FIPS Code`,
+         -`Census Tract`,
+         -`Data Warehouse Record Create Date`,
+         -`Data Warehouse Record Create Date Text`,
+         -`Common State Abbreviation`,
+         -`Common State FIPS Code`,
+         -contains("Primary"),
+         -`County Description`,
+         -`State FIPS Code`,
+         -`MUA/P ID`,
+         -`MUA/P Area Code`,
+         -`MUA/P Update Date String`,
+         -`Medically Underserved Area/Population (MUA/P) Component Geographic Type Description`,
+         -`Population Type`,
+         -`HHS Region Code`,
+         -`State Abbreviation`,
+         -contains("Common"),
+         -`MUA/P Service Area Name`,
+         -`Designation Date`,
+         -`Medically Underserved Area/Population (MUA/P) Component Geographic Name`,
+         -`County Equivalent Name`,
+         -`Rural Status Code`,
+         )
+```
+
+
+## Dataset 3: "covid"
+
+"covid" is already quite straightforward. We have selected directly on the website the latest values, observed on March 9th, 2023. Then, we can drop the `Date` variable, made irrelevant by our selection, along with the `location` one, who is not exploitable for our project.
+
+```{r}
+clean_covid <- covid |>
+  select(-Date, -location)
+```
+
 
 > > > > > > > 9e5743d4b17787f36c3c05ef4511b923b9c423d2

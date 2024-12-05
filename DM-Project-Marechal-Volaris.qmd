@@ -17,7 +17,7 @@ covid <- vroom("coronavirus-covid-19-pandemic-usa-counties.csv")
 
 # Dataset Presentation.
 
-##The following explanations will concern the content of the three datasets studied in this project
+## The following explanations will concern the content of the three datasets studied in this project
 
 ## Data set 1 : "counties"
 
@@ -159,14 +159,14 @@ clean_counties <- counties |>
 "med_coverage" is our second data set. It need to be viewed as a complement to "counties", to the extent that it has a much more complete approach regarding healthcare-related data. However, it is not solely on the county-level but is also based on census tracks, a smaller administrative level than counties. This particularity impacts the number of observations, close to 20,000, whereas our other data sets have roughly 3,000 observations each. Furthermore, the data set only takes into account Medically Underserved Areas within a county, biasing the comparative study of "med_coverage" and the other data sets. We can get past this issue thanks to the column `Medically Underserved Area/Population (MUA/P) Component Geographic Type Description`. Its value `Single County` implies that the whole county is a MUA. Filtering them would give us a county-level study of medical coverage.
 
 ```{r}
-clean_med_coverage <- med_coverage |>
+preclean_med_coverage <- med_coverage |>
   filter(`Medically Underserved Area/Population (MUA/P) Component Geographic Type Description`=="Single County")
 ```
 
 The new dataset has fewer observations than the two others, since it only regards medically underserved counties. We can now drop useless and redundant variables and drop observations for counties who are no longer considered as medically underserved.
 
 ```{r}
-clean_med_coverage2 <- clean_med_coverage |>
+clean_med_coverage <- preclean_med_coverage |>
   filter(`MUA/P Status Description`=="Designated") |>
   select(-`MUA/P Update Date`,
          -`Designation Type Code`,
@@ -207,7 +207,6 @@ clean_med_coverage2 <- clean_med_coverage |>
          )
 ```
 
-
 ## Dataset 3: "covid"
 
 "covid" is already quite straightforward. We have selected directly on the website the latest values, observed on March 9th, 2023. Then, we can drop the `Date` variable, made irrelevant by our selection, along with the `location` one, who is not exploitable for our project.
@@ -217,5 +216,54 @@ clean_covid <- covid |>
   select(-Date, -location)
 ```
 
+# Joining the datasets
+
+Now that we have cleaned all three of our datasets, we can merge them into a single one, named `clean_merged`. Since our observations are based on United States counties, we may want to join them thanks to the name variables. However, this approach would make us encounter various problems:
+
+-   `clean_med_coverage` and `clean_counties` include the administrative subdivision type in their observation (for example "Adams County"), while `clean_covid` does not ("Adams").
+-   Numerous counties have the same name:
+
+```{r}
+clean_counties |>
+  filter(name=="Adams County") |>
+  summarize(number=n())
+```
+
+Thus, it would be a better fit to use the Federal Information Procession Standard Code, a five-digit number unique to each county. First, let's rename the variables in order to allow us to join.
+
+```{r}
+clean_covid <- clean_covid |>
+  rename(fips=`Admin 2 FIPS Code`)
+clean_med_coverage <- clean_med_coverage |>
+  rename(fips=`State and County Federal Information Processing Standard Code`)
+```
+
+`fips` is a character in `clean_med_coverage`, whereas it is a numeric variable in the two others.
+
+```{r}
+clean_med_coverage <- clean_med_coverage |>
+  mutate(fips = as.double(fips))
+```
+
+```{r}
+clean_merged <-
+  full_join(clean_counties, clean_covid, by="fips")
+clean_merged <-
+  full_join(clean_merged, clean_med_coverage, by="fips")
+```
+
+Now that we have a joined dataset, we can drop redundant variables.
+
+```{r}
+clean_merged <- clean_merged |>
+  select(-`Province/State`,
+         -`Admin 2 Level (City/County/Borough/Region)`,
+         -`State Name`,
+         -`Complete County Name`,
+         -`Percentage of Population Age 65 and Over`,
+         -`Designation Population in a Medically Underserved Area/Population (MUA/P)`,
+         `Medically Underserved Area/Population (MUA/P) Total Resident Civilian Population`,
+         )
+```
 
 > > > > > > > 9e5743d4b17787f36c3c05ef4511b923b9c423d2

@@ -14,6 +14,9 @@ counties <- vroom("county_complete.csv")
 med_coverage <- vroom("dataset3.csv")
 covid <- vroom("coronavirus-covid-19-pandemic-usa-counties.csv")
 ```
+# Sources Presentation
+
+The dataset county comes from website OpenIntro.This platform is dedicated to promote the learning of statistics and data science providing datasets about socioecomics. The dataset med coverage was downloaded from the website HRSA data which is an official platform provided by the Health Resources and Services Administration (HRSA), a U.S. government agency. It offers access to various public health datasets and tools related to healthcare services and resources in the United States. Finally the covid file comes from the website OpenDataSoft  which hosts open datasets on various topics, including public health, it is comparbale to openintro. It is a nongouvernemental website unlike HRSA.
 
 # Dataset Presentation.
 
@@ -181,6 +184,23 @@ clean_counties <- counties |>
   select(fips, state, name, contains("2019"))
 ```
 
+```{r}
+# Number of rows and columns
+num_rows11 <- nrow(clean_counties)
+num_cols11 <- ncol(clean_counties)
+
+# Create a table with basic information
+data_info11 <- data.frame(
+  Metric = c("Number of Rows", "Number of Columns"),
+  Value = c(num_rows11, num_cols11)
+)
+
+# Display the table
+print(data_info11)
+```
+
+Cleaning counties data set removed 139 variables
+
 ## Dataset 2: "med_coverage"
 
 "med_coverage" is our second data set. It need to be viewed as a complement to "counties", to the extent that it has a much more complete approach regarding healthcare-related data. However, it is not solely on the county-level but is also based on census tracks, a smaller administrative level than counties. This particularity impacts the number of observations, close to 20,000, whereas our other data sets have roughly 3,000 observations each. Furthermore, the data set only takes into account Medically Underserved Areas within a county, biasing the comparative study of "med_coverage" and the other data sets. We can get past this issue thanks to the column `Medically Underserved Area/Population (MUA/P) Component Geographic Type Description`. Its value `Single County` implies that the whole county is a MUA. Filtering them would give us a county-level study of medical coverage.
@@ -234,6 +254,23 @@ clean_med_coverage <- preclean_med_coverage |>
          )
 ```
 
+```{r}
+# Number of rows and columns
+num_rows21 <- nrow(clean_med_coverage )
+num_cols21 <- ncol(clean_med_coverage )
+
+# Create a table with basic information
+data_info21 <- data.frame(
+  Metric = c("Number of Rows", "Number of Columns"),
+  Value = c(num_rows21, num_cols21)
+)
+
+# Display the table
+print(data_info21)
+```
+
+Cleaning counties data set removed 44 variables and 17478 values
+
 ## Dataset 3: "covid"
 
 "covid" is already quite straightforward. We have selected directly on the website the latest values, observed on March 9th, 2023. Then, we can drop the `Date` variable, made irrelevant by our selection, along with the `location` one, who is not exploitable for our project.
@@ -242,6 +279,24 @@ clean_med_coverage <- preclean_med_coverage |>
 clean_covid <- covid |>
   select(-Date, -location)
 ```
+
+```{r}
+# Number of rows and columns
+num_rows31 <- nrow(clean_covid )
+num_cols31 <- ncol(clean_covid )
+
+# Create a table with basic information
+data_info31 <- data.frame(
+  Metric = c("Number of Rows", "Number of Columns"),
+  Value = c(num_rows31, num_cols31)
+)
+
+# Display the table
+print(data_info31)
+```
+
+Cleaning counties data set removed 2 variables 
+
 
 # Joining the datasets
 
@@ -292,5 +347,24 @@ clean_merged <- clean_merged |>
          `Medically Underserved Area/Population (MUA/P) Total Resident Civilian Population`,
          )
 ```
+```{r}
+print(clean_merged)
+```
 
+```{r}
+# Number of rows and columns
+num_rows12 <- nrow(clean_merged )
+num_cols12 <- ncol(clean_merged )
+
+# Create a table with basic information
+data_info12 <- data.frame(
+  Metric = c("Number of Rows", "Number of Columns"),
+  Value = c(num_rows12, num_cols12)
+)
+
+# Display the table
+print(data_info12)
+```
+
+Cleaning counties data set removed 2 variables 
 > > > > > > > 9e5743d4b17787f36c3c05ef4511b923b9c423d2

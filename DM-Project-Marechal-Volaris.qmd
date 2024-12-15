@@ -40,35 +40,32 @@ library(tidyr)
 
 "counties" offers us an extensive data set regarding various socio-economic variables. Its length, nonetheless, brings us to make choices and keep only the most important ones for our project. For example, we can observe that most variables are observed at multiple times. Although an interesting feature, our study does not need to take into account trends and, in order to obtain a clearer set of data, we can only keep the most recent observations, taken in 2019.
 
-1. median_age_2017:
-Median age of the population in 2017. It reflects the age structure of the population and can influence economic activity and service demand.
+1. Median Age:
+The median age of the population reflects the collective life stage of the community, shaping the distribution of labor and determining the societal needs for services like healthcare, education, and housing to support all citizens equally.
 
-2. bachelors_2017:
-Percentage of the population with a bachelor’s degree or higher in 2017. This indicates the educational attainment level, which is closely linked to economic opportunities and income levels.
+2. Bachelor’s Degree Attainment:
+The percentage of the population with a bachelor’s degree or higher signifies the collective investment in education, strengthening the intellectual foundation of society and ensuring equal access to economic and social advancement.
 
-3. hs_grad_2017:
-Percentage of the population with a high school diploma or equivalent in 2017. It measures basic educational attainment, a critical factor for workforce readiness.
+3. High School Graduation Rate:
+The percentage of the population with a high school diploma or equivalent highlights the commitment to universal education, empowering individuals with essential skills to contribute to collective productivity and societal development.
 
-4. some_college_2017: 
-Percentage of the population with some college education but no degree in 2017. This reflects the segment of the population with post-secondary education but without completing a formal degree.
+4. Some College Education:
+The share of the population with some college education but no degree reflects the potential for further educational development, emphasizing the need for accessible and equitable education systems that serve the entire population.
 
-5. poverty_rate_2017: 
-Percentage of the population living below the poverty line in 2017. It is a key measure of economic hardship and income disparity within the county.
+5. Poverty Rate:
+The percentage of individuals living below the poverty line reveals economic inequalities that must be addressed through collective action, redistribution of resources, and social welfare programs to ensure no one is left behind.
 
-6. unemployment_rate_2017: 
-Unemployment rate in 2017. This is a vital indicator of the local labor market’s health and economic stability.
+6. Unemployment Rate:
+The unemployment rate serves as a measure of the economy’s ability to provide meaningful work for all, calling for community-driven solutions that guarantee employment as a basic human right.
 
-7. median_household_income_2017:
-Median household income in 2017. It provides a measure of the typical income of households in the region, indicating economic well-being.
+7. Median Household Income:
+Median household income highlights the material conditions of the working class. Linking this variable to access to healthcare providers and COVID-19-related deaths reveals structural inequalities that require community-led solutions and collective action to address.
 
-8. female_2017: 
-Percentage of the population identifying as female in 2017. Understanding gender distribution can inform economic and social policy decisions.
+8. Female Population:
+The percentage of the population identifying as female underscores the need for gender equality in all aspects of life, ensuring equal representation, access to resources, and opportunities for women in a just and equitable society.
 
-9. veterans_2017:
-Number of veterans living in the county in 2017. This highlights the demographic presence of individuals with military service and their potential economic and social needs.
-
-10. foreign_born_2017:
- Percentage of the population born outside the United States in 2017. This variable is critical for understanding immigration patterns and their economic and cultural contributions.
+9. Foreign-Born Population:
+The percentage of the population born outside the U.S. reflects the diversity of the working class and the shared struggles of all laborers, regardless of origin. Recognizing this unity is essential for building a society based on solidarity, shared prosperity, and collective well-being.
 
 ### Cleaning of "Counties"
 
@@ -101,47 +98,32 @@ Cleaning counties data set removed 139 variables
 
 "med_coverage" is our second data set. It need to be viewed as a complement to "counties", to the extent that it has a much more complete approach regarding healthcare-related data. However, it is not solely on the county-level but is also based on census tracks, a smaller administrative level than counties. This particularity impacts the number of observations, close to 20,000, whereas our other data sets have roughly 3,000 observations each. Furthermore, the data set only takes into account Medically Underserved Areas within a county, biasing the comparative study of "med_coverage" and the other data sets. We can get past this issue thanks to the column `Medically Underserved Area/Population (MUA/P) Component Geographic Type Description`. Its value `Single County` implies that the whole county is a MUA. Filtering them would give us a county-level study of medical coverage.
 
-1. Percent of Population with Incomes at or Below 100 Percent of the U.S. 
-Federal Poverty Level Index of Medical Underservice Score: Index related to the percentage of the population below the poverty threshold, used to assess medical needs in the region.
+1. Percent of Population with Incomes at or Below 100 Percent of the U.S. Federal Poverty Level:
+Economic hardship reflects the unequal distribution of wealth, requiring redistributive policies and public welfare programs. A higher percentage highlights regions where public policy should focus on economic upliftment and social equity. This variable can be linked to healthcare access indicators such as the number of providers per 1,000 residents and COVID-19-related deaths, revealing how economic deprivation affects health outcomes and access to care.
 
-2. Percentage of Population Age 65 and Over IMU Score: 
-Score based on the percentage of the population aged 65 and over, reflecting the level of age-related vulnerability.
+2. Percentage of Population Age 65 and Over:
+The elderly represent a vital segment of society whose well-being should be guaranteed through accessible healthcare and social support. This percentage highlights regions where age-related services should be prioritized. Connecting this variable to COVID-19 mortality rates and the Index of Medical Underservice reveals how aging populations are disproportionately affected by healthcare system limitations.
 
-3. Infant Mortality Rate IMU Score: 
-Score associated with the infant mortality rate, used to evaluateh medical needs in underserved areas.
+3. Infant Mortality Rate IMU Score:
+A high infant mortality score reflects a failure of the healthcare system to ensure equal survival opportunities for all newborns, demanding urgent attention to maternal and child healthcare services. Combining this score with the number of healthcare providers per 1,000 people can highlight underserved regions where inadequate medical infrastructure affects infant survival rates.
 
-4. Percent of Population with Incomes at or Below 100 Percent of the U.S. Federal Poverty Level: 
-Percentage of the population with income equal to or below 100% of the federal poverty level, reflecting poverty levels in the area studied.
+4. Infant Mortality Rate:
+Infant mortality is a stark indicator of a society’s failure to provide equal healthcare, signaling the need for comprehensive public health reforms to support mothers and infants. Comparing this rate with the Index of Medical Underservice and poverty data can highlight correlations between economic marginalization and inadequate health services.
 
-5. Infant Mortality Rate:
-Infant mortality rate (deaths per 1,000 live births), a key indicator of overall health and available care in the region.
+5. Providers per 1,000 Population:
+The number of healthcare providers per 1,000 residents reflects the capacity of the healthcare system to serve the population, emphasizing that equal healthcare access is a foundational right for all. Linking this variable to COVID-19-related deaths and poverty rates reveals how uneven healthcare distribution impacts public health outcomes.
 
-6. Providers per 1000 Population: 
-Number of healthcare providers available per 1,000 residents, measuring access to medical care for the population.
+6. Percentage of Population Age 65 and Over:
+A higher elderly population percentage signifies a region’s need for increased healthcare infrastructure and social welfare programs to protect its most vulnerable members. This variable can be linked to COVID-19-related deaths, showing how age-based vulnerabilities increase mortality in areas lacking healthcare providers.
 
-7. Percentage of Population Age 65 and Over:
-Percentage of the population aged 65 and older. This figure helps evaluate the proportion of elderly people in the region, often associated with increased healthcare needs.
+7. Index of Medical Underservice Score:
+This score quantifies the level of medical neglect imposed on communities due to systemic healthcare inequalities. A higher score demands government intervention and healthcare redistribution. Connecting this score with poverty rates and healthcare provider availability exposes regions where structural healthcare deficits persist.
 
-8. Index of Medical Underservice Score: 
-Score indicating the level of medical underservice. The higher the score, the more underserved the area is considered.
+8. Primary State Name:
+The state’s name situates underserved regions within specific administrative boundaries, aiding in targeted policy implementation. It can be linked to all healthcare and economic variables to provide geographically contextualized insights into healthcare inequalities and socio-economic conditions.
 
-9. Primary State Name:
-Name of the state where the underserved area is located. This helps contextualize designations geographically.
-
-10. Common County Name:
-Name of the county associated with the designated area. This detail is useful for localized or specific analyses.
-
-11. MUA/P ID: 
-Unique identifier assigned to each area or professional designated as underserved. It helps differentiate entities in the database.
-
-12. MUA/P Area Code: 
-Geographic code representing the underserved area. It is used to link data to specific zones.
-
-13. MUA/P Service Area Name
-Name assigned to the medically underserved area or service. This provides clear and geographically localized identification.
-
-14. Designation Type Code: 
-Indicates the type of designation, such as a medically underserved area. This facilitates classification of designation types.
+9. Common County Name:
+The county name allows for localized analysis of socio-economic and healthcare disparities, supporting community-specific policy development. Combining this variable with healthcare provider density and COVID-19-related deaths can pinpoint areas requiring urgent intervention.
 
 ### Cleaning of "med_coverage"
 
@@ -219,13 +201,13 @@ Cleaning counties data set removed 44 variables and 17478 values
 "covid" is already quite straightforward. We have selected directly on the website the latest values, observed on March 9th, 2023. Then, we can drop the `Date` variable, made irrelevant by our selection, along with the `location` one, who is not exploitable for our project.
 
 1. Total Death:
-Total number of deaths recorded in a county due to COVID-19. This is a key indicator of the pandemic’s severity in the region.
+The total number of deaths recorded in a county due to COVID-19 reflects the pandemic’s severity and the effectiveness of public health measures in the region. This variable can be linked to socio-economic indicators such as poverty rates, healthcare provider availability, and the Index of Medical Underservice to assess how systemic inequalities impact mortality rates.
 
-2. Total Confirmed: 
-Total number of confirmed COVID-19 cases in the region. This variable shows the extent of the outbreak in the area.
+2. Total Confirmed:
+The total number of confirmed COVID-19 cases in the region indicates the spread and intensity of the outbreak. Linking this variable to healthcare access and demographic data, such as the percentage of the elderly population, reveals vulnerabilities and potential areas for intervention.
 
 3. Admin 2 FIPS Code:
-Federal Information Processing Standards (FIPS) code, a numeric identifier for counties. It helps in mapping and analyzing data geographically.
+The Federal Information Processing Standards (FIPS) code provides a unique numeric identifier for counties, enabling accurate geographic mapping and data analysis. This variable can be used to link county-level COVID-19 data with socio-economic indicators, facilitating regional comparisons and targeted policy responses.
 
 ### Cleaning of "covid"
 ```{r}

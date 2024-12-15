@@ -16,7 +16,13 @@ covid <- vroom("coronavirus-covid-19-pandemic-usa-counties.csv")
 ```
 # Sources Presentation
 
-The dataset county comes from website OpenIntro.This platform is dedicated to promote the learning of statistics and data science providing datasets about socioecomics. The dataset med coverage was downloaded from the website HRSA data which is an official platform provided by the Health Resources and Services Administration (HRSA), a U.S. government agency. It offers access to various public health datasets and tools related to healthcare services and resources in the United States. Finally the covid file comes from the website OpenDataSoft  which hosts open datasets on various topics, including public health, it is comparbale to openintro. It is a nongouvernemental website unlike HRSA.
+The dataset county comes from website OpenIntro.This platform is dedicated to promote the learning of statistics and data science providing datasets about socio-economics.The covid file comes from the website OpenDataSoft  which hosts open datasets on various topics, including public health, it is comparbale to openintro. Both websites are a nongouvernemental unlike HRSA. The dataset med coverage was downloaded from the website HRSA data which is an official platform provided by the Health Resources and Services Administration (HRSA), a U.S. government agency. It offers access to various public health datasets and tools related to healthcare services and resources in the United States.
+
+covid -> https://public.opendatasoft.com/explore/dataset/coronavirus-covid-19-pandemic-usa-counties/table/?flg=fr-fr&disjunctive.province_state&disjunctive.admin2&sort=admin2&refine.date=2023%2F03%2F09
+
+med-coverage -> https://data.hrsa.gov/data/download?data=AHRF#AHRF
+
+county -> https://www.openintro.org/data/?data=county_complete
 
 # Dataset Presentation.
 

@@ -310,7 +310,7 @@ print(data_info12)
 
 Cleaning counties data set removed 2 variables 
 
-## Research question
+# Research question
 
   Cleaning and merging the datasets allows us to obtain a clearer view of the question we are aiming to answer to: to what extent socio-economical factors have influenced the impact of the Covid-19 pandemic throughout the United States?
   Although Covid has been a global issue, it is fair to state that the United States were among the most impacted countries: according to the Centers for Disease Control and Prevention, almost 1.2 millions Americans have died of Covid-related complications, the most of any country worldwide. Once we take into account the overall populations, indicators are still concerning and should prompt us to try to understand better what can explain them. For example, the mortality rate (the ratio between total death and total cases reported) is equal to 1.17%, whereas it is only 0.43% in France.

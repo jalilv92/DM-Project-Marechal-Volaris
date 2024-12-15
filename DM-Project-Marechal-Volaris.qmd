@@ -4,6 +4,8 @@ format: html
 editor: visual
 ---
 
+https://github.com/jalilv92/DM-Project-Marechal-Volaris.git
+
 # Loading the datasets
 
 ```{r}
@@ -96,7 +98,7 @@ Cleaning counties data set removed 139 variables
 
 ### Description "med_coverage"
 
-"med_coverage" is our second data set. It need to be viewed as a complement to "counties", to the extent that it has a much more complete approach regarding healthcare-related data. However, it is not solely on the county-level but is also based on census tracks, a smaller administrative level than counties. This particularity impacts the number of observations, close to 20,000, whereas our other data sets have roughly 3,000 observations each. Furthermore, the data set only takes into account Medically Underserved Areas within a county, biasing the comparative study of "med_coverage" and the other data sets. We can get past this issue thanks to the column `Medically Underserved Area/Population (MUA/P) Component Geographic Type Description`. Its value `Single County` implies that the whole county is a MUA. Filtering them would give us a county-level study of medical coverage.
+"med_coverage" is our second data set. It needs to be viewed as a complement to "counties", to the extent that it has a much more complete approach regarding healthcare-related data. However, it is not solely on the county-level but is also based on census tracks, a smaller administrative level than counties. This particularity impacts the number of observations, close to 20,000, whereas our other data sets have roughly 3,000 observations each. Furthermore, the data set only takes into account Medically Underserved Areas within a county, biasing the comparative study of "med_coverage" and the other data sets. We can get past this issue thanks to the column `Medically Underserved Area/Population (MUA/P) Component Geographic Type Description`. Its value `Single County` implies that the whole county is a MUA. Filtering them would give us a county-level study of medical coverage.
 
 1. Percent of Population with Incomes at or Below 100 Percent of the U.S. Federal Poverty Level:
 Economic hardship reflects the unequal distribution of wealth, requiring redistributive policies and public welfare programs. A higher percentage highlights regions where public policy should focus on economic upliftment and social equity. This variable can be linked to healthcare access indicators such as the number of providers per 1,000 residents and COVID-19-related deaths, revealing how economic deprivation affects health outcomes and access to care.
@@ -307,4 +309,13 @@ print(data_info12)
 ```
 
 Cleaning counties data set removed 2 variables 
+
+## Research question
+
+  Cleaning and merging the datasets allows us to obtain a clearer view of the question we are aiming to answer to: to what extent socio-economical factors have influenced the impact of the Covid-19 pandemic throughout the United States?
+  Although Covid has been a global issue, it is fair to state that the United States were among the most impacted countries: according to the Centers for Disease Control and Prevention, almost 1.2 millions Americans have died of Covid-related complications, the most of any country worldwide. Once we take into account the overall populations, indicators are still concerning and should prompt us to try to understand better what can explain them. For example, the mortality rate (the ratio between total death and total cases reported) is equal to 1.17%, whereas it is only 0.43% in France.
+    Such difference is explained thanks to various socio-economical factors, as well as political decisions. For example, the American healthcare system, relying on private companies rather than a mandatory public option, has been criticized for its negative impact on overall public health. Studying how uninsured Americans have been affected by the pandemic would therefore helps us understand if the weaknesses of the healthcare system played a role in an increased mortality rate.
+    In addition to this first approach, our datasets allow us to study in a deeper way how economical and social differences may have played a role in how the mortality rate has evolved in various regions. The `counties` dataset, for example, provides us with a full racial make-up of each county-equivalent in the country, as well as basic economic indicators, such as the median income or the unemployment rate.
+    To answer to our research question, we have chosen to base our study on the county-level, in order to get a more precise view of the country, which would not have been possible on the state-level.
+
 > > > > > > > 9e5743d4b17787f36c3c05ef4511b923b9c423d2

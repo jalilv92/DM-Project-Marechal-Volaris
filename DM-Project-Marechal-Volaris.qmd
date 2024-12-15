@@ -40,25 +40,35 @@ print(data_info)
 
 ### Key variables :
 
-### 1. median_age_2017:Median age of the population in 2017. It reflects the age structure of the population and can influence economic activity and service demand.
+1. median_age_2017:
+Median age of the population in 2017. It reflects the age structure of the population and can influence economic activity and service demand.
 
-### 2. bachelors_2017:Percentage of the population with a bachelor’s degree or higher in 2017. This indicates the educational attainment level, which is closely linked to economic opportunities and income levels.
+2. bachelors_2017:
+Percentage of the population with a bachelor’s degree or higher in 2017. This indicates the educational attainment level, which is closely linked to economic opportunities and income levels.
 
-### 3. hs_grad_2017: Percentage of the population with a high school diploma or equivalent in 2017. It measures basic educational attainment, a critical factor for workforce readiness.
+3. hs_grad_2017:
+Percentage of the population with a high school diploma or equivalent in 2017. It measures basic educational attainment, a critical factor for workforce readiness.
 
-### 4. some_college_2017: Percentage of the population with some college education but no degree in 2017. This reflects the segment of the population with post-secondary education but without completing a formal degree.
+4. some_college_2017: 
+Percentage of the population with some college education but no degree in 2017. This reflects the segment of the population with post-secondary education but without completing a formal degree.
 
-### 5. poverty_rate_2017: Percentage of the population living below the poverty line in 2017. It is a key measure of economic hardship and income disparity within the county.
+5. poverty_rate_2017: 
+Percentage of the population living below the poverty line in 2017. It is a key measure of economic hardship and income disparity within the county.
 
-### 6. unemployment_rate_2017: Unemployment rate in 2017. This is a vital indicator of the local labor market’s health and economic stability.
+6. unemployment_rate_2017: 
+Unemployment rate in 2017. This is a vital indicator of the local labor market’s health and economic stability.
 
-### 7. median_household_income_2017: Median household income in 2017. It provides a measure of the typical income of households in the region, indicating economic well-being.
+7. median_household_income_2017:
+Median household income in 2017. It provides a measure of the typical income of households in the region, indicating economic well-being.
 
-### 8. female_2017: Percentage of the population identifying as female in 2017. Understanding gender distribution can inform economic and social policy decisions.
+8. female_2017: 
+Percentage of the population identifying as female in 2017. Understanding gender distribution can inform economic and social policy decisions.
 
-### 9. veterans_2017: Number of veterans living in the county in 2017. This highlights the demographic presence of individuals with military service and their potential economic and social needs.
+9. veterans_2017:
+Number of veterans living in the county in 2017. This highlights the demographic presence of individuals with military service and their potential economic and social needs.
 
-### 10. foreign_born_2017: Percentage of the population born outside the United States in 2017. This variable is critical for understanding immigration patterns and their economic and cultural contributions.
+10. foreign_born_2017:
+ Percentage of the population born outside the United States in 2017. This variable is critical for understanding immigration patterns and their economic and cultural contributions.
 
 ## Data set 2 : "med_coverage"
 
@@ -81,33 +91,47 @@ print(data_info2)
 
 ### Key variables :
 
-### 1. Percent of Population with Incomes at or Below 100 Percent of the U.S. Federal Poverty Level Index of Medical Underservice Score: Index related to the percentage of the population below the poverty threshold, used to assess medical needs in the region.
+1. Percent of Population with Incomes at or Below 100 Percent of the U.S. 
+Federal Poverty Level Index of Medical Underservice Score: Index related to the percentage of the population below the poverty threshold, used to assess medical needs in the region.
 
-### 2. Percentage of Population Age 65 and Over IMU Score: Score based on the percentage of the population aged 65 and over, reflecting the level of age-related vulnerability.
+2. Percentage of Population Age 65 and Over IMU Score: 
+Score based on the percentage of the population aged 65 and over, reflecting the level of age-related vulnerability.
 
-### 3. Infant Mortality Rate IMU Score: Score associated with the infant mortality rate, used to evaluateh medical needs in underserved areas.
+3. Infant Mortality Rate IMU Score: 
+Score associated with the infant mortality rate, used to evaluateh medical needs in underserved areas.
 
-### 4. Percent of Population with Incomes at or Below 100 Percent of the U.S. Federal Poverty Level: Percentage of the population with income equal to or below 100% of the federal poverty level, reflecting poverty levels in the area studied.
+4. Percent of Population with Incomes at or Below 100 Percent of the U.S. Federal Poverty Level: 
+Percentage of the population with income equal to or below 100% of the federal poverty level, reflecting poverty levels in the area studied.
 
-### 5. Infant Mortality Rate: Infant mortality rate (deaths per 1,000 live births), a key indicator of overall health and available care in the region.
+5. Infant Mortality Rate:
+Infant mortality rate (deaths per 1,000 live births), a key indicator of overall health and available care in the region.
 
-### 6. Providers per 1000 Population: Number of healthcare providers available per 1,000 residents, measuring access to medical care for the population.
+6. Providers per 1000 Population: 
+Number of healthcare providers available per 1,000 residents, measuring access to medical care for the population.
 
-### 7. Percentage of Population Age 65 and Over: Percentage of the population aged 65 and older. This figure helps evaluate the proportion of elderly people in the region, often associated with increased healthcare needs.
+7. Percentage of Population Age 65 and Over:
+Percentage of the population aged 65 and older. This figure helps evaluate the proportion of elderly people in the region, often associated with increased healthcare needs.
 
-### 8. Index of Medical Underservice Score: Score indicating the level of medical underservice. The higher the score, the more underserved the area is considered.
+8. Index of Medical Underservice Score: 
+Score indicating the level of medical underservice. The higher the score, the more underserved the area is considered.
 
-### 9. Primary State Name: Name of the state where the underserved area is located. This helps contextualize designations geographically.
+9. Primary State Name:
+Name of the state where the underserved area is located. This helps contextualize designations geographically.
 
-### 10. Common County Name: Name of the county associated with the designated area. This detail is useful for localized or specific analyses.
+10. Common County Name:
+Name of the county associated with the designated area. This detail is useful for localized or specific analyses.
 
-### 11. MUA/P ID: Unique identifier assigned to each area or professional designated as underserved. It helps differentiate entities in the database.
+11. MUA/P ID: 
+Unique identifier assigned to each area or professional designated as underserved. It helps differentiate entities in the database.
 
-### 12. MUA/P Area Code: Geographic code representing the underserved area. It is used to link data to specific zones.
+12. MUA/P Area Code: 
+Geographic code representing the underserved area. It is used to link data to specific zones.
 
-### 13. MUA/P Service Area Name: Name assigned to the medically underserved area or service. This provides clear and geographically localized identification.
+13. MUA/P Service Area Name
+Name assigned to the medically underserved area or service. This provides clear and geographically localized identification.
 
-### 14. Designation Type Code: Indicates the type of designation, such as a medically underserved area. This facilitates classification of designation types.
+14. Designation Type Code: 
+Indicates the type of designation, such as a medically underserved area. This facilitates classification of designation types.
 
 ## Data set 3 : "covid"
 
@@ -130,11 +154,14 @@ print(data_info3)
 
 ### Key variables :
 
-### 1. Total Death: Total number of deaths recorded in a county due to COVID-19. This is a key indicator of the pandemic’s severity in the region.
+1. Total Death:
+Total number of deaths recorded in a county due to COVID-19. This is a key indicator of the pandemic’s severity in the region.
 
-### 2. Total Confirmed: Total number of confirmed COVID-19 cases in the region. This variable shows the extent of the outbreak in the area.
+2. Total Confirmed: 
+Total number of confirmed COVID-19 cases in the region. This variable shows the extent of the outbreak in the area.
 
-### 3. Admin 2 FIPS Code: Federal Information Processing Standards (FIPS) code, a numeric identifier for counties. It helps in mapping and analyzing data geographically.
+3. Admin 2 FIPS Code:
+Federal Information Processing Standards (FIPS) code, a numeric identifier for counties. It helps in mapping and analyzing data geographically.
 
 # Cleaning the datasets
 

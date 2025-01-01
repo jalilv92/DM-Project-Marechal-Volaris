@@ -16,16 +16,18 @@ counties <- vroom("county_complete.csv")
 med_coverage <- vroom("dataset3.csv")
 covid <- vroom("coronavirus-covid-19-pandemic-usa-counties.csv")
 ```
+
 # Sources Presentation
 
-The dataset county comes from website OpenIntro.This platform is dedicated to promote the learning of statistics and data science providing datasets about socio-economics.The covid file comes from the website OpenDataSoft  which hosts open datasets on various topics, including public health, it is comparbale to openintro. Both websites are a nongouvernemental unlike HRSA. The dataset med coverage was downloaded from the website HRSA data which is an official platform provided by the Health Resources and Services Administration (HRSA), a U.S. government agency. It offers access to various public health datasets and tools related to healthcare services and resources in the United States.
+The dataset county comes from website OpenIntro.This platform is dedicated to promote the learning of statistics and data science providing datasets about socio-economics.The covid file comes from the website OpenDataSoft which hosts open datasets on various topics, including public health, it is comparbale to openintro. Both websites are a nongouvernemental unlike HRSA. The dataset med coverage was downloaded from the website HRSA data which is an official platform provided by the Health Resources and Services Administration (HRSA), a U.S. government agency. It offers access to various public health datasets and tools related to healthcare services and resources in the United States.
 
-covid -> https://public.opendatasoft.com/explore/dataset/coronavirus-covid-19-pandemic-usa-counties/table/?flg=fr-fr&disjunctive.province_state&disjunctive.admin2&sort=admin2&refine.date=2023%2F03%2F09
+Here are the links to access the datsets
 
-med-coverage -> https://data.hrsa.gov/data/download?data=AHRF#AHRF
+[covid](https://public.opendatasoft.com/explore/dataset/coronavirus-covid-19-pandemic-usa-counties/table/?flg=fr-fr&disjunctive.province_state&disjunctive.admin2&sort=admin2&refine.date=2023%2F03%2F09)
 
-county -> https://www.openintro.org/data/?data=county_complete
+[med-coverage](https://data.hrsa.gov/data/download?data=AHRF#AHRF)
 
+[county](https://www.openintro.org/data/?data=county_complete)
 
 # About datasets
 
@@ -42,32 +44,23 @@ library(tidyr)
 
 "counties" offers us an extensive data set regarding various socio-economic variables. Its length, nonetheless, brings us to make choices and keep only the most important ones for our project. For example, we can observe that most variables are observed at multiple times. Although an interesting feature, our study does not need to take into account trends and, in order to obtain a clearer set of data, we can only keep the most recent observations, taken in 2019.
 
-1. Median Age:
-The median age of the population reflects the collective life stage of the community, shaping the distribution of labor and determining the societal needs for services like healthcare, education, and housing to support all citizens equally.
+1.  Median Age: The median age of the population reflects the collective life stage of the community, shaping the distribution of labor and determining the societal needs for services like healthcare, education, and housing to support all citizens equally.
 
-2. Bachelor’s Degree Attainment:
-The percentage of the population with a bachelor’s degree or higher signifies the collective investment in education, strengthening the intellectual foundation of society and ensuring equal access to economic and social advancement.
+2.  Bachelor’s Degree Attainment: The percentage of the population with a bachelor’s degree or higher signifies the collective investment in education, strengthening the intellectual foundation of society and ensuring equal access to economic and social advancement.
 
-3. High School Graduation Rate:
-The percentage of the population with a high school diploma or equivalent highlights the commitment to universal education, empowering individuals with essential skills to contribute to collective productivity and societal development.
+3.  High School Graduation Rate: The percentage of the population with a high school diploma or equivalent highlights the commitment to universal education, empowering individuals with essential skills to contribute to collective productivity and societal development.
 
-4. Some College Education:
-The share of the population with some college education but no degree reflects the potential for further educational development, emphasizing the need for accessible and equitable education systems that serve the entire population.
+4.  Some College Education: The share of the population with some college education but no degree reflects the potential for further educational development, emphasizing the need for accessible and equitable education systems that serve the entire population.
 
-5. Poverty Rate:
-The percentage of individuals living below the poverty line reveals economic inequalities that must be addressed through collective action, redistribution of resources, and social welfare programs to ensure no one is left behind.
+5.  Poverty Rate: The percentage of individuals living below the poverty line reveals economic inequalities that must be addressed through collective action, redistribution of resources, and social welfare programs to ensure no one is left behind.
 
-6. Unemployment Rate:
-The unemployment rate serves as a measure of the economy’s ability to provide meaningful work for all, calling for community-driven solutions that guarantee employment as a basic human right.
+6.  Unemployment Rate: The unemployment rate serves as a measure of the economy’s ability to provide meaningful work for all, calling for community-driven solutions that guarantee employment as a basic human right.
 
-7. Median Household Income:
-Median household income highlights the material conditions of the working class. Linking this variable to access to healthcare providers and COVID-19-related deaths reveals structural inequalities that require community-led solutions and collective action to address.
+7.  Median Household Income: Median household income highlights the material conditions of the working class. Linking this variable to access to healthcare providers and COVID-19-related deaths reveals structural inequalities that require community-led solutions and collective action to address.
 
-8. Female Population:
-The percentage of the population identifying as female underscores the need for gender equality in all aspects of life, ensuring equal representation, access to resources, and opportunities for women in a just and equitable society.
+8.  Female Population: The percentage of the population identifying as female underscores the need for gender equality in all aspects of life, ensuring equal representation, access to resources, and opportunities for women in a just and equitable society.
 
-9. Foreign-Born Population:
-The percentage of the population born outside the U.S. reflects the diversity of the working class and the shared struggles of all laborers, regardless of origin. Recognizing this unity is essential for building a society based on solidarity, shared prosperity, and collective well-being.
+9.  Foreign-Born Population: The percentage of the population born outside the U.S. reflects the diversity of the working class and the shared struggles of all laborers, regardless of origin. Recognizing this unity is essential for building a society based on solidarity, shared prosperity, and collective well-being.
 
 ### Cleaning of "Counties"
 
@@ -76,7 +69,8 @@ clean_counties <- counties |>
   select(fips, state, name, contains("2019"))
 ```
 
-### clean_counties number of rows and number of columns 
+### clean_counties number of rows and number of columns
+
 ```{r}
 # Number of rows and columns
 num_rows11 <- nrow(clean_counties)
@@ -100,32 +94,23 @@ Cleaning counties data set removed 139 variables
 
 "med_coverage" is our second data set. It needs to be viewed as a complement to "counties", to the extent that it has a much more complete approach regarding healthcare-related data. However, it is not solely on the county-level but is also based on census tracks, a smaller administrative level than counties. This particularity impacts the number of observations, close to 20,000, whereas our other data sets have roughly 3,000 observations each. Furthermore, the data set only takes into account Medically Underserved Areas within a county, biasing the comparative study of "med_coverage" and the other data sets. We can get past this issue thanks to the column `Medically Underserved Area/Population (MUA/P) Component Geographic Type Description`. Its value `Single County` implies that the whole county is a MUA. Filtering them would give us a county-level study of medical coverage.
 
-1. Percent of Population with Incomes at or Below 100 Percent of the U.S. Federal Poverty Level:
-Economic hardship reflects the unequal distribution of wealth, requiring redistributive policies and public welfare programs. A higher percentage highlights regions where public policy should focus on economic upliftment and social equity. This variable can be linked to healthcare access indicators such as the number of providers per 1,000 residents and COVID-19-related deaths, revealing how economic deprivation affects health outcomes and access to care.
+1.  Percent of Population with Incomes at or Below 100 Percent of the U.S. Federal Poverty Level: Economic hardship reflects the unequal distribution of wealth, requiring redistributive policies and public welfare programs. A higher percentage highlights regions where public policy should focus on economic upliftment and social equity. This variable can be linked to healthcare access indicators such as the number of providers per 1,000 residents and COVID-19-related deaths, revealing how economic deprivation affects health outcomes and access to care.
 
-2. Percentage of Population Age 65 and Over:
-The elderly represent a vital segment of society whose well-being should be guaranteed through accessible healthcare and social support. This percentage highlights regions where age-related services should be prioritized. Connecting this variable to COVID-19 mortality rates and the Index of Medical Underservice reveals how aging populations are disproportionately affected by healthcare system limitations.
+2.  Percentage of Population Age 65 and Over: The elderly represent a vital segment of society whose well-being should be guaranteed through accessible healthcare and social support. This percentage highlights regions where age-related services should be prioritized. Connecting this variable to COVID-19 mortality rates and the Index of Medical Underservice reveals how aging populations are disproportionately affected by healthcare system limitations.
 
-3. Infant Mortality Rate IMU Score:
-A high infant mortality score reflects a failure of the healthcare system to ensure equal survival opportunities for all newborns, demanding urgent attention to maternal and child healthcare services. Combining this score with the number of healthcare providers per 1,000 people can highlight underserved regions where inadequate medical infrastructure affects infant survival rates.
+3.  Infant Mortality Rate IMU Score: A high infant mortality score reflects a failure of the healthcare system to ensure equal survival opportunities for all newborns, demanding urgent attention to maternal and child healthcare services. Combining this score with the number of healthcare providers per 1,000 people can highlight underserved regions where inadequate medical infrastructure affects infant survival rates.
 
-4. Infant Mortality Rate:
-Infant mortality is a stark indicator of a society’s failure to provide equal healthcare, signaling the need for comprehensive public health reforms to support mothers and infants. Comparing this rate with the Index of Medical Underservice and poverty data can highlight correlations between economic marginalization and inadequate health services.
+4.  Infant Mortality Rate: Infant mortality is a stark indicator of a society’s failure to provide equal healthcare, signaling the need for comprehensive public health reforms to support mothers and infants. Comparing this rate with the Index of Medical Underservice and poverty data can highlight correlations between economic marginalization and inadequate health services.
 
-5. Providers per 1,000 Population:
-The number of healthcare providers per 1,000 residents reflects the capacity of the healthcare system to serve the population, emphasizing that equal healthcare access is a foundational right for all. Linking this variable to COVID-19-related deaths and poverty rates reveals how uneven healthcare distribution impacts public health outcomes.
+5.  Providers per 1,000 Population: The number of healthcare providers per 1,000 residents reflects the capacity of the healthcare system to serve the population, emphasizing that equal healthcare access is a foundational right for all. Linking this variable to COVID-19-related deaths and poverty rates reveals how uneven healthcare distribution impacts public health outcomes.
 
-6. Percentage of Population Age 65 and Over:
-A higher elderly population percentage signifies a region’s need for increased healthcare infrastructure and social welfare programs to protect its most vulnerable members. This variable can be linked to COVID-19-related deaths, showing how age-based vulnerabilities increase mortality in areas lacking healthcare providers.
+6.  Percentage of Population Age 65 and Over: A higher elderly population percentage signifies a region’s need for increased healthcare infrastructure and social welfare programs to protect its most vulnerable members. This variable can be linked to COVID-19-related deaths, showing how age-based vulnerabilities increase mortality in areas lacking healthcare providers.
 
-7. Index of Medical Underservice Score:
-This score quantifies the level of medical neglect imposed on communities due to systemic healthcare inequalities. A higher score demands government intervention and healthcare redistribution. Connecting this score with poverty rates and healthcare provider availability exposes regions where structural healthcare deficits persist.
+7.  Index of Medical Underservice Score: This score quantifies the level of medical neglect imposed on communities due to systemic healthcare inequalities. A higher score demands government intervention and healthcare redistribution. Connecting this score with poverty rates and healthcare provider availability exposes regions where structural healthcare deficits persist.
 
-8. Primary State Name:
-The state’s name situates underserved regions within specific administrative boundaries, aiding in targeted policy implementation. It can be linked to all healthcare and economic variables to provide geographically contextualized insights into healthcare inequalities and socio-economic conditions.
+8.  Primary State Name: The state’s name situates underserved regions within specific administrative boundaries, aiding in targeted policy implementation. It can be linked to all healthcare and economic variables to provide geographically contextualized insights into healthcare inequalities and socio-economic conditions.
 
-9. Common County Name:
-The county name allows for localized analysis of socio-economic and healthcare disparities, supporting community-specific policy development. Combining this variable with healthcare provider density and COVID-19-related deaths can pinpoint areas requiring urgent intervention.
+9.  Common County Name: The county name allows for localized analysis of socio-economic and healthcare disparities, supporting community-specific policy development. Combining this variable with healthcare provider density and COVID-19-related deaths can pinpoint areas requiring urgent intervention.
 
 ### Cleaning of "med_coverage"
 
@@ -178,8 +163,7 @@ clean_med_coverage <- preclean_med_coverage |>
          )
 ```
 
-
-### clean_med_coverage number of rows and number of columns 
+### clean_med_coverage number of rows and number of columns
 
 ```{r}
 # Number of rows and columns
@@ -206,22 +190,21 @@ This dataset provides COVID-19 data at the county level in the United States, in
 
 "covid" is already quite straightforward. We have selected directly on the website the latest values, observed on March 9th, 2023. Then, we can drop the `Date` variable, made irrelevant by our selection, along with the `location` one, who is not exploitable for our project.
 
-1. Total Death:
-The total number of deaths recorded in a county due to COVID-19 reflects the pandemic’s severity and the effectiveness of public health measures in the region. This variable can be linked to socio-economic indicators such as poverty rates, healthcare provider availability, and the Index of Medical Underservice to assess how systemic inequalities impact mortality rates.
+1.  Total Death: The total number of deaths recorded in a county due to COVID-19 reflects the pandemic’s severity and the effectiveness of public health measures in the region. This variable can be linked to socio-economic indicators such as poverty rates, healthcare provider availability, and the Index of Medical Underservice to assess how systemic inequalities impact mortality rates.
 
-2. Total Confirmed:
-The total number of confirmed COVID-19 cases in the region indicates the spread and intensity of the outbreak. Linking this variable to healthcare access and demographic data, such as the percentage of the elderly population, reveals vulnerabilities and potential areas for intervention.
+2.  Total Confirmed: The total number of confirmed COVID-19 cases in the region indicates the spread and intensity of the outbreak. Linking this variable to healthcare access and demographic data, such as the percentage of the elderly population, reveals vulnerabilities and potential areas for intervention.
 
-3. Admin 2 FIPS Code:
-The Federal Information Processing Standards (FIPS) code provides a unique numeric identifier for counties, enabling accurate geographic mapping and data analysis. This variable can be used to link county-level COVID-19 data with socio-economic indicators, facilitating regional comparisons and targeted policy responses.
+3.  Admin 2 FIPS Code: The Federal Information Processing Standards (FIPS) code provides a unique numeric identifier for counties, enabling accurate geographic mapping and data analysis. This variable can be used to link county-level COVID-19 data with socio-economic indicators, facilitating regional comparisons and targeted policy responses.
 
 ### Cleaning of "covid"
+
 ```{r}
 clean_covid <- covid |>
   select(-Date, -location)
 ```
 
-### clean_covid of rows and number of columns 
+### clean_covid of rows and number of columns
+
 ```{r}
 # Number of rows and columns
 num_rows31 <- nrow(clean_covid )
@@ -237,8 +220,7 @@ data_info31 <- data.frame(
 print(data_info31)
 ```
 
-Cleaning counties data set removed 2 variables 
-
+Cleaning counties data set removed 2 variables
 
 # Joining the datasets
 
@@ -289,6 +271,7 @@ clean_merged <- clean_merged |>
          `Medically Underserved Area/Population (MUA/P) Total Resident Civilian Population`,
          )
 ```
+
 ```{r}
 print(clean_merged)
 ```
@@ -308,14 +291,10 @@ data_info12 <- data.frame(
 print(data_info12)
 ```
 
-Cleaning counties data set removed 2 variables 
+Cleaning counties data set removed 2 variables
 
 # Research question
 
-  Cleaning and merging the datasets allows us to obtain a clearer view of the question we are aiming to answer to: to what extent socio-economical factors have influenced the impact of the Covid-19 pandemic throughout the United States?
-  Although Covid has been a global issue, it is fair to state that the United States were among the most impacted countries: according to the Centers for Disease Control and Prevention, almost 1.2 millions Americans have died of Covid-related complications, the most of any country worldwide. Once we take into account the overall populations, indicators are still concerning and should prompt us to try to understand better what can explain them. For example, the mortality rate (the ratio between total death and total cases reported) is equal to 1.17%, whereas it is only 0.43% in France.
-    Such difference is explained thanks to various socio-economical factors, as well as political decisions. For example, the American healthcare system, relying on private companies rather than a mandatory public option, has been criticized for its negative impact on overall public health. Studying how uninsured Americans have been affected by the pandemic would therefore helps us understand if the weaknesses of the healthcare system played a role in an increased mortality rate.
-    In addition to this first approach, our datasets allow us to study in a deeper way how economical and social differences may have played a role in how the mortality rate has evolved in various regions. The `counties` dataset, for example, provides us with a full racial make-up of each county-equivalent in the country, as well as basic economic indicators, such as the median income or the unemployment rate.
-    To answer to our research question, we have chosen to base our study on the county-level, in order to get a more precise view of the country, which would not have been possible on the state-level.
+Cleaning and merging the datasets allows us to obtain a clearer view of the question we are aiming to answer to: to what extent socio-economical factors have influenced the impact of the Covid-19 pandemic throughout the United States? Although Covid has been a global issue, it is fair to state that the United States were among the most impacted countries: according to the Centers for Disease Control and Prevention, almost 1.2 millions Americans have died of Covid-related complications, the most of any country worldwide. Once we take into account the overall populations, indicators are still concerning and should prompt us to try to understand better what can explain them. For example, the mortality rate (the ratio between total death and total cases reported) is equal to 1.17%, whereas it is only 0.43% in France. Such difference is explained thanks to various socio-economical factors, as well as political decisions. For example, the American healthcare system, relying on private companies rather than a mandatory public option, has been criticized for its negative impact on overall public health. Studying how uninsured Americans have been affected by the pandemic would therefore helps us understand if the weaknesses of the healthcare system played a role in an increased mortality rate. In addition to this first approach, our datasets allow us to study in a deeper way how economical and social differences may have played a role in how the mortality rate has evolved in various regions. The `counties` dataset, for example, provides us with a full racial make-up of each county-equivalent in the country, as well as basic economic indicators, such as the median income or the unemployment rate. To answer to our research question, we have chosen to base our study on the county-level, in order to get a more precise view of the country, which would not have been possible on the state-level.
 
 > > > > > > > 9e5743d4b17787f36c3c05ef4511b923b9c423d2

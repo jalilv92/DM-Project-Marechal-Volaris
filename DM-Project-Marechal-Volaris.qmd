@@ -6,8 +6,6 @@ editor: visual
 
 https://github.com/jalilv92/DM-Project-Marechal-Volaris.git
 
-# Loading the datasets
-
 ```{r}
 here::i_am("DM-Project-Marechal-Volaris.Rproj")
 library(here)
@@ -16,6 +14,12 @@ counties <- vroom("county_complete.csv")
 med_coverage <- vroom("dataset3.csv")
 covid <- vroom("coronavirus-covid-19-pandemic-usa-counties.csv")
 ```
+
+| Produit | Prix  | Quantité |
+|---------|-------|----------|
+| Pomme   | 1,50€ | 10       |
+| Banane  | 2,00€ | 5        |
+| Orange  | 1,75€ | 8        |
 
 # Sources Presentation
 
@@ -85,6 +89,11 @@ data_info11 <- data.frame(
 # Display the table
 print(data_info11)
 ```
+| Metric            | Value |
+|-------------------|-------|
+| Number of Rows    | 3142  |
+| Number of Columns | 49    |
+
 
 Cleaning counties data set removed 139 variables
 
@@ -180,6 +189,11 @@ data_info21 <- data.frame(
 print(data_info21)
 ```
 
+| Metric            | Value |
+|-------------------|-------|
+| Number of Rows    | 1864  |
+| Number of Columns | 20    |
+
 Cleaning counties data set removed 44 variables and 17478 values
 
 ## Dataset 3: "covid"
@@ -219,6 +233,11 @@ data_info31 <- data.frame(
 # Display the table
 print(data_info31)
 ```
+| Metric            | Value |
+|-------------------|-------|
+| Number of Rows    | 3290  |
+| Number of Columns | 5     |
+
 
 Cleaning counties data set removed 2 variables
 

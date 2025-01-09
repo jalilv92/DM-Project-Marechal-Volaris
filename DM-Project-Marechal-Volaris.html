@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.555">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>DM-Project-Marechal-Volaris</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="DM-Project-Marechal-Volaris_files/libs/clipboard/clipboard.min.js"></script>
+<script src="DM-Project-Marechal-Volaris_files/libs/quarto-html/quarto.js"></script>
+<script src="DM-Project-Marechal-Volaris_files/libs/quarto-html/popper.min.js"></script>
+<script src="DM-Project-Marechal-Volaris_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="DM-Project-Marechal-Volaris_files/libs/quarto-html/anchor.min.js"></script>
+<link href="DM-Project-Marechal-Volaris_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="DM-Project-Marechal-Volaris_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="DM-Project-Marechal-Volaris_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="DM-Project-Marechal-Volaris_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="DM-Project-Marechal-Volaris_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">DM-Project-Marechal-Volaris</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>https://github.com/jalilv92/DM-Project-Marechal-Volaris.git</p>
+<section id="loading-the-datasets" class="level1">
+<h1>Loading the datasets</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>here<span class="sc">::</span><span class="fu">i_am</span>(<span class="st">"DM-Project-Marechal-Volaris.Rproj"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>here() starts at /Users/antoinemarechal/Desktop/DM-Project-Marechal-Volaris</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vroom)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>counties <span class="ot">&lt;-</span> <span class="fu">vroom</span>(<span class="st">"county_complete.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 3142 Columns: 188</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (3): state, name, smoking_ban_2010
+dbl (185): fips, pop2000, pop2010, pop2011, pop2012, pop2013, pop2014, pop20...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>med_coverage <span class="ot">&lt;-</span> <span class="fu">vroom</span>(<span class="st">"dataset3.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 19342 Columns: 64
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (46): MUA/P ID, MUA/P Area Code, MUA/P Service Area Name, Designation T...
+dbl  (13): IMU Score, Medically Underserved Area/Population (MUA/P) Metropol...
+lgl   (1): Ratio of Providers per 1000 Population
+date  (4): MUA/P Designation Date String, MUA/P Update Date String, Medicall...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>covid <span class="ot">&lt;-</span> <span class="fu">vroom</span>(<span class="st">"coronavirus-covid-19-pandemic-usa-counties.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 3290 Columns: 7
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ";"
+chr  (3): Province/State, Admin 2 Level (City/County/Borough/Region), location
+dbl  (3): Admin 2 FIPS Code, Total Death, Total Confirmed
+date (1): Date
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+</div>
+</section>
+<section id="sources-presentation" class="level1">
+<h1>Sources Presentation</h1>
+<p>The dataset county comes from website OpenIntro.This platform is dedicated to promote the learning of statistics and data science providing datasets about socio-economics.The covid file comes from the website OpenDataSoft which hosts open datasets on various topics, including public health, it is comparbale to openintro. Both websites are a nongouvernemental unlike HRSA. The dataset med coverage was downloaded from the website HRSA data which is an official platform provided by the Health Resources and Services Administration (HRSA), a U.S. government agency. It offers access to various public health datasets and tools related to healthcare services and resources in the United States.</p>
+<p>Here are the links to access the datsets</p>
+<p><a href="https://public.opendatasoft.com/explore/dataset/coronavirus-covid-19-pandemic-usa-counties/table/?flg=fr-fr&amp;disjunctive.province_state&amp;disjunctive.admin2&amp;sort=admin2&amp;refine.date=2023%2F03%2F09">covid</a></p>
+<p><a href="https://data.hrsa.gov/data/download?data=AHRF#AHRF">med-coverage</a></p>
+<p><a href="https://www.openintro.org/data/?data=county_complete">county</a></p>
+</section>
+<section id="about-datasets" class="level1">
+<h1>About datasets</h1>
+<section id="loading-the-needed-libraries" class="level2">
+<h2 class="anchored" data-anchor-id="loading-the-needed-libraries">Loading the needed libraries</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="dataset-1-counties" class="level2">
+<h2 class="anchored" data-anchor-id="dataset-1-counties">Dataset 1: “counties”</h2>
+<section id="description-counties" class="level3">
+<h3 class="anchored" data-anchor-id="description-counties">Description “Counties”</h3>
+<p>“counties” offers us an extensive data set regarding various socio-economic variables. Its length, nonetheless, brings us to make choices and keep only the most important ones for our project. For example, we can observe that most variables are observed at multiple times. Although an interesting feature, our study does not need to take into account trends and, in order to obtain a clearer set of data, we can only keep the most recent observations, taken in 2019.</p>
+<ol type="1">
+<li><p>Median Age: The median age of the population reflects the collective life stage of the community, shaping the distribution of labor and determining the societal needs for services like healthcare, education, and housing to support all citizens equally.</p></li>
+<li><p>Bachelor’s Degree Attainment: The percentage of the population with a bachelor’s degree or higher signifies the collective investment in education, strengthening the intellectual foundation of society and ensuring equal access to economic and social advancement.</p></li>
+<li><p>High School Graduation Rate: The percentage of the population with a high school diploma or equivalent highlights the commitment to universal education, empowering individuals with essential skills to contribute to collective productivity and societal development.</p></li>
+<li><p>Some College Education: The share of the population with some college education but no degree reflects the potential for further educational development, emphasizing the need for accessible and equitable education systems that serve the entire population.</p></li>
+<li><p>Poverty Rate: The percentage of individuals living below the poverty line reveals economic inequalities that must be addressed through collective action, redistribution of resources, and social welfare programs to ensure no one is left behind.</p></li>
+<li><p>Unemployment Rate: The unemployment rate serves as a measure of the economy’s ability to provide meaningful work for all, calling for community-driven solutions that guarantee employment as a basic human right.</p></li>
+<li><p>Median Household Income: Median household income highlights the material conditions of the working class. Linking this variable to access to healthcare providers and COVID-19-related deaths reveals structural inequalities that require community-led solutions and collective action to address.</p></li>
+<li><p>Female Population: The percentage of the population identifying as female underscores the need for gender equality in all aspects of life, ensuring equal representation, access to resources, and opportunities for women in a just and equitable society.</p></li>
+<li><p>Foreign-Born Population: The percentage of the population born outside the U.S. reflects the diversity of the working class and the shared struggles of all laborers, regardless of origin. Recognizing this unity is essential for building a society based on solidarity, shared prosperity, and collective well-being.</p></li>
+</ol>
+</section>
+<section id="cleaning-of-counties" class="level3">
+<h3 class="anchored" data-anchor-id="cleaning-of-counties">Cleaning of “Counties”</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>clean_counties <span class="ot">&lt;-</span> counties <span class="sc">|&gt;</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(fips, state, name, <span class="fu">contains</span>(<span class="st">"2019"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="clean_counties-number-of-rows-and-number-of-columns" class="level3">
+<h3 class="anchored" data-anchor-id="clean_counties-number-of-rows-and-number-of-columns">clean_counties number of rows and number of columns</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Number of rows and columns</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>num_rows11 <span class="ot">&lt;-</span> <span class="fu">nrow</span>(clean_counties)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>num_cols11 <span class="ot">&lt;-</span> <span class="fu">ncol</span>(clean_counties)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a table with basic information</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>data_info11 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">Metric =</span> <span class="fu">c</span>(<span class="st">"Number of Rows"</span>, <span class="st">"Number of Columns"</span>),</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">Value =</span> <span class="fu">c</span>(num_rows11, num_cols11)</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the table</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(data_info11)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             Metric Value
+1    Number of Rows  3142
+2 Number of Columns    49</code></pre>
+</div>
+</div>
+<p>Cleaning counties data set removed 139 variables</p>
+</section>
+</section>
+<section id="dataset-2-med_coverage" class="level2">
+<h2 class="anchored" data-anchor-id="dataset-2-med_coverage">Dataset 2: “med_coverage”</h2>
+<section id="description-med_coverage" class="level3">
+<h3 class="anchored" data-anchor-id="description-med_coverage">Description “med_coverage”</h3>
+<p>“med_coverage” is our second data set. It needs to be viewed as a complement to “counties”, to the extent that it has a much more complete approach regarding healthcare-related data. However, it is not solely on the county-level but is also based on census tracks, a smaller administrative level than counties. This particularity impacts the number of observations, close to 20,000, whereas our other data sets have roughly 3,000 observations each. Furthermore, the data set only takes into account Medically Underserved Areas within a county, biasing the comparative study of “med_coverage” and the other data sets. We can get past this issue thanks to the column <code>Medically Underserved Area/Population (MUA/P) Component Geographic Type Description</code>. Its value <code>Single County</code> implies that the whole county is a MUA. Filtering them would give us a county-level study of medical coverage.</p>
+<ol type="1">
+<li><p>Percent of Population with Incomes at or Below 100 Percent of the U.S. Federal Poverty Level: Economic hardship reflects the unequal distribution of wealth, requiring redistributive policies and public welfare programs. A higher percentage highlights regions where public policy should focus on economic upliftment and social equity. This variable can be linked to healthcare access indicators such as the number of providers per 1,000 residents and COVID-19-related deaths, revealing how economic deprivation affects health outcomes and access to care.</p></li>
+<li><p>Percentage of Population Age 65 and Over: The elderly represent a vital segment of society whose well-being should be guaranteed through accessible healthcare and social support. This percentage highlights regions where age-related services should be prioritized. Connecting this variable to COVID-19 mortality rates and the Index of Medical Underservice reveals how aging populations are disproportionately affected by healthcare system limitations.</p></li>
+<li><p>Infant Mortality Rate IMU Score: A high infant mortality score reflects a failure of the healthcare system to ensure equal survival opportunities for all newborns, demanding urgent attention to maternal and child healthcare services. Combining this score with the number of healthcare providers per 1,000 people can highlight underserved regions where inadequate medical infrastructure affects infant survival rates.</p></li>
+<li><p>Infant Mortality Rate: Infant mortality is a stark indicator of a society’s failure to provide equal healthcare, signaling the need for comprehensive public health reforms to support mothers and infants. Comparing this rate with the Index of Medical Underservice and poverty data can highlight correlations between economic marginalization and inadequate health services.</p></li>
+<li><p>Providers per 1,000 Population: The number of healthcare providers per 1,000 residents reflects the capacity of the healthcare system to serve the population, emphasizing that equal healthcare access is a foundational right for all. Linking this variable to COVID-19-related deaths and poverty rates reveals how uneven healthcare distribution impacts public health outcomes.</p></li>
+<li><p>Percentage of Population Age 65 and Over: A higher elderly population percentage signifies a region’s need for increased healthcare infrastructure and social welfare programs to protect its most vulnerable members. This variable can be linked to COVID-19-related deaths, showing how age-based vulnerabilities increase mortality in areas lacking healthcare providers.</p></li>
+<li><p>Index of Medical Underservice Score: This score quantifies the level of medical neglect imposed on communities due to systemic healthcare inequalities. A higher score demands government intervention and healthcare redistribution. Connecting this score with poverty rates and healthcare provider availability exposes regions where structural healthcare deficits persist.</p></li>
+<li><p>Primary State Name: The state’s name situates underserved regions within specific administrative boundaries, aiding in targeted policy implementation. It can be linked to all healthcare and economic variables to provide geographically contextualized insights into healthcare inequalities and socio-economic conditions.</p></li>
+<li><p>Common County Name: The county name allows for localized analysis of socio-economic and healthcare disparities, supporting community-specific policy development. Combining this variable with healthcare provider density and COVID-19-related deaths can pinpoint areas requiring urgent intervention.</p></li>
+</ol>
+</section>
+<section id="cleaning-of-med_coverage" class="level3">
+<h3 class="anchored" data-anchor-id="cleaning-of-med_coverage">Cleaning of “med_coverage”</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>preclean_med_coverage <span class="ot">&lt;-</span> med_coverage <span class="sc">|&gt;</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="st">`</span><span class="at">Medically Underserved Area/Population (MUA/P) Component Geographic Type Description</span><span class="st">`</span><span class="sc">==</span><span class="st">"Single County"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The new dataset has fewer observations than the two others, since it only regards medically underserved counties. We can now drop useless and redundant variables and drop observations for counties who are no longer considered as medically underserved.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>clean_med_coverage <span class="ot">&lt;-</span> preclean_med_coverage <span class="sc">|&gt;</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="st">`</span><span class="at">MUA/P Status Description</span><span class="st">`</span><span class="sc">==</span><span class="st">"Designated"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="st">`</span><span class="at">MUA/P Update Date</span><span class="st">`</span>,</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span><span class="st">`</span><span class="at">Designation Type Code</span><span class="st">`</span>,</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span><span class="st">`</span><span class="at">Designation Type</span><span class="st">`</span>,</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span><span class="st">`</span><span class="at">MUA/P Status Code</span><span class="st">`</span>,</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span><span class="st">`</span><span class="at">MUA/P Status Description</span><span class="st">`</span>,</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span><span class="st">`</span><span class="at">Medically Underserved Area/Population (MUA/P) Withdrawal Date</span><span class="st">`</span>,</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span><span class="st">`</span><span class="at">Medically Underserved Area/Population (MUA/P) Withdrawal Date in Text Format</span><span class="st">`</span>,</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span><span class="st">`</span><span class="at">Break in Designation</span><span class="st">`</span>,</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span><span class="st">`</span><span class="at">MUA/P Population Type Code</span><span class="st">`</span>,</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span><span class="st">`</span><span class="at">Medically Underserved Area/Population (MUA/P) Metropolitan Indicator</span><span class="st">`</span>,</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span><span class="st">`</span><span class="at">Medically Underserved Area/Population (MUA/P) Metropolitan Description</span><span class="st">`</span>,</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span><span class="st">`</span><span class="at">Medically Underserved Area/Population (MUA/P) Component Geographic Type Code</span><span class="st">`</span>,</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span><span class="st">`</span><span class="at">County or County Equivalent Federal Information Processing Standard Code</span><span class="st">`</span>,</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span><span class="st">`</span><span class="at">County Subdivision Name</span><span class="st">`</span>,</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span><span class="st">`</span><span class="at">County Subdivision FIPS Code</span><span class="st">`</span>,</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span><span class="st">`</span><span class="at">Census Tract</span><span class="st">`</span>,</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span><span class="st">`</span><span class="at">Data Warehouse Record Create Date</span><span class="st">`</span>,</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span><span class="st">`</span><span class="at">Data Warehouse Record Create Date Text</span><span class="st">`</span>,</span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span><span class="st">`</span><span class="at">Common State Abbreviation</span><span class="st">`</span>,</span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span><span class="st">`</span><span class="at">Common State FIPS Code</span><span class="st">`</span>,</span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span><span class="fu">contains</span>(<span class="st">"Primary"</span>),</span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span><span class="st">`</span><span class="at">County Description</span><span class="st">`</span>,</span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span><span class="st">`</span><span class="at">State FIPS Code</span><span class="st">`</span>,</span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span><span class="st">`</span><span class="at">MUA/P ID</span><span class="st">`</span>,</span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span><span class="st">`</span><span class="at">MUA/P Area Code</span><span class="st">`</span>,</span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span><span class="st">`</span><span class="at">MUA/P Update Date String</span><span class="st">`</span>,</span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span><span class="st">`</span><span class="at">Medically Underserved Area/Population (MUA/P) Component Geographic Type Description</span><span class="st">`</span>,</span>
+<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span><span class="st">`</span><span class="at">Population Type</span><span class="st">`</span>,</span>
+<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span><span class="st">`</span><span class="at">HHS Region Code</span><span class="st">`</span>,</span>
+<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span><span class="st">`</span><span class="at">State Abbreviation</span><span class="st">`</span>,</span>
+<span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span><span class="fu">contains</span>(<span class="st">"Common"</span>),</span>
+<span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span><span class="st">`</span><span class="at">MUA/P Service Area Name</span><span class="st">`</span>,</span>
+<span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span><span class="st">`</span><span class="at">Designation Date</span><span class="st">`</span>,</span>
+<span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span><span class="st">`</span><span class="at">Medically Underserved Area/Population (MUA/P) Component Geographic Name</span><span class="st">`</span>,</span>
+<span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span><span class="st">`</span><span class="at">County Equivalent Name</span><span class="st">`</span>,</span>
+<span id="cb19-38"><a href="#cb19-38" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span><span class="st">`</span><span class="at">Rural Status Code</span><span class="st">`</span>,</span>
+<span id="cb19-39"><a href="#cb19-39" aria-hidden="true" tabindex="-1"></a>         )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="clean_med_coverage-number-of-rows-and-number-of-columns" class="level3">
+<h3 class="anchored" data-anchor-id="clean_med_coverage-number-of-rows-and-number-of-columns">clean_med_coverage number of rows and number of columns</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Number of rows and columns</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>num_rows21 <span class="ot">&lt;-</span> <span class="fu">nrow</span>(clean_med_coverage )</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>num_cols21 <span class="ot">&lt;-</span> <span class="fu">ncol</span>(clean_med_coverage )</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a table with basic information</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>data_info21 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">Metric =</span> <span class="fu">c</span>(<span class="st">"Number of Rows"</span>, <span class="st">"Number of Columns"</span>),</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">Value =</span> <span class="fu">c</span>(num_rows21, num_cols21)</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the table</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(data_info21)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             Metric Value
+1    Number of Rows  1864
+2 Number of Columns    20</code></pre>
+</div>
+</div>
+<p>Cleaning counties data set removed 44 variables and 17478 values</p>
+</section>
+</section>
+<section id="dataset-3-covid" class="level2">
+<h2 class="anchored" data-anchor-id="dataset-3-covid">Dataset 3: “covid”</h2>
+<section id="description-of-covid" class="level3">
+<h3 class="anchored" data-anchor-id="description-of-covid">Description of Covid”</h3>
+<p>This dataset provides COVID-19 data at the county level in the United States, including key information such as the total number of deaths (Total Death) and confirmed cases (Total Confirmed) for each region, identified by a unique FIPS code. The variables also include the state name (Province/State) and the county or regional name (Admin 2 Level). This data allows for the analysis of the pandemic’s spread and severity, as well as connections to other socio-economic or healthcare factors to better understand regional disparities.</p>
+<p>“covid” is already quite straightforward. We have selected directly on the website the latest values, observed on March 9th, 2023. Then, we can drop the <code>Date</code> variable, made irrelevant by our selection, along with the <code>location</code> one, who is not exploitable for our project.</p>
+<ol type="1">
+<li><p>Total Death: The total number of deaths recorded in a county due to COVID-19 reflects the pandemic’s severity and the effectiveness of public health measures in the region. This variable can be linked to socio-economic indicators such as poverty rates, healthcare provider availability, and the Index of Medical Underservice to assess how systemic inequalities impact mortality rates.</p></li>
+<li><p>Total Confirmed: The total number of confirmed COVID-19 cases in the region indicates the spread and intensity of the outbreak. Linking this variable to healthcare access and demographic data, such as the percentage of the elderly population, reveals vulnerabilities and potential areas for intervention.</p></li>
+<li><p>Admin 2 FIPS Code: The Federal Information Processing Standards (FIPS) code provides a unique numeric identifier for counties, enabling accurate geographic mapping and data analysis. This variable can be used to link county-level COVID-19 data with socio-economic indicators, facilitating regional comparisons and targeted policy responses.</p></li>
+</ol>
+</section>
+<section id="cleaning-of-covid" class="level3">
+<h3 class="anchored" data-anchor-id="cleaning-of-covid">Cleaning of “covid”</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>clean_covid <span class="ot">&lt;-</span> covid <span class="sc">|&gt;</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>Date, <span class="sc">-</span>location)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="clean_covid-of-rows-and-number-of-columns" class="level3">
+<h3 class="anchored" data-anchor-id="clean_covid-of-rows-and-number-of-columns">clean_covid of rows and number of columns</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Number of rows and columns</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>num_rows31 <span class="ot">&lt;-</span> <span class="fu">nrow</span>(clean_covid )</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>num_cols31 <span class="ot">&lt;-</span> <span class="fu">ncol</span>(clean_covid )</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a table with basic information</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>data_info31 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">Metric =</span> <span class="fu">c</span>(<span class="st">"Number of Rows"</span>, <span class="st">"Number of Columns"</span>),</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">Value =</span> <span class="fu">c</span>(num_rows31, num_cols31)</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the table</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(data_info31)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             Metric Value
+1    Number of Rows  3290
+2 Number of Columns     5</code></pre>
+</div>
+</div>
+<p>Cleaning counties data set removed 2 variables</p>
+</section>
+</section>
+</section>
+<section id="joining-the-datasets" class="level1">
+<h1>Joining the datasets</h1>
+<p>Now that we have cleaned all three of our datasets, we can merge them into a single one, named <code>clean_merged</code>. Since our observations are based on United States counties, we may want to join them thanks to the name variables. However, this approach would make us encounter various problems:</p>
+<ul>
+<li><code>clean_med_coverage</code> and <code>clean_counties</code> include the administrative subdivision type in their observation (for example “Adams County”), while <code>clean_covid</code> does not (“Adams”).</li>
+<li>Numerous counties have the same name:</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>clean_counties <span class="sc">|&gt;</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(name<span class="sc">==</span><span class="st">"Adams County"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">number=</span><span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+  number
+   &lt;int&gt;
+1     12</code></pre>
+</div>
+</div>
+<p>Thus, it would be a better fit to use the Federal Information Procession Standard Code, a five-digit number unique to each county. First, let’s rename the variables in order to allow us to join.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>clean_covid <span class="ot">&lt;-</span> clean_covid <span class="sc">|&gt;</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">fips=</span><span class="st">`</span><span class="at">Admin 2 FIPS Code</span><span class="st">`</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>clean_med_coverage <span class="ot">&lt;-</span> clean_med_coverage <span class="sc">|&gt;</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">fips=</span><span class="st">`</span><span class="at">State and County Federal Information Processing Standard Code</span><span class="st">`</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><code>fips</code> is a character in <code>clean_med_coverage</code>, whereas it is a numeric variable in the two others.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>clean_med_coverage <span class="ot">&lt;-</span> clean_med_coverage <span class="sc">|&gt;</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">fips =</span> <span class="fu">as.double</span>(fips))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>clean_merged <span class="ot">&lt;-</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">full_join</span>(clean_counties, clean_covid, <span class="at">by=</span><span class="st">"fips"</span>)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>clean_merged <span class="ot">&lt;-</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">full_join</span>(clean_merged, clean_med_coverage, <span class="at">by=</span><span class="st">"fips"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now that we have a joined dataset, we can drop redundant variables.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>clean_merged <span class="ot">&lt;-</span> clean_merged <span class="sc">|&gt;</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="st">`</span><span class="at">Province/State</span><span class="st">`</span>,</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span><span class="st">`</span><span class="at">Admin 2 Level (City/County/Borough/Region)</span><span class="st">`</span>,</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span><span class="st">`</span><span class="at">State Name</span><span class="st">`</span>,</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span><span class="st">`</span><span class="at">Complete County Name</span><span class="st">`</span>,</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span><span class="st">`</span><span class="at">Percentage of Population Age 65 and Over</span><span class="st">`</span>,</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span><span class="st">`</span><span class="at">Designation Population in a Medically Underserved Area/Population (MUA/P)</span><span class="st">`</span>,</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">Medically Underserved Area/Population (MUA/P) Total Resident Civilian Population</span><span class="st">`</span>,</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>         )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(clean_merged)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3,359 × 66
+    fips state   name         age_over_18_2019 age_over_65_2019 age_over_85_2019
+   &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;                   &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;
+ 1  1001 Alabama Autauga Cou…             76.2             15                1.6
+ 2  1003 Alabama Baldwin Cou…             78.3             20                1.9
+ 3  1005 Alabama Barbour Cou…             79.1             18.6              1.6
+ 4  1007 Alabama Bibb County              79.4             15.9              2  
+ 5  1009 Alabama Blount Coun…             76.8             17.9              1.8
+ 6  1011 Alabama Bullock Cou…             79.2             16                1.7
+ 7  1013 Alabama Butler Coun…             77.5             19.7              2.6
+ 8  1015 Alabama Calhoun Cou…             78.2             17.2              1.8
+ 9  1017 Alabama Chambers Co…             79               19.2              1.9
+10  1019 Alabama Cherokee Co…             79.8             22.4              2  
+# ℹ 3,349 more rows
+# ℹ 60 more variables: age_under_5_2019 &lt;dbl&gt;, asian_2019 &lt;dbl&gt;,
+#   avg_family_size_2019 &lt;dbl&gt;, bachelors_2019 &lt;dbl&gt;, black_2019 &lt;dbl&gt;,
+#   hispanic_2019 &lt;dbl&gt;, household_has_broadband_2019 &lt;dbl&gt;,
+#   household_has_computer_2019 &lt;dbl&gt;, household_has_smartphone_2019 &lt;dbl&gt;,
+#   households_2019 &lt;dbl&gt;, households_speak_asian_or_pac_isl_2019 &lt;dbl&gt;,
+#   households_speak_limited_english_2019 &lt;dbl&gt;, …</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Number of rows and columns</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>num_rows12 <span class="ot">&lt;-</span> <span class="fu">nrow</span>(clean_merged )</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>num_cols12 <span class="ot">&lt;-</span> <span class="fu">ncol</span>(clean_merged )</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a table with basic information</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>data_info12 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">Metric =</span> <span class="fu">c</span>(<span class="st">"Number of Rows"</span>, <span class="st">"Number of Columns"</span>),</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">Value =</span> <span class="fu">c</span>(num_rows12, num_cols12)</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the table</span></span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(data_info12)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             Metric Value
+1    Number of Rows  3359
+2 Number of Columns    66</code></pre>
+</div>
+</div>
+<p>Cleaning counties data set removed 2 variables</p>
+</section>
+<section id="research-question" class="level1">
+<h1>Research question</h1>
+<p>Cleaning and merging the datasets allows us to obtain a clearer view of the question we are aiming to answer to: to what extent socio-economical factors have influenced the impact of the Covid-19 pandemic throughout the United States? Although Covid has been a global issue, it is fair to state that the United States were among the most impacted countries: according to the Centers for Disease Control and Prevention, almost 1.2 millions Americans have died of Covid-related complications, the most of any country worldwide. Once we take into account the overall populations, indicators are still concerning and should prompt us to try to understand better what can explain them. For example, the mortality rate (the ratio between total death and total cases reported) is equal to 1.17%, whereas it is only 0.43% in France. Such difference is explained thanks to various socio-economical factors, as well as political decisions. For example, the American healthcare system, relying on private companies rather than a mandatory public option, has been criticized for its negative impact on overall public health. Studying how uninsured Americans have been affected by the pandemic would therefore helps us understand if the weaknesses of the healthcare system played a role in an increased mortality rate. In addition to this first approach, our datasets allow us to study in a deeper way how economical and social differences may have played a role in how the mortality rate has evolved in various regions. The <code>counties</code> dataset, for example, provides us with a full racial make-up of each county-equivalent in the country, as well as basic economic indicators, such as the median income or the unemployment rate. To answer to our research question, we have chosen to base our study on the county-level, in order to get a more precise view of the country, which would not have been possible on the state-level.</p>
+<blockquote class="blockquote">
+<blockquote class="blockquote">
+<blockquote class="blockquote">
+<blockquote class="blockquote">
+<blockquote class="blockquote">
+<blockquote class="blockquote">
+<blockquote class="blockquote">
+<p>9e5743d4b17787f36c3c05ef4511b923b9c423d2</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

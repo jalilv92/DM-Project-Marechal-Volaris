@@ -1,0 +1,13 @@
+---
+title: "Untitled"
+format: pdf
+editor: visual
+---
+
+```{r}
+here::i_am("DM-Project-Marechal-Volaris.Rproj")
+library(here)
+library(vroom)
+counties <- vroom("county_complete.csv")
+
+```

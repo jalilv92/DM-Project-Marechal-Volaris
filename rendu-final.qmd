@@ -8,6 +8,21 @@ editor: visual
 here::i_am("DM-Project-Marechal-Volaris.Rproj")
 library(here)
 library(vroom)
-counties <- vroom("county_complete.csv")
-
+data <- vroom("clean_merged.csv")
+library(dplyr)
 ```
+
+# 1. Improving the Dataset
+```{r}
+View(clean_merged)
+```
+
+## A - Death rate 
+```{r}
+clean_merged <- clean_merged |>
+  mutate(Death_rate = ifelse(`Total Confirmed` > 0, (`Total Death` / `Total Confirmed`) * 100, NA))
+```
+# I. Analysis of Demographic Data
+
+# II. Analysis of Socio-Economic Data
+

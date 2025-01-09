@@ -15,12 +15,6 @@ med_coverage <- vroom("dataset3.csv")
 covid <- vroom("coronavirus-covid-19-pandemic-usa-counties.csv")
 ```
 
-| Produit | Prix  | Quantité |
-|---------|-------|----------|
-| Pomme   | 1,50€ | 10       |
-| Banane  | 2,00€ | 5        |
-| Orange  | 1,75€ | 8        |
-
 # Sources Presentation
 
 The dataset county comes from website OpenIntro.This platform is dedicated to promote the learning of statistics and data science providing datasets about socio-economics.The covid file comes from the website OpenDataSoft which hosts open datasets on various topics, including public health, it is comparbale to openintro. Both websites are a nongouvernemental unlike HRSA. The dataset med coverage was downloaded from the website HRSA data which is an official platform provided by the Health Resources and Services Administration (HRSA), a U.S. government agency. It offers access to various public health datasets and tools related to healthcare services and resources in the United States.
@@ -305,6 +299,9 @@ data_info12 <- data.frame(
   Metric = c("Number of Rows", "Number of Columns"),
   Value = c(num_rows12, num_cols12)
 )
+
+# Export clean_merged into CSV
+write.csv(clean_merged, "clean_merged.csv", row.names = FALSE)
 
 # Display the table
 print(data_info12)

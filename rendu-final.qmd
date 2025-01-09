@@ -19,9 +19,9 @@ Cleaning and merging the datasets allows us to obtain a clearer view of the ques
 
 # 2. Understanding Data
 
-## 1. Dataset Descritption 
+## 1. Dataset Descritption
 
-## A - Dataset 
+## A - Dataset
 
 ```{r}
 clean_merged <- clean_merged |>
@@ -29,8 +29,6 @@ clean_merged <- clean_merged |>
   mutate(Infection_rate = ifelse( pop_2019 > 0, (`Total Confirmed` / pop_2019) * 100, NA))
   View(clean_merged)
 ```
-
-
 
 # 3. Data Analysis and Interpretation
 
@@ -46,35 +44,29 @@ Socio-economic factors are integral to understanding the disparities in health o
 
 Income and poverty are critical determinants of health outcomes, influencing access to healthcare, nutrition, and living conditions. This subpart examines their role in shaping disparities in COVID-19 mortality and vulnerability across different socio-economic groups.
 
-#### Calcul des quantiles d'ordre 0.1 pour la colonne `median_household_income_2019`
+To investigate the relationship between economic variables and COVID-19, we will analyze the variable “median_household_income_2019.”Median household income provides insight into the financial well-being of different populations, to differentiate groups, we will compare the death and infection rates between the 1st and 10th income quantiles.
 
 ```{r}
-quantiles <- clean_merged 
-   print(quantiles)
-```
-
-valeur des quantiles 
-```{r}
-quantiles <- quantiles |>
+quantiles <- clean_merged  |>
    summarise(quantile_0.1 = quantile( median_household_income_2019, probs = seq(0, 1, 0.1), na.rm = TRUE))
-
 print(quantiles)
-
 ```
 
-nombre de comtés est-ce satistiquemeent significatif ? 
+The first quantile consists of counties with a median household income below \$38,080, representing the lowest 10% of the dataset. In contrast, the tenth (or last) quantile includes counties with a median household income exceeding \$70,321, representing the highest 10% of the data.
+
 ```{r}
 result <- clean_merged |>
   summarise(
     count_sup = sum(median_household_income_2019 > 70321, na.rm = TRUE),
     count_inf_or_equal = sum(median_household_income_2019 <= 38080 , na.rm = TRUE),
-   total_count = n()
+    total_count = n()
   )
 
 print(result)
 ```
 
 filtrage
+
 ```{r}
 filtered_data <- clean_merged |>
   filter(
@@ -87,6 +79,31 @@ filtered_data <- clean_merged |>
       median_household_income_2019 > 70321 ~ "Revenu > 70321"
     )
   )
+
+```
+
+```{r}
+# Summarizing the data by income category for both infection and death rates
+summary_stats <- filtered_data %>%
+  group_by(income_category) %>%
+  summarise(
+    # Infection Rate Statistics
+    mean_infection_rate = mean(Infection_rate, na.rm = TRUE),
+    sd_infection_rate = sd(Infection_rate, na.rm = TRUE),
+    n_infection = n(),
+    lower_ci_infection = mean_infection_rate - qt(0.975, df = n_infection - 1) * (sd_infection_rate / sqrt(n_infection)),
+    upper_ci_infection = mean_infection_rate + qt(0.975, df = n_infection - 1) * (sd_infection_rate / sqrt(n_infection)),
+    
+    # Death Rate Statistics
+    mean_death_rate = mean(Death_rate, na.rm = TRUE),
+    sd_death_rate = sd(Death_rate, na.rm = TRUE),
+    n_death = n(),
+    lower_ci_death = mean_death_rate - qt(0.975, df = n_death - 1) * (sd_death_rate / sqrt(n_death)),
+    upper_ci_death = mean_death_rate + qt(0.975, df = n_death - 1) * (sd_death_rate / sqrt(n_death))
+  )
+
+# Print summary statistics
+print(summary_stats)
 ```
 
 ```{r}
@@ -119,13 +136,14 @@ ggplot(filtered_data, aes(x = median_household_income_2019, y = Infection_rate, 
     plot.title = element_text(size = 18, face = "bold", hjust = 0.5)  # Titre centré et en gras
   )
 ```
+
 ```{r}
 ggplot(filtered_data, aes(x = median_household_income_2019, y = Death_rate, color = income_category)) +
   geom_point(size = 3, alpha = 0.4) +  # Nuage de points
   labs(
-    title = "Infection Rate by Income Category",
+    title = "Death Rate by Income Category",
     x = "Income Category",
-    y = "Infection Rate"
+    y = "Death Rate"
   ) +
   scale_color_manual(
     values = c("Revenu < 38800" = "blue", "Revenu > 70321" = "red")
@@ -139,13 +157,19 @@ ggplot(filtered_data, aes(x = median_household_income_2019, y = Death_rate, colo
 ```
 
 ```{r}
-ggplot(filtered_data, aes(x = income_category, y = Death_rate, fill = income_category)) +
-  geom_boxplot() +
+ggplot(filtered_data, aes(x = income_category, y = Death_rate, fill = income_category)) + 
+  geom_boxplot() + 
   labs(
-   title = "Infection Rate by Income Category",
-   x = "Income Category",
-   y = "Infection Rate"
-  ) +
-  theme_minimal() +
-  scale_fill_manual(values = c("Income < X" = "blue", "Income > Y" = "red"))
+    title = "Death Rate by Income Category",
+    x = "Income Category",
+    y = "Death Rate"
+  ) + 
+  theme_minimal() + 
+  scale_fill_manual(values = c("Revenu < 38800" = "blue", "Revenu > 70321" = "red"))
 ```
+
+The data reveal significant disparities between income categories in terms of infection and mortality rates. Low-income households earning less than 38,880 dollars have a mean infection rate of 32.08 percent, which is higher than the 28.68 percent observed among high-income households earning more than 70,321 dollars. Confidence intervals (31.35 to 32.82 percent for low-income households and 27.89 to 29.47 percent for high-income households) confirm the reliability of these estimates, though the difference remains moderate. However, the gap in mortality rates is more pronounced. Low-income households exhibit a mean mortality rate of 1.83 percent, nearly double that of high-income households, which is 0.88 percent. This disparity is further supported by non-overlapping confidence intervals (1.75 to 1.90 percent for low-income households and 0.84 to 0.92 percent for high-income households), underscoring the significant impact of economic inequality on severe health outcomes.
+
+These findings emphasize the significance of social determinants in shaping pandemic outcomes. Poverty itself may not have an immediate impact, but its downstream effects such as lack of health insurance, economic vulnerability, and reduced access to resources play a critical role in influencing health outcomes during crises. Building on this, we will examine the role of education, focusing on high school and bachelor’s degree attainment, in promoting public health awareness and adherence to preventive measures. Additionally, we will analyze health insurance coverage, with particular attention to uninsured populations, including children and the elderly, to understand how gaps in the U.S. healthcare system impacted the management of critical cases. Finally, while the unemployment data reflects the pre pandemic period of 2019, it provides a crucial baseline for understanding broader economic vulnerabilities that contributed indirectly, through effects such as poverty and limited healthcare access, to shaping pandemic preparedness and resilience.
+
+### C - Unemployment and Insurance Rate

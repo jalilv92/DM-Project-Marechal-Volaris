@@ -10,19 +10,142 @@ library(here)
 library(vroom)
 data <- vroom("clean_merged.csv")
 library(dplyr)
+library(ggplot2)
 ```
 
-# 1. Improving the Dataset
-```{r}
-View(clean_merged)
-```
+# 1. Presentation of the Research Question
 
-## A - Death rate 
+Cleaning and merging the datasets allows us to obtain a clearer view of the question we are aiming to answer to: to what extent socio-economical factors have influenced the impact of the Covid-19 pandemic throughout the United States? Although Covid has been a global issue, it is fair to state that the United States were among the most impacted countries: according to the Centers for Disease Control and Prevention, almost 1.2 millions Americans have died of Covid-related complications, the most of any country worldwide. Once we take into account the overall populations, indicators are still concerning and should prompt us to try to understand better what can explain them. For example, the mortality rate (the ratio between total death and total cases reported) is equal to 1.17%, whereas it is only 0.43% in France. Such difference is explained thanks to various socio-economical factors, as well as political decisions. For example, the American healthcare system, relying on private companies rather than a mandatory public option, has been criticized for its negative impact on overall public health. Studying how uninsured Americans have been affected by the pandemic would therefore helps us understand if the weaknesses of the healthcare system played a role in an increased mortality rate. In addition to this first approach, our datasets allow us to study in a deeper way how economical and social differences may have played a role in how the mortality rate has evolved in various regions. The `counties` dataset, for example, provides us with a full racial make-up of each county-equivalent in the country, as well as basic economic indicators, such as the median income or the unemployment rate. To answer to our research question, we have chosen to base our study on the county-level, in order to get a more precise view of the country, which would not have been possible on the state-level.
+
+# 2. Understanding Data
+
+## 1. Dataset Descritption 
+
+## A - Dataset 
+
 ```{r}
 clean_merged <- clean_merged |>
-  mutate(Death_rate = ifelse(`Total Confirmed` > 0, (`Total Death` / `Total Confirmed`) * 100, NA))
+  mutate(Death_rate = ifelse(`Total Confirmed` > 0, (`Total Death` / `Total Confirmed`) * 100, NA)) |>
+  mutate(Infection_rate = ifelse( pop_2019 > 0, (`Total Confirmed` / pop_2019) * 100, NA))
+  View(clean_merged)
 ```
-# I. Analysis of Demographic Data
 
-# II. Analysis of Socio-Economic Data
 
+
+# 3. Data Analysis and Interpretation
+
+## I. Analysis of Demographic Data
+
+## II. Analysis of Socio-Economic Data
+
+### A - Introductory Comment
+
+Socio-economic factors are integral to understanding the disparities in health outcomes and mortality rates during the COVID-19 pandemic. Variables such as income, education level, health insurance coverage, and unemployment play a significant role in shaping individuals’ access to healthcare, their ability to adhere to public health measures, and their overall vulnerability to the virus. This section is pertinent because it examines how socio-economic inequalities have amplified the pandemic’s impact, particularly among marginalized populations. For example, lower income levels may limit access to essential healthcare services, while education levels can influence the understanding and adoption of protective behaviors. Health insurance coverage, or lack thereof, is especially critical in the U.S. healthcare system, where uninsured individuals often face barriers to timely and adequate treatment. By analyzing these factors, this section contributes to a comprehensive understanding of the socio-economic dimensions of the pandemic, complementing the demographic and infrastructural analyses.
+
+### B - Income and Poverty
+
+Income and poverty are critical determinants of health outcomes, influencing access to healthcare, nutrition, and living conditions. This subpart examines their role in shaping disparities in COVID-19 mortality and vulnerability across different socio-economic groups.
+
+#### Calcul des quantiles d'ordre 0.1 pour la colonne `median_household_income_2019`
+
+```{r}
+quantiles <- clean_merged 
+   print(quantiles)
+```
+
+valeur des quantiles 
+```{r}
+quantiles <- quantiles |>
+   summarise(quantile_0.1 = quantile( median_household_income_2019, probs = seq(0, 1, 0.1), na.rm = TRUE))
+
+print(quantiles)
+
+```
+
+nombre de comtés est-ce satistiquemeent significatif ? 
+```{r}
+result <- clean_merged |>
+  summarise(
+    count_sup = sum(median_household_income_2019 > 70321, na.rm = TRUE),
+    count_inf_or_equal = sum(median_household_income_2019 <= 38080 , na.rm = TRUE),
+   total_count = n()
+  )
+
+print(result)
+```
+
+filtrage
+```{r}
+filtered_data <- clean_merged |>
+  filter(
+    (median_household_income_2019 < 38800 | median_household_income_2019 > 70321) & 
+    Infection_rate < 50
+  ) |>
+  mutate(
+    income_category = case_when(
+      median_household_income_2019 < 38800 ~ "Revenu < 38800",
+      median_household_income_2019 > 70321 ~ "Revenu > 70321"
+    )
+  )
+```
+
+```{r}
+ggplot(filtered_data, aes(x = income_category, y = Infection_rate, fill = income_category)) +
+  geom_boxplot() +
+  labs(
+   title = "Infection Rate by Income Category",
+   x = "Income Category",
+   y = "Infection Rate"
+  ) +
+  theme_minimal() +
+  scale_fill_manual(values = c("Income < X" = "blue", "Income > Y" = "red"))
+```
+
+```{r}
+ggplot(filtered_data, aes(x = median_household_income_2019, y = Infection_rate, color = income_category)) +
+  geom_point(size = 3, alpha = 0.4) +  # Nuage de points
+  labs(
+    title = "Infection Rate by Income Category",
+    x = "Income Category",
+    y = "Infection Rate"
+  ) +
+  scale_color_manual(
+    values = c("Revenu < 38800" = "blue", "Revenu > 70321" = "red")
+  ) +  # Couleurs personnalisées
+  theme_minimal() +
+  theme(
+    text = element_text(size = 14),  # Taille du texte
+    axis.title = element_text(size = 16),  # Taille des titres des axes
+    plot.title = element_text(size = 18, face = "bold", hjust = 0.5)  # Titre centré et en gras
+  )
+```
+```{r}
+ggplot(filtered_data, aes(x = median_household_income_2019, y = Death_rate, color = income_category)) +
+  geom_point(size = 3, alpha = 0.4) +  # Nuage de points
+  labs(
+    title = "Infection Rate by Income Category",
+    x = "Income Category",
+    y = "Infection Rate"
+  ) +
+  scale_color_manual(
+    values = c("Revenu < 38800" = "blue", "Revenu > 70321" = "red")
+  ) +  # Couleurs personnalisées
+  theme_minimal() +
+  theme(
+    text = element_text(size = 14),  # Taille du texte
+    axis.title = element_text(size = 16),  # Taille des titres des axes
+    plot.title = element_text(size = 18, face = "bold", hjust = 0.5)  # Titre centré et en gras
+  )
+```
+
+```{r}
+ggplot(filtered_data, aes(x = income_category, y = Death_rate, fill = income_category)) +
+  geom_boxplot() +
+  labs(
+   title = "Infection Rate by Income Category",
+   x = "Income Category",
+   y = "Infection Rate"
+  ) +
+  theme_minimal() +
+  scale_fill_manual(values = c("Income < X" = "blue", "Income > Y" = "red"))
+```

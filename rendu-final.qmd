@@ -10,6 +10,7 @@ library(here)
 library(vroom)
 data <- vroom("clean_merged.csv")
 library(dplyr)
+library(tidyr)
 library(ggplot2)
 ```
 
@@ -23,12 +24,79 @@ Cleaning and merging the datasets allows us to obtain a clearer view of the ques
 
 ## A - Dataset
 
+To pursue our study, we need to establish per capita variables. Indeed, counties have widely varying populations.
 ```{r}
+#| echo: false
+clean_merged |>
+  group_by(name) |>
+  select(name, state, pop_2019) |>
+  summarize(state=state,
+            population=pop_2019) |>
+  arrange(population)
+```
+```{r}
+#| echo: false
+clean_merged |>
+  group_by(name) |>
+  select(name, state, pop_2019) |>
+  summarize(state=state,
+            population=pop_2019) |>
+  arrange(-population)
+```
+  As we can see, in 2019, a county population ranges from 66 (Kalawao County, Hawaii) to more than 10 millions habitants (Los Angeles County, California). Aware of this disparity, we establish two per capita variables: the infection rate and the mortality rate. They are defined as:
+  Infection rate=Total of confirmed cases/Total county population
+  Mortality rate=Total death from Covid 19/Total of confirmed cases
+  For more visibility, we express these rates as percentages by multiplying them by 100.
+
+```{r}
+#| echo: false
 clean_merged <- clean_merged |>
   mutate(Death_rate = ifelse(`Total Confirmed` > 0, (`Total Death` / `Total Confirmed`) * 100, NA)) |>
   mutate(Infection_rate = ifelse( pop_2019 > 0, (`Total Confirmed` / pop_2019) * 100, NA))
-  View(clean_merged)
 ```
+
+
+```{r}
+clean_merged |>
+  group_by(fips) |>
+  select(name, Infection_rate) |>
+  summarise(Infection_rate,
+            name) |>
+  arrange(-Infection_rate)
+```
+```{r}
+#| echo: false
+clean_merged |>
+  group_by(fips) |>
+  select(name, Death_rate) |>
+  summarise(Death_rate,
+            name) |>
+  arrange(-Death_rate)
+```
+
+  We notice that two county-equivalents have infection rate higher than 100%. This abnormality can be explained by various reasons, such as an error in the database, a decline in population, a center diagnosing cases from neighboring counties, ... For the sake of our study, we can drop these outliers.
+  
+```{r}
+clean_merged <- clean_merged |>
+  filter(Infection_rate<100)
+```
+  
+  
+  In order to understand these two variables better, we represent them graphically. As continuous variables, a density function seems to be the best way to do so.
+  
+```{r}
+#| echo: false
+ggplot(clean_merged, aes(x=Infection_rate))+
+  geom_density()
+```
+
+```{r}
+#| echo: false
+ggplot(clean_merged, aes(x=Death_rate))+
+  geom_density()
+```
+
+  We can notice that both rates are distributed following a roughly normal law, centered around 30% for `Infection_rate` and a 1.2% for `Death-rate`. The disparities observed are significant, some counties having a death rate superior to 4%. Therefore, we can ask ourselves what can explain such differences between counties. 
 
 # 3. Data Analysis and Interpretation
 
@@ -57,7 +125,9 @@ model <- lm(Death_rate ~ age_over_65_2019, data = clean_merged)
 summary(model)
 ```
 
-According to these statistics, the correlation between the percentage of people older than 65 years old and the mortality rate within a country is robust. However, such correlation only explains about 13% of the mortality rate. First, we can try to explore a correlation with a more precise age range. Our dataset provides us with the percentage of people older than 85 years old in each county. We can run this linear model.
+According to these statistics, the correlation between the percentage of people older than 65 years old and the mortality rate within a country is robust. A one-percent increase of the share of elders leads to a 0.05% increase of the mortality rate. Since the latter ranges mostly from 0 to 3, such correlation is far from being uninteresting. 
+However, our model only explains about 13% of the mortality rate. This weak R-squared should warn us about other factors influencing the mortality rate on the county-level.
+First, we can try to explore a correlation with a more precise age range. Our dataset provides us with the percentage of people older than 85 years old in each county. We can run this linear model.
 
 ```{r}
 #| echo: false
@@ -75,7 +145,7 @@ ggplot(clean_merged, aes(x=age_over_85_2019, y=Death_rate))+
 model <- lm(Death_rate ~ age_over_85_2019, data = clean_merged)
 summary(model)
 ```
-We can see that the R-squared is even smaller for such regression. Therefore, this prompts us to look for other factors explaining the mortality rate, who was explained only partially by age.
+We can see that the R-squared is even smaller for such regression, at around 5%: to generalize, age fails to explain 95% of mortality from Covid. Therefore, this prompts us to look for other factors explaining the mortality rate, who was explained only partially by age.
 
 ## II. Analysis of Socio-Economic Data
 

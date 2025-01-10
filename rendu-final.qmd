@@ -34,6 +34,49 @@ clean_merged <- clean_merged |>
 
 ## I. Analysis of Demographic Data
 
+### Age
+
+It is safe to state that the age is among the most important factors explaining Covid-19 mortality.
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+ggplot(clean_merged, aes(x=age_over_65_2019, y=Death_rate))+
+  geom_point(alpha=0.5)+
+  geom_smooth(method="lm", col="blue")
+```
+
+We can observe a clear correlation, although we need to evaluate its precision.
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+model <- lm(Death_rate ~ age_over_65_2019, data = clean_merged)
+summary(model)
+```
+
+According to these statistics, the correlation between the percentage of people older than 65 years old and the mortality rate within a country is robust. However, such correlation only explains about 13% of the mortality rate. First, we can try to explore a correlation with a more precise age range. Our dataset provides us with the percentage of people older than 85 years old in each county. We can run this linear model.
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+ggplot(clean_merged, aes(x=age_over_85_2019, y=Death_rate))+
+  geom_point(alpha=0.5)+
+  geom_smooth(method="lm", col="blue")
+```
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+model <- lm(Death_rate ~ age_over_85_2019, data = clean_merged)
+summary(model)
+```
+We can see that the R-squared is even smaller for such regression. Therefore, this prompts us to look for other factors explaining the mortality rate, who was explained only partially by age.
+
 ## II. Analysis of Socio-Economic Data
 
 ### A - Introductory Comment

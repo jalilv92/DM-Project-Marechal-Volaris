@@ -25,6 +25,7 @@ Cleaning and merging the datasets allows us to obtain a clearer view of the ques
 ## A - Dataset
 
 To pursue our study, we need to establish per capita variables. Indeed, counties have widely varying populations.
+
 ```{r}
 #| echo: false
 clean_merged |>
@@ -34,6 +35,7 @@ clean_merged |>
             population=pop_2019) |>
   arrange(population)
 ```
+
 ```{r}
 #| echo: false
 clean_merged |>
@@ -43,10 +45,11 @@ clean_merged |>
             population=pop_2019) |>
   arrange(-population)
 ```
-  As we can see, in 2019, a county population ranges from 66 (Kalawao County, Hawaii) to more than 10 millions habitants (Los Angeles County, California). Aware of this disparity, we establish two per capita variables: the infection rate and the mortality rate. They are defined as:
-  Infection rate=Total of confirmed cases/Total county population
-  Mortality rate=Total death from Covid 19/Total of confirmed cases
-  For more visibility, we express these rates as percentages by multiplying them by 100.
+
+As we can see, in 2019, a county population ranges from 66 (Kalawao County, Hawaii) to more than 10 millions habitants (Los Angeles County, California). Aware of this disparity, we establish two per capita variables: the infection rate and the mortality rate. They are defined as: 
+Infection rate=Total of confirmed cases/Total county population
+Mortality rate=Total death from Covid 19/Total of confirmed cases 
+For a better understanding, we express these rates as percentages by multiplying them by 100.
 
 ```{r}
 #| echo: false
@@ -54,7 +57,6 @@ clean_merged <- clean_merged |>
   mutate(Death_rate = ifelse(`Total Confirmed` > 0, (`Total Death` / `Total Confirmed`) * 100, NA)) |>
   mutate(Infection_rate = ifelse( pop_2019 > 0, (`Total Confirmed` / pop_2019) * 100, NA))
 ```
-
 
 ```{r}
 clean_merged |>
@@ -64,6 +66,7 @@ clean_merged |>
             name) |>
   arrange(-Infection_rate)
 ```
+
 ```{r}
 #| echo: false
 clean_merged |>
@@ -74,16 +77,15 @@ clean_merged |>
   arrange(-Death_rate)
 ```
 
-  We notice that two county-equivalents have infection rate higher than 100%. This abnormality can be explained by various reasons, such as an error in the database, a decline in population, a center diagnosing cases from neighboring counties, ... For the sake of our study, we can drop these outliers.
-  
+We notice that two county-equivalents have infection rate higher than 100%. This abnormality can be explained by various reasons, such as an error in the database, a decline in population, a center diagnosing cases from neighboring counties, ... For the sake of our study, we can drop these outliers.
+
 ```{r}
 clean_merged <- clean_merged |>
   filter(Infection_rate<100)
 ```
-  
-  
-  In order to understand these two variables better, we represent them graphically. As continuous variables, a density function seems to be the best way to do so.
-  
+
+In order to understand these two variables better, we represent them graphically. As continuous variables, a density function seems to be the best way to do so.
+
 ```{r}
 #| echo: false
 ggplot(clean_merged, aes(x=Infection_rate))+
@@ -96,7 +98,7 @@ ggplot(clean_merged, aes(x=Death_rate))+
   geom_density()
 ```
 
-  We can notice that both rates are distributed following a roughly normal law, centered around 30% for `Infection_rate` and a 1.2% for `Death-rate`. The disparities observed are significant, some counties having a death rate superior to 4%. Therefore, we can ask ourselves what can explain such differences between counties. 
+We can notice that both rates are distributed following a roughly normal law, centered around 30% for `Infection_rate` and a 1.2% for `Death-rate`. The disparities observed are significant, some counties having a death rate superior to 4%. Therefore, we can ask ourselves what can explain such differences between counties.
 
 # 3. Data Analysis and Interpretation
 
@@ -104,7 +106,7 @@ ggplot(clean_merged, aes(x=Death_rate))+
 
 ### Age
 
-It is safe to state that the age is among the most important factors explaining Covid-19 mortality.
+It is safe to state that the age is among the most important factors explaining Covid-19 mortality. Older people represent a majority of fatalities from the disease and are more sensible to its symptoms. Our dataset provides us with various variables regarding age. We can first test how the percentage of people older than 65 years old impact the death rate within a county.
 
 ```{r}
 #| echo: false
@@ -125,9 +127,7 @@ model <- lm(Death_rate ~ age_over_65_2019, data = clean_merged)
 summary(model)
 ```
 
-According to these statistics, the correlation between the percentage of people older than 65 years old and the mortality rate within a country is robust. A one-percent increase of the share of elders leads to a 0.05% increase of the mortality rate. Since the latter ranges mostly from 0 to 3, such correlation is far from being uninteresting. 
-However, our model only explains about 13% of the mortality rate. This weak R-squared should warn us about other factors influencing the mortality rate on the county-level.
-First, we can try to explore a correlation with a more precise age range. Our dataset provides us with the percentage of people older than 85 years old in each county. We can run this linear model.
+According to these statistics, the correlation between the percentage of people older than 65 years old and the mortality rate within a country is robust. A one-percent increase of the share of elders leads to a 0.05% increase of the mortality rate. Since the latter ranges mostly from 0 to 3, such correlation is far from being uninteresting. However, our model only explains about 13% of the mortality rate. This weak R-squared should warn us about other factors influencing the mortality rate on the county-level. First, we can try to explore a correlation with a more precise age range. Our dataset provides us with the percentage of people older than 85 years old in each county. We can run this linear model.
 
 ```{r}
 #| echo: false
@@ -145,7 +145,115 @@ ggplot(clean_merged, aes(x=age_over_85_2019, y=Death_rate))+
 model <- lm(Death_rate ~ age_over_85_2019, data = clean_merged)
 summary(model)
 ```
-We can see that the R-squared is even smaller for such regression, at around 5%: to generalize, age fails to explain 95% of mortality from Covid. Therefore, this prompts us to look for other factors explaining the mortality rate, who was explained only partially by age.
+
+We can see that the R-squared is even smaller for such regression, at around 5%: to generalize, the percentage of habitants older than 85 years old within a county fails to explain 95% of mortality from Covid. As a final attempt to modelize the relationship between age and Covid mortality, we use the median age of each county. Such analysis is advantageous to the extent that it offers a more precise overview of the demographic makeup of each county.
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+ggplot(clean_merged, aes(x=median_age_2019, y=Death_rate))+
+  geom_point(alpha=0.5)+
+  geom_smooth(method="lm", col="blue")
+```
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+model <- lm(Death_rate ~ median_age_2019, data = clean_merged)
+summary(model)
+```
+
+### Race
+
+It has been established by scholars that ancestry does not play a significant role regarding risks of Covid for a patient. However, race continues to play a major role in American society, characterized by a long-lasting system of racial segregation. Although legally disbanded since the 1960s, the negative effects of it are still visible today. Therefore, it is safe to suppose a greater vulnerability for some ethnic background, such as African-Americans or Latinos. By exploring the racial makeup of the counties, we can test this hypothesis.
+
+#### Non-Hispanic Whites
+
+Following the guidelines of the United States census Bureau, the Latinos are not considered as a separate race, but rather as an ethnicity. Therefore, most Latinos declare their race as White, and precise a Hispanic ethnicity. In the case of our study, Hispanics are considered as a distinct group. Therefore, rather than Whites, we study here the correlation between Covid mortality and the percentage of non-Hispanic Whites.
+
+```{r}
+#| echo: false
+ggplot(clean_merged, aes(x=white_not_hispanic_2019, y=Death_rate))+
+  geom_point(alpha=0.5)+
+  geom_smooth(method="lm", col="blue")
+```
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+model <- lm(Death_rate ~ white_not_hispanic_2019, data = clean_merged)
+summary(model)
+```
+The percentage of non-hispanic Whites within a county does not have any significant effect on the mortality rate.
+
+#### African-Americans
+
+```{r}
+#| echo: false
+ggplot(clean_merged, aes(x=black_2019, y=Death_rate))+
+  geom_point(alpha=0.5)+
+  geom_smooth(method="lm", col="blue")
+```
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+model <- lm(Death_rate ~ black_2019, data = clean_merged)
+summary(model)
+```
+The percentage of African-Americans within a county have a weak, yet significant effect on the risks regarding Covid. A one percent increase in the Black share of the population is expected to increase the mortality rate by 0.004%. We can explore further this weak correlation by creating a new variable, `afam_class`. `afam_class` divides the counties in ten classes based on the share of African-American in their population.
+
+```{r}
+#| echo: false
+clean_merged <- clean_merged |>
+  mutate(afam_class = cut(black_2019,
+                          breaks = seq(0, 100, 10), 
+                          include.lowest = TRUE))
+```
+
+```{r}
+#| echo: false
+ggplot(clean_merged, aes(x=afam_class, y=Death_rate))+
+  geom_boxplot()
+```
+```{r}
+clean_merged |>
+  group_by(afam_class) |>
+  summarise("Median death rate"=median(Death_rate, na.rm=TRUE),
+            "Number of counties"= n())
+```
+This new variable furthers the study of the link between a large African-American population and an important mortality from Covid. As we can see, counties with a black population representing between 70 and 80% of its total population has a median of 1.9% of death among confirmed cases. This median is only 1.32% for counties where the black share of the population does not exceed 10%. Although the small number of counties with a large black population should warn us about the precision of these results, they still show a clear pattern of vulnerability from Covid for Black Americans.
+
+#### Hispanics
+
+```{r}
+#| echo: false
+ggplot(clean_merged, aes(x=hispanic_2019, y=Death_rate))+
+  geom_point(alpha=0.5)+
+  geom_smooth(method="lm", col="blue")
+```
+```{r}
+model <- lm(Death_rate ~ hispanic_2019, data = clean_merged)
+summary(model)
+```
+The percentage of Latinos in a county does not have any significant effect on our studied variable.
+
+```{r}
+#| echo: false
+ggplot(clean_merged, aes(x=asian_2019, y=Death_rate))+
+  geom_point(alpha=0.5)+
+  geom_smooth(method="lm", col="blue")
+```
+
+```{r}
+#| echo: false
+ggplot(clean_merged, aes(x=native_2019, y=Death_rate))+
+  geom_point(alpha=0.5)+
+  geom_smooth(method="lm", col="blue")
+```
 
 ## II. Analysis of Socio-Economic Data
 

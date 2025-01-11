@@ -1,8 +1,9 @@
 ---
-title: "Untitled"
+title: "Data Management final project Maréchal-Volaris"
 format: pdf
 editor: visual
 ---
+
 
 ```{r}
 here::i_am("DM-Project-Marechal-Volaris.Rproj")
@@ -98,12 +99,28 @@ ggplot(clean_merged, aes(x=Infection_rate))+
 ```
 
 ```{r}
+clean_merged |>
+  pull(Infection_rate) |>
+  quantile(probs=seq(0, 1, by=0.1), na.rm=TRUE)
+```
+
+Covid has a heterogeneous impact on the United States, with 80% of counties having an infection rate ranging from 22.45% to 38.46%.
+
+```{r}
 #| echo: false
 ggplot(clean_merged, aes(x=Death_rate))+
   geom_density()
 ```
 
-We can notice that both rates are distributed following a roughly normal law, centered around 30% for `Infection_rate` and a 1.2% for `Death-rate`. The disparities observed are significant, some counties having a death rate superior to 4%. Therefore, we can ask ourselves what can explain such differences between counties.
+We can notice that both rates are distributed following a roughly normal law, centered around 30% for `Infection_rate` and a 1.2% for `Death-rate`. The disparities observed are significant, some counties having a death rate superior to 4%. These disparities are clearly shown by the quantiles of the `Death_rate` variable.
+
+```{r}
+clean_merged |>
+  pull(Death_rate) |>
+  quantile(probs=seq(0, 1, by=0.1), na.rm=TRUE)
+```
+
+Here, we can notice a clear difference between quantiles: the two extremes are 0.73% and 2.2%. Therefore, we can ask ourselves what can explain such differences between counties.
 
 # 3. Data Analysis and Interpretation
 
@@ -112,6 +129,28 @@ We can notice that both rates are distributed following a roughly normal law, ce
 ### Age
 
 It is safe to state that the age is among the most important factors explaining Covid-19 mortality. Older people represent a majority of fatalities from the disease and are more sensible to its symptoms. Our dataset provides us with various variables regarding age. We can first test how the percentage of people older than 65 years old impact the death rate within a county.
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+ggplot(clean_merged, aes(x=age_over_65_2019))+
+  geom_density()
+```
+
+Most counties have an elder population representing between 10 and 30% of its citizens. As a numeric continuous variable, we can establish classes in order to obtain an overview of the variable and its correlation with the death rate from Covid.
+
+```{r}
+#| echo: false
+clean_merged |>
+  mutate(elder_class = cut(age_over_65_2019,
+                          breaks = seq(0, 100, 5), 
+                          include.lowest = TRUE)) |>
+  ggplot(aes(y=elder_class, x=Death_rate, fill=elder_class))+
+  geom_violin()
+```
+
+The graph seems to indicate a positive correlation between the two variables: the higher the population over 65 years old, the higher the mortality from Covid. This hypothesis prompts us to test a linear regression model involving the two variables.
 
 ```{r}
 #| echo: false
@@ -140,7 +179,7 @@ According to these statistics, the correlation between the percentage of people 
 #| warning: false
 ggplot(clean_merged, aes(x=age_over_85_2019, y=Death_rate))+
   geom_point(alpha=0.5)+
-  geom_smooth(method="lm", col="blue")
+  geom_smooth(method="lm", col="red")
 ```
 
 ```{r}
@@ -170,6 +209,8 @@ model <- lm(Death_rate ~ median_age_2019, data = clean_merged)
 summary(model)
 ```
 
+This new regression, once again, fails to explain much of the mortality rate. Furthermore, we have to reject its intercept on the 95% confidence level. Therefore, these three regressions seem to indicate age, while significant, cannot be the only factor explaining why Covid has had different levels of mortality throughout the country. This conclusion prompts us to study other factors not related to age.
+
 ### Race
 
 It has been established by scholars that ancestry does not play a significant role regarding risks of Covid for a patient. However, race continues to play a major role in American society, characterized by a long-lasting system of racial segregation. Although legally disbanded since the 1960s, the negative effects of it are still visible today. Therefore, it is safe to suppose a greater vulnerability for some ethnic background, such as African-Americans or Latinos. By exploring the racial makeup of the counties, we can test this hypothesis.
@@ -193,7 +234,7 @@ model <- lm(Death_rate ~ white_not_hispanic_2019, data = clean_merged)
 summary(model)
 ```
 
-The percentage of non-hispanic Whites within a county does not have any significant effect on the mortality rate.
+The percentage of non-hispanic Whites within a county does not have any significant effect on the mortality rate. This absence of correlation is not surprising: Non-Hispanic Whites represent a majority of the American population: while by average richer than other ethnic groups, they do not form a homogeneous group. Studying other factors, such as socio-economic ones, would therefore be more relevant in this case.
 
 #### African-Americans
 
@@ -212,7 +253,21 @@ model <- lm(Death_rate ~ black_2019, data = clean_merged)
 summary(model)
 ```
 
-The percentage of African-Americans within a county have a weak, yet significant effect on the risks regarding Covid. A one percent increase in the Black share of the population is expected to increase the mortality rate by 0.004%. We can explore further this weak correlation by creating a new variable, `afam_class`. `afam_class` divides the counties in ten classes based on the share of African-American in their population.
+The percentage of African-Americans within a county have a weak, yet significant effect on the risks regarding Covid. A one percent increase in the Black share of the population is expected to increase the mortality rate by 0.004%. In order to obtain a clearer view of the correlation, we can drop the counties less than 10% African-American in their population.
+
+```{r}
+clean_merged |>
+  filter(black_2019>10) |>
+  ggplot(aes(x=black_2019, y=Death_rate))+
+           geom_point()+
+           geom_smooth(method = "lm", col="blue")
+```
+```{r}
+model <- lm(Death_rate ~ black_2019, data = clean_merged |> filter(black_2019 > 10))
+summary(model)
+```
+This adjusted model confirms a positive correlation between the two variables: the more African-Americans live in a county, the more sensible to Covid this county is.
+We can explore further this weak correlation by creating a new variable, `afam_class`. `afam_class` divides the counties in ten classes based on the share of African-American in their population.
 
 ```{r}
 #| echo: false
@@ -224,7 +279,7 @@ clean_merged <- clean_merged |>
 
 ```{r}
 #| echo: false
-ggplot(clean_merged, aes(x=afam_class, y=Death_rate))+
+ggplot(clean_merged, aes(x=afam_class, y=Death_rate, color=afam_class))+
   geom_boxplot()
 ```
 
@@ -253,19 +308,64 @@ summary(model)
 
 The percentage of Latinos in a county does not have any significant effect on our studied variable.
 
+#### Conclusion
+
+Following this part of our study, we can conclude by putting the role of race as an explaining variable of the mortality into perspective. Intra-group differences seem to reduce the relevance of such correlation. Only the share of African-Americans play a significant role. This can be explained by the specific challenges faced by the Black community. Aware of the limited impact of race, we can now look for other explaining variables. A study of income and other economic factors would be a better fit to strengthen our model.
+
+### Housing and location
+
+The United States are the the third largest country in the world and include a wide variety of natural regions and communities. As of 2021, 83% of Americans were living in cities and other urban communities. One can expect a difference of mortality and infection between different types of communities, a hypothesis we can test now based on our dataset.
+
+#### Urban and rural counties
+
+Our dataset only provides partial data regarding the urbanization of counties. Indeed, only Medically Underserved Areas, a classification we will explain more deeply later in our study, have a specified degree of urbanization. Three of them are specified: "Rural", "Partially Rural" and "Non-Rural".
+
 ```{r}
-#| echo: false
-ggplot(clean_merged, aes(x=asian_2019, y=Death_rate))+
-  geom_point(alpha=0.5)+
-  geom_smooth(method="lm", col="blue")
+clean_merged |>
+  group_by(`Rural Status Description`) |>
+  summarize("Number of counties"=n())
+```
+
+Among the 1,729 counties with data provided, a large majority are considered as rural ones by the Department of Health and Human Services. Since only Medically Underserved counties are taken into account here, this fact in itself indicates an overexposure of rural counties to public health issues.
+
+```{r}
+clean_merged |>
+  filter(!is.na(`Rural Status Description`)) |>
+  ggplot(aes(x = Death_rate, fill = `Rural Status Description`)) +
+  geom_density(alpha = 0.5)
+```
+Comparing the density functions of the three different status, however, seems to indicate an absence of clear difference between them. To confirm it, we can compare them with basic statistics:
+
+```{r}
+clean_merged |>
+  filter(!is.na(`Rural Status Description`)) |>
+  filter(!is.na(Death_rate)) |>
+  group_by(`Rural Status Description`) |>
+  summarize("Number of counties"=n(),
+            "Median incidence"=median(Infection_rate),
+            "Median mortality"=median(Death_rate))
+```
+
+The table shown above proves the absence of clear difference between the three types of counties. Nevertheless, we can still notice a slightly higher median mortality rate in rural communities, but a smaller median infection rate. The latter can be explained by the lower rate of detection of the disease in areas less equipped with medical structures. Therefore, the absence of detection of mild symptoms of Covid might have led to a higher mortality rate among detected cases.
+Overall, the difference is not large enough to suppose a clear distinction. However, this analysis is only about underserved areas, already more exposed than the rest of the country. Since most rural counties are often among the more exposed, we cannot rule out the impact of living far from a urban center on a high mortality rate from Covid, but the limits of our dataset prevent us to prove it.
+
+#### Housing
+
+Covid being an infectious disease transmitted through air, the accommodation can play a major role in its transmission. Overcrowded place, indeed, are places with a high risk of infection. To verify this assumption, we use two variables included in our dataset hinting towards overcrowded accommodations. The first one ,`avg_family_size`, specifies the average number of people living under the same roof. The second, `housing_mobile_homes_2019`, indicates the share of mobile homes in the total number of accommodations. 
+
+```{r}
+ggplot(clean_merged, aes(x=avg_family_size_2019, y=Infection_rate))+
+  geom_rug()+
+  geom_smooth(method = "lm", col="purple")
 ```
 
 ```{r}
-#| echo: false
-ggplot(clean_merged, aes(x=native_2019, y=Death_rate))+
-  geom_point(alpha=0.5)+
-  geom_smooth(method="lm", col="blue")
+ggplot(clean_merged, aes(x=housing_mobile_homes_2019, y=Infection_rate))+
+  geom_rug(alpha=0.5)+
+  geom_smooth(method = "lm", col="purple")
 ```
+
+
 
 ## II. Analysis of Socio-Economic Data
 

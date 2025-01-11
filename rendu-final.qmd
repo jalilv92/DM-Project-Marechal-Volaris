@@ -52,7 +52,15 @@ As we can see, in 2019, a county population ranges from 66 (Kalawao County, Hawa
 #| echo: false
 clean_merged <- clean_merged |>
   mutate(Death_rate = ifelse(`Total Confirmed` > 0, (`Total Death` / `Total Confirmed`) * 100, NA)) |>
-  mutate(Infection_rate = ifelse( pop_2019 > 0, (`Total Confirmed` / pop_2019) * 100, NA))
+  mutate(Infection_rate = ifelse( pop_2019 > 0, (`Total Confirmed` / pop_2019) * 100, NA)) |>
+  mutate( medically_underserved_dummy = ifelse(
+      !is.na(`Designation Population in a Medically Underserved Area/Population (MUA/P)`) |
+      !is.na(`Medically Underserved Area/Population (MUA/P) Total Resident Civilian Population` ) |
+      !is.na(`Providers per 1000 Population`), 
+      1, 
+      0
+    )
+  )
 ```
 
 ```{r}

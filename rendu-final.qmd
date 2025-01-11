@@ -351,10 +351,10 @@ Overall, the difference is not large enough to suppose a clear distinction. Howe
 
 #### Housing
 
-Covid being an infectious disease transmitted through air, the accommodation can play a major role in its transmission. Overcrowded place, indeed, are places with a high risk of infection. To verify this assumption, we use two variables included in our dataset hinting towards overcrowded accommodations. The first one ,`avg_family_size`, specifies the average number of people living under the same roof. The second, `housing_mobile_homes_2019`, indicates the share of mobile homes in the total number of accommodations. 
+Covid being an infectious disease transmitted through air, the accommodation can play a major role in its transmission. Overcrowded place, indeed, are places with a high risk of infection. To verify this assumption, we use two variables included in our dataset hinting towards overcrowded accommodations. The first one ,`persons_per_household_2019`, specifies the average number of people living under the same roof. The second, `housing_mobile_homes_2019`, indicates the share of mobile homes in the total number of accommodations. 
 
 ```{r}
-ggplot(clean_merged, aes(x=avg_family_size_2019, y=Infection_rate))+
+ggplot(clean_merged, aes(x=persons_per_household_2019, y=Infection_rate))+
   geom_rug()+
   geom_smooth(method = "lm", col="purple")
 ```
@@ -364,7 +364,20 @@ ggplot(clean_merged, aes(x=housing_mobile_homes_2019, y=Infection_rate))+
   geom_rug(alpha=0.5)+
   geom_smooth(method = "lm", col="purple")
 ```
+We can observe a positive correlation between each of these variables and the infection rate, in accordance with our hypothesis. However, we do not have any reason to assume that the mortality rate is positively impacted by the number of people in each household. We can test the correlation in order to obtain a clearer idea.
 
+```{r}
+ggplot(clean_merged, aes(x=persons_per_household_2019, y=Death_rate))+
+  geom_point(alpha=0.5)+
+  geom_smooth(method = "lm", col="pink")
+```
+```{r}
+model <- lm(Death_rate ~ persons_per_household_2019, data = clean_merged)
+summary(model)
+```
+
+
+As expected, the number of persons per household is not positively correlated with the mortality rate. Inversely, rather than a positive correlation, a negative one is observed: ceteris paribus, a county with an average of 3 persons per household is expected to have a mortality rate 0.27% lower than one with an average of 2. This negative correlation can be explained by a higher incidence in counties with more populated accommodations, most notably with children, lowering the share of severe cases.
 
 
 ## II. Analysis of Socio-Economic Data

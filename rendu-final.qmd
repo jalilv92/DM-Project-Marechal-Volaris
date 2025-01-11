@@ -6,6 +6,10 @@ editor: visual
 
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 here::i_am("DM-Project-Marechal-Volaris.Rproj")
 library(here)
 library(vroom)
@@ -29,6 +33,9 @@ To pursue our study, we need to establish per capita variables. Indeed, counties
 
 ```{r}
 #| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 clean_merged |>
   group_by(name) |>
   select(name, state, pop_2019) |>
@@ -39,6 +46,9 @@ clean_merged |>
 
 ```{r}
 #| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 clean_merged |>
   group_by(name) |>
   select(name, state, pop_2019) |>
@@ -51,6 +61,9 @@ As we can see, in 2019, a county population ranges from 66 (Kalawao County, Hawa
 
 ```{r}
 #| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 clean_merged <- clean_merged |>
   mutate(Death_rate = ifelse(`Total Confirmed` > 0, (`Total Death` / `Total Confirmed`) * 100, NA)) |>
   mutate(Infection_rate = ifelse( pop_2019 > 0, (`Total Confirmed` / pop_2019) * 100, NA)) |>
@@ -65,6 +78,10 @@ clean_merged <- clean_merged |>
 ```
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 clean_merged |>
   group_by(fips) |>
   select(name, Infection_rate) |>
@@ -75,6 +92,9 @@ clean_merged |>
 
 ```{r}
 #| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 clean_merged |>
   group_by(fips) |>
   select(name, Death_rate) |>
@@ -86,6 +106,10 @@ clean_merged |>
 We notice that two county-equivalents have infection rate higher than 100%. This abnormality can be explained by various reasons, such as an error in the database, a decline in population, a center diagnosing cases from neighboring counties, ... For the sake of our study, we can drop these outliers.
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 clean_merged <- clean_merged |>
   filter(Infection_rate<100)
 ```
@@ -94,11 +118,18 @@ In order to understand these two variables better, we represent them graphically
 
 ```{r}
 #| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 ggplot(clean_merged, aes(x=Infection_rate))+
   geom_density()
 ```
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 clean_merged |>
   pull(Infection_rate) |>
   quantile(probs=seq(0, 1, by=0.1), na.rm=TRUE)
@@ -108,6 +139,9 @@ Covid has a heterogeneous impact on the United States, with 80% of counties havi
 
 ```{r}
 #| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 ggplot(clean_merged, aes(x=Death_rate))+
   geom_density()
 ```
@@ -115,6 +149,10 @@ ggplot(clean_merged, aes(x=Death_rate))+
 We can notice that both rates are distributed following a roughly normal law, centered around 30% for `Infection_rate` and a 1.2% for `Death-rate`. The disparities observed are significant, some counties having a death rate superior to 4%. These disparities are clearly shown by the quantiles of the `Death_rate` variable.
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 clean_merged |>
   pull(Death_rate) |>
   quantile(probs=seq(0, 1, by=0.1), na.rm=TRUE)
@@ -132,8 +170,9 @@ It is safe to state that the age is among the most important factors explaining 
 
 ```{r}
 #| echo: false
-#| message: false
 #| warning: false
+#| message: false
+#| results: "hide"
 ggplot(clean_merged, aes(x=age_over_65_2019))+
   geom_density()
 ```
@@ -142,6 +181,9 @@ Most counties have an elder population representing between 10 and 30% of its ci
 
 ```{r}
 #| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 clean_merged |>
   mutate(elder_class = cut(age_over_65_2019,
                           breaks = seq(0, 100, 5), 
@@ -154,8 +196,9 @@ The graph seems to indicate a positive correlation between the two variables: th
 
 ```{r}
 #| echo: false
-#| message: false
 #| warning: false
+#| message: false
+#| results: "hide"
 ggplot(clean_merged, aes(x=age_over_65_2019, y=Death_rate))+
   geom_point(alpha=0.5)+
   geom_smooth(method="lm", col="blue")
@@ -165,8 +208,9 @@ We can observe a clear correlation, although we need to evaluate its precision.
 
 ```{r}
 #| echo: false
-#| message: false
 #| warning: false
+#| message: false
+#| results: "hide"
 model <- lm(Death_rate ~ age_over_65_2019, data = clean_merged)
 summary(model)
 ```
@@ -175,8 +219,9 @@ According to these statistics, the correlation between the percentage of people 
 
 ```{r}
 #| echo: false
-#| message: false
 #| warning: false
+#| message: false
+#| results: "hide"
 ggplot(clean_merged, aes(x=age_over_85_2019, y=Death_rate))+
   geom_point(alpha=0.5)+
   geom_smooth(method="lm", col="red")
@@ -184,8 +229,9 @@ ggplot(clean_merged, aes(x=age_over_85_2019, y=Death_rate))+
 
 ```{r}
 #| echo: false
-#| message: false
 #| warning: false
+#| message: false
+#| results: "hide"
 model <- lm(Death_rate ~ age_over_85_2019, data = clean_merged)
 summary(model)
 ```
@@ -194,8 +240,9 @@ We can see that the R-squared is even smaller for such regression, at around 5%:
 
 ```{r}
 #| echo: false
-#| message: false
 #| warning: false
+#| message: false
+#| results: "hide"
 ggplot(clean_merged, aes(x=median_age_2019, y=Death_rate))+
   geom_point(alpha=0.5)+
   geom_smooth(method="lm", col="blue")
@@ -203,8 +250,9 @@ ggplot(clean_merged, aes(x=median_age_2019, y=Death_rate))+
 
 ```{r}
 #| echo: false
-#| message: false
 #| warning: false
+#| message: false
+#| results: "hide"
 model <- lm(Death_rate ~ median_age_2019, data = clean_merged)
 summary(model)
 ```
@@ -221,6 +269,9 @@ Following the guidelines of the United States census Bureau, the Latinos are not
 
 ```{r}
 #| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 ggplot(clean_merged, aes(x=white_not_hispanic_2019, y=Death_rate))+
   geom_point(alpha=0.5)+
   geom_smooth(method="lm", col="blue")
@@ -228,8 +279,9 @@ ggplot(clean_merged, aes(x=white_not_hispanic_2019, y=Death_rate))+
 
 ```{r}
 #| echo: false
-#| message: false
 #| warning: false
+#| message: false
+#| results: "hide"
 model <- lm(Death_rate ~ white_not_hispanic_2019, data = clean_merged)
 summary(model)
 ```
@@ -240,6 +292,9 @@ The percentage of non-hispanic Whites within a county does not have any signific
 
 ```{r}
 #| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 ggplot(clean_merged, aes(x=black_2019, y=Death_rate))+
   geom_point(alpha=0.5)+
   geom_smooth(method="lm", col="blue")
@@ -247,8 +302,9 @@ ggplot(clean_merged, aes(x=black_2019, y=Death_rate))+
 
 ```{r}
 #| echo: false
-#| message: false
 #| warning: false
+#| message: false
+#| results: "hide"
 model <- lm(Death_rate ~ black_2019, data = clean_merged)
 summary(model)
 ```
@@ -256,13 +312,22 @@ summary(model)
 The percentage of African-Americans within a county have a weak, yet significant effect on the risks regarding Covid. A one percent increase in the Black share of the population is expected to increase the mortality rate by 0.004%. In order to obtain a clearer view of the correlation, we can drop the counties less than 10% African-American in their population.
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 clean_merged |>
   filter(black_2019>10) |>
   ggplot(aes(x=black_2019, y=Death_rate))+
            geom_point()+
            geom_smooth(method = "lm", col="blue")
 ```
+
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 model <- lm(Death_rate ~ black_2019, data = clean_merged |> filter(black_2019 > 10))
 summary(model)
 ```
@@ -271,6 +336,9 @@ We can explore further this weak correlation by creating a new variable, `afam_c
 
 ```{r}
 #| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 clean_merged <- clean_merged |>
   mutate(afam_class = cut(black_2019,
                           breaks = seq(0, 100, 10), 
@@ -279,11 +347,18 @@ clean_merged <- clean_merged |>
 
 ```{r}
 #| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 ggplot(clean_merged, aes(x=afam_class, y=Death_rate, color=afam_class))+
   geom_boxplot()
 ```
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 clean_merged |>
   group_by(afam_class) |>
   summarise("Median death rate"=median(Death_rate, na.rm=TRUE),
@@ -296,12 +371,19 @@ This new variable furthers the study of the link between a large African-America
 
 ```{r}
 #| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 ggplot(clean_merged, aes(x=hispanic_2019, y=Death_rate))+
   geom_point(alpha=0.5)+
   geom_smooth(method="lm", col="blue")
 ```
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 model <- lm(Death_rate ~ hispanic_2019, data = clean_merged)
 summary(model)
 ```
@@ -321,6 +403,10 @@ The United States are the the third largest country in the world and include a w
 Our dataset only provides partial data regarding the urbanization of counties. Indeed, only Medically Underserved Areas, a classification we will explain more deeply later in our study, have a specified degree of urbanization. Three of them are specified: "Rural", "Partially Rural" and "Non-Rural".
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 clean_merged |>
   group_by(`Rural Status Description`) |>
   summarize("Number of counties"=n())
@@ -329,6 +415,10 @@ clean_merged |>
 Among the 1,729 counties with data provided, a large majority are considered as rural ones by the Department of Health and Human Services. Since only Medically Underserved counties are taken into account here, this fact in itself indicates an overexposure of rural counties to public health issues.
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 clean_merged |>
   filter(!is.na(`Rural Status Description`)) |>
   ggplot(aes(x = Death_rate, fill = `Rural Status Description`)) +
@@ -337,6 +427,10 @@ clean_merged |>
 Comparing the density functions of the three different status, however, seems to indicate an absence of clear difference between them. To confirm it, we can compare them with basic statistics:
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 clean_merged |>
   filter(!is.na(`Rural Status Description`)) |>
   filter(!is.na(Death_rate)) |>
@@ -354,12 +448,20 @@ Overall, the difference is not large enough to suppose a clear distinction. Howe
 Covid being an infectious disease transmitted through air, the accommodation can play a major role in its transmission. Overcrowded place, indeed, are places with a high risk of infection. To verify this assumption, we use two variables included in our dataset hinting towards overcrowded accommodations. The first one ,`persons_per_household_2019`, specifies the average number of people living under the same roof. The second, `housing_mobile_homes_2019`, indicates the share of mobile homes in the total number of accommodations. 
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 ggplot(clean_merged, aes(x=persons_per_household_2019, y=Infection_rate))+
   geom_rug()+
   geom_smooth(method = "lm", col="purple")
 ```
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 ggplot(clean_merged, aes(x=housing_mobile_homes_2019, y=Infection_rate))+
   geom_rug(alpha=0.5)+
   geom_smooth(method = "lm", col="purple")
@@ -367,15 +469,22 @@ ggplot(clean_merged, aes(x=housing_mobile_homes_2019, y=Infection_rate))+
 We can observe a positive correlation between each of these variables and the infection rate, in accordance with our hypothesis. However, we do not have any reason to assume that the mortality rate is positively impacted by the number of people in each household. We can test the correlation in order to obtain a clearer idea.
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 ggplot(clean_merged, aes(x=persons_per_household_2019, y=Death_rate))+
   geom_point(alpha=0.5)+
   geom_smooth(method = "lm", col="pink")
 ```
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 model <- lm(Death_rate ~ persons_per_household_2019, data = clean_merged)
 summary(model)
 ```
-
 
 As expected, the number of persons per household is not positively correlated with the mortality rate. Inversely, rather than a positive correlation, a negative one is observed: ceteris paribus, a county with an average of 3 persons per household is expected to have a mortality rate 0.27% lower than one with an average of 2. This negative correlation can be explained by a higher incidence in counties with more populated accommodations, most notably with children, lowering the share of severe cases.
 
@@ -393,6 +502,10 @@ Income and poverty are critical determinants of health outcomes, influencing acc
 To investigate the relationship between economic variables and COVID-19, we will analyze the variable “median_household_income_2019.”Median household income provides insight into the financial well-being of different populations, to differentiate groups, we will compare the death and infection rates between the 1st and 10th income quantiles.
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 quantiles <- clean_merged  |>
    summarise(quantile_0.1 = quantile( median_household_income_2019, probs = seq(0, 1, 0.1), na.rm = TRUE))
 print(quantiles)
@@ -401,6 +514,10 @@ print(quantiles)
 The first quantile consists of counties with a median household income below \$38,080, representing the lowest 10% of the dataset. In contrast, the tenth (or last) quantile includes counties with a median household income exceeding \$70,321, representing the highest 10% of the data.
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 result <- clean_merged |>
   summarise(
     count_sup = sum(median_household_income_2019 > 70321, na.rm = TRUE),
@@ -414,6 +531,10 @@ print(result)
 filtrage
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 filtered_data <- clean_merged |>
   filter(
     (median_household_income_2019 < 38800 | median_household_income_2019 > 70321) & 
@@ -429,6 +550,10 @@ filtered_data <- clean_merged |>
 ```
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 # Summarizing the data by income category for both infection and death rates
 summary_stats <- filtered_data |>
   group_by(income_category) |>
@@ -453,6 +578,10 @@ print(summary_stats)
 ```
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 ggplot(filtered_data, aes(x = income_category, y = Infection_rate, fill = income_category)) +
   geom_boxplot() +
   labs(
@@ -465,6 +594,10 @@ ggplot(filtered_data, aes(x = income_category, y = Infection_rate, fill = income
 ```
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 ggplot(filtered_data, aes(x = median_household_income_2019, y = Infection_rate, color = income_category)) +
   geom_point(size = 3, alpha = 0.4) +  # Nuage de points
   labs(
@@ -484,6 +617,10 @@ ggplot(filtered_data, aes(x = median_household_income_2019, y = Infection_rate, 
 ```
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 ggplot(filtered_data, aes(x = median_household_income_2019, y = Death_rate, color = income_category)) +
   geom_point(size = 3, alpha = 0.4) +  # Nuage de points
   labs(
@@ -503,6 +640,10 @@ ggplot(filtered_data, aes(x = median_household_income_2019, y = Death_rate, colo
 ```
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 ggplot(filtered_data, aes(x = income_category, y = Death_rate, fill = income_category)) + 
   geom_boxplot() + 
   labs(

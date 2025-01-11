@@ -8,7 +8,7 @@ editor: visual
 here::i_am("DM-Project-Marechal-Volaris.Rproj")
 library(here)
 library(vroom)
-data <- vroom("clean_merged.csv")
+clean_merged <- vroom("clean_merged.csv")
 library(dplyr)
 library(tidyr)
 library(ggplot2)
@@ -46,10 +46,7 @@ clean_merged |>
   arrange(-population)
 ```
 
-As we can see, in 2019, a county population ranges from 66 (Kalawao County, Hawaii) to more than 10 millions habitants (Los Angeles County, California). Aware of this disparity, we establish two per capita variables: the infection rate and the mortality rate. They are defined as: 
-Infection rate=Total of confirmed cases/Total county population
-Mortality rate=Total death from Covid 19/Total of confirmed cases 
-For a better understanding, we express these rates as percentages by multiplying them by 100.
+As we can see, in 2019, a county population ranges from 66 (Kalawao County, Hawaii) to more than 10 millions habitants (Los Angeles County, California). Aware of this disparity, we establish two per capita variables: the infection rate and the mortality rate. They are defined as: Infection rate=Total of confirmed cases/Total county population Mortality rate=Total death from Covid 19/Total of confirmed cases For a better understanding, we express these rates as percentages by multiplying them by 100.
 
 ```{r}
 #| echo: false
@@ -187,6 +184,7 @@ ggplot(clean_merged, aes(x=white_not_hispanic_2019, y=Death_rate))+
 model <- lm(Death_rate ~ white_not_hispanic_2019, data = clean_merged)
 summary(model)
 ```
+
 The percentage of non-hispanic Whites within a county does not have any significant effect on the mortality rate.
 
 #### African-Americans
@@ -197,6 +195,7 @@ ggplot(clean_merged, aes(x=black_2019, y=Death_rate))+
   geom_point(alpha=0.5)+
   geom_smooth(method="lm", col="blue")
 ```
+
 ```{r}
 #| echo: false
 #| message: false
@@ -204,6 +203,7 @@ ggplot(clean_merged, aes(x=black_2019, y=Death_rate))+
 model <- lm(Death_rate ~ black_2019, data = clean_merged)
 summary(model)
 ```
+
 The percentage of African-Americans within a county have a weak, yet significant effect on the risks regarding Covid. A one percent increase in the Black share of the population is expected to increase the mortality rate by 0.004%. We can explore further this weak correlation by creating a new variable, `afam_class`. `afam_class` divides the counties in ten classes based on the share of African-American in their population.
 
 ```{r}
@@ -219,12 +219,14 @@ clean_merged <- clean_merged |>
 ggplot(clean_merged, aes(x=afam_class, y=Death_rate))+
   geom_boxplot()
 ```
+
 ```{r}
 clean_merged |>
   group_by(afam_class) |>
   summarise("Median death rate"=median(Death_rate, na.rm=TRUE),
             "Number of counties"= n())
 ```
+
 This new variable furthers the study of the link between a large African-American population and an important mortality from Covid. As we can see, counties with a black population representing between 70 and 80% of its total population has a median of 1.9% of death among confirmed cases. This median is only 1.32% for counties where the black share of the population does not exceed 10%. Although the small number of counties with a large black population should warn us about the precision of these results, they still show a clear pattern of vulnerability from Covid for Black Americans.
 
 #### Hispanics
@@ -235,10 +237,12 @@ ggplot(clean_merged, aes(x=hispanic_2019, y=Death_rate))+
   geom_point(alpha=0.5)+
   geom_smooth(method="lm", col="blue")
 ```
+
 ```{r}
 model <- lm(Death_rate ~ hispanic_2019, data = clean_merged)
 summary(model)
 ```
+
 The percentage of Latinos in a county does not have any significant effect on our studied variable.
 
 ```{r}
@@ -305,8 +309,8 @@ filtered_data <- clean_merged |>
 
 ```{r}
 # Summarizing the data by income category for both infection and death rates
-summary_stats <- filtered_data %>%
-  group_by(income_category) %>%
+summary_stats <- filtered_data |>
+  group_by(income_category) |>
   summarise(
     # Infection Rate Statistics
     mean_infection_rate = mean(Infection_rate, na.rm = TRUE),

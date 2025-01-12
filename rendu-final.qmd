@@ -4,7 +4,6 @@ format: pdf
 editor: visual
 ---
 
-
 ```{r}
 #| echo: false
 #| warning: false
@@ -23,7 +22,15 @@ knitr::opts_chunk$set(fig.align = "center")
 
 # 1. Presentation of the Research Question
 
-Cleaning and merging the datasets allows us to obtain a clearer view of the question we are aiming to answer to: to what extent socio-economical factors have influenced the impact of the Covid-19 pandemic throughout the United States? Although Covid has been a global issue, it is fair to state that the United States were among the most impacted countries: according to the Centers for Disease Control and Prevention, almost 1.2 millions Americans have died of Covid-related complications, the most of any country worldwide. Once we take into account the overall populations, indicators are still concerning and should prompt us to try to understand better what can explain them. For example, the mortality rate (the ratio between total death and total cases reported) is equal to 1.17%, whereas it is only 0.43% in France. Such difference is explained thanks to various socio-economical factors, as well as political decisions. For example, the American healthcare system, relying on private companies rather than a mandatory public option, has been criticized for its negative impact on overall public health. Studying how uninsured Americans have been affected by the pandemic would therefore helps us understand if the weaknesses of the healthcare system played a role in an increased mortality rate. In addition to this first approach, our datasets allow us to study in a deeper way how economical and social differences may have played a role in how the mortality rate has evolved in various regions. The `counties` dataset, for example, provides us with a full racial make-up of each county-equivalent in the country, as well as basic economic indicators, such as the median income or the unemployment rate. To answer to our research question, we have chosen to base our study on the county-level, in order to get a more precise view of the country, which would not have been possible on the state-level.
+Cleaning and merging the datasets allows us to obtain a clearer view of the question we are aiming to answer to: to what extent socio-economical factors have influenced the impact of the Covid-19 pandemic throughout the United States?
+
+Although Covid has been a global issue, it is fair to state that the United States were among the most impacted countries: according to the Centers for Disease Control and Prevention, almost 1.2 millions Americans have died of Covid-related complications, the most of any country worldwide. Once we take into account the overall populations, indicators are still concerning and should prompt us to try to understand better what can explain them. For example, the mortality rate (the ratio between total death and total cases reported) is equal to 1.17%, whereas it is only 0.43% in France.
+
+Such difference is explained thanks to various socio-economical factors, as well as political decisions. For example, the American healthcare system, relying on private companies rather than a mandatory public option, has been criticized for its negative impact on overall public health. Studying how uninsured Americans have been affected by the pandemic would therefore helps us understand if the weaknesses of the healthcare system played a role in an increased mortality rate.
+
+In addition to this first approach, our datasets allow us to study in a deeper way how economical and social differences may have played a role in how the mortality rate has evolved in various regions. The `counties` dataset, for example, provides us with a full racial make-up of each county-equivalent in the country, as well as basic economic indicators, such as the median income or the unemployment rate.
+
+To answer to our research question, we have chosen to base our study on the county-level, in order to get a more precise view of the country, which would not have been possible on the state-level.
 
 # 2. Understanding Data
 
@@ -59,7 +66,15 @@ clean_merged |>
   arrange(-population)
 ```
 
-As we can see, in 2019, a county population ranges from 66 (Kalawao County, Hawaii) to more than 10 millions habitants (Los Angeles County, California). Aware of this disparity, we establish two per capita variables: the infection rate and the mortality rate. They are defined as: Infection rate=Total of confirmed cases/Total county population Mortality rate=Total death from Covid 19/Total of confirmed cases For a better understanding, we express these rates as percentages by multiplying them by 100.
+As we can see, in 2019, a county population ranges from 66 (Kalawao County, Hawaii) to more than 10 millions habitants (Los Angeles County, California). Aware of this disparity, we establish two per capita variables: the infection rate and the mortality rate.
+
+They are defined as:
+
+Infection rate=Total of confirmed cases/Total county population
+
+Mortality rate=Total death from Covid 19/Total of confirmed cases
+
+For a better understanding, we express these rates as percentages by multiplying them by 100.
 
 ```{r}
 #| echo: false
@@ -141,7 +156,7 @@ clean_merged |>
   quantile(probs=seq(0, 1, by=0.1), na.rm=TRUE)
 ```
 
-Covid has a heterogeneous impact on the United States, with 80% of counties having an infection rate ranging from 22.45% to 38.46%.
+Covid has a heterogeneous impact on the United States. 80% of counties have an infection rate ranging from 22.45% to 38.46%.
 
 ```{r}
 #| echo: false
@@ -221,7 +236,9 @@ model <- lm(Death_rate ~ age_over_65_2019, data = clean_merged)
 summary(model)
 ```
 
-According to these statistics, the correlation between the percentage of people older than 65 years old and the mortality rate within a country is robust. A one-percent increase of the share of elders leads to a 0.05% increase of the mortality rate. Since the latter ranges mostly from 0 to 3, such correlation is far from being uninteresting. However, our model only explains about 13% of the mortality rate. This weak R-squared should warn us about other factors influencing the mortality rate on the county-level. First, we can try to explore a correlation with a more precise age range. Our dataset provides us with the percentage of people older than 85 years old in each county. We can run this linear model.
+According to these statistics, the correlation between the percentage of people older than 65 years old and the mortality rate within a country is robust. A one-percent increase of the share of elders leads to a 0.05% increase of the mortality rate. Since the latter ranges mostly from 0 to 3, such correlation is far from being uninteresting. However, our model only explains about 13% of the mortality rate.
+
+This weak R-squared should warn us about other factors influencing the mortality rate on the county-level. First, we can try to explore a correlation with a more precise age range. Our dataset provides us with the percentage of people older than 85 years old in each county. We can run this linear model.
 
 ```{r}
 #| echo: false
@@ -242,7 +259,9 @@ model <- lm(Death_rate ~ age_over_85_2019, data = clean_merged)
 summary(model)
 ```
 
-We can see that the R-squared is even smaller for such regression, at around 5%: to generalize, the percentage of habitants older than 85 years old within a county fails to explain 95% of mortality from Covid. As a final attempt to modelize the relationship between age and Covid mortality, we use the median age of each county. Such analysis is advantageous to the extent that it offers a more precise overview of the demographic makeup of each county.
+We can see that the R-squared is even smaller for such regression, at around 5%: to generalize, the percentage of habitants older than 85 years old within a county fails to explain 95% of mortality from Covid.
+
+As a final attempt to modelize the relationship between age and Covid mortality, we use the median age of each county. Such analysis is advantageous to the extent that it offers a more precise overview of the demographic makeup of each county.
 
 ```{r}
 #| echo: false
@@ -263,11 +282,15 @@ model <- lm(Death_rate ~ median_age_2019, data = clean_merged)
 summary(model)
 ```
 
-This new regression, once again, fails to explain much of the mortality rate. Furthermore, we have to reject its intercept on the 95% confidence level. Therefore, these three regressions seem to indicate age, while significant, cannot be the only factor explaining why Covid has had different levels of mortality throughout the country. This conclusion prompts us to study other factors not related to age.
+This new regression, once again, fails to explain much of the mortality rate. Furthermore, we have to reject its intercept on the 95% confidence level. Therefore, these three regressions seem to indicate age, while significant, cannot be the only factor explaining why Covid has had different levels of mortality throughout the country.
+
+This conclusion prompts us to study other factors not related to age.
 
 ### Race
 
-It has been established by scholars that ancestry does not play a significant role regarding risks of Covid for a patient. However, race continues to play a major role in American society, characterized by a long-lasting system of racial segregation. Although legally disbanded since the 1960s, the negative effects of it are still visible today. Therefore, it is safe to suppose a greater vulnerability for some ethnic background, such as African-Americans or Latinos. By exploring the racial makeup of the counties, we can test this hypothesis.
+It has been established by scholars that ancestry does not play a significant role regarding risks of Covid for a patient. However, race continues to play a major role in American society, characterized by a long-lasting system of racial segregation. Although legally disbanded since the 1960s, the negative effects of it are still visible today.
+
+Therefore, it is safe to suppose a greater vulnerability for some ethnic background, such as African-Americans or Latinos. By exploring the racial makeup of the counties, we can test this hypothesis.
 
 #### Non-Hispanic Whites
 
@@ -337,8 +360,8 @@ clean_merged |>
 model <- lm(Death_rate ~ black_2019, data = clean_merged |> filter(black_2019 > 10))
 summary(model)
 ```
-This adjusted model confirms a positive correlation between the two variables: the more African-Americans live in a county, the more sensible to Covid this county is.
-We can explore further this weak correlation by creating a new variable, `afam_class`. `afam_class` divides the counties in ten classes based on the share of African-American in their population.
+
+This adjusted model confirms a positive correlation between the two variables: the more African-Americans live in a county, the more sensible to Covid this county is. We can explore further this weak correlation by creating a new variable, `afam_class`. `afam_class` divides the counties in ten classes based on the share of African-American in their population.
 
 ```{r}
 #| echo: false
@@ -371,7 +394,9 @@ clean_merged |>
             "Number of counties"= n())
 ```
 
-This new variable furthers the study of the link between a large African-American population and an important mortality from Covid. As we can see, counties with a black population representing between 70 and 80% of its total population has a median of 1.9% of death among confirmed cases. This median is only 1.32% for counties where the black share of the population does not exceed 10%. Although the small number of counties with a large black population should warn us about the precision of these results, they still show a clear pattern of vulnerability from Covid for Black Americans.
+This new variable furthers the study of the link between a large African-American population and an important mortality from Covid. As we can see, counties with a black population representing between 70 and 80% of its total population has a median of 1.9% of death among confirmed cases. This median is only 1.32% for counties where the black share of the population does not exceed 10%.
+
+Although the small number of counties with a large black population should warn us about the precision of these results, they still show a clear pattern of vulnerability from Covid for Black Americans.
 
 #### Hispanics
 
@@ -398,7 +423,9 @@ The percentage of Latinos in a county does not have any significant effect on ou
 
 #### Conclusion
 
-Following this part of our study, we can conclude by putting the role of race as an explaining variable of the mortality into perspective. Intra-group differences seem to reduce the relevance of such correlation. Only the share of African-Americans play a significant role. This can be explained by the specific challenges faced by the Black community. Aware of the limited impact of race, we can now look for other explaining variables. A study of income and other economic factors would be a better fit to strengthen our model.
+Following this part of our study, we can conclude by putting the role of race as an explaining variable of the mortality into perspective. Intra-group differences seem to reduce the relevance of such correlation. Only the share of African-Americans play a significant role. This can be explained by the specific challenges faced by the Black community in America and the location of most Black-majority counties in the rural and impoverished South.
+
+Aware of the limited impact of race, we can now look for other explaining variables. A study of income and other economic factors would be a better fit to strengthen our model.
 
 ### Housing and location
 
@@ -418,6 +445,17 @@ clean_merged |>
   summarize("Number of counties"=n())
 ```
 
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
+clean_merged |>
+  filter(!is.na(`Rural Status Description`))|>
+ggplot(aes(x=`Rural Status Description`, fill=`Rural Status Description`))+
+  geom_bar()
+```
+
 Among the 1,729 counties with data provided, a large majority are considered as rural ones by the Department of Health and Human Services. Since only Medically Underserved counties are taken into account here, this fact in itself indicates an overexposure of rural counties to public health issues.
 
 ```{r}
@@ -430,6 +468,7 @@ clean_merged |>
   ggplot(aes(x = Death_rate, fill = `Rural Status Description`)) +
   geom_density(alpha = 0.5)
 ```
+
 Comparing the density functions of the three different status, however, seems to indicate an absence of clear difference between them. To confirm it, we can compare them with basic statistics:
 
 ```{r}
@@ -446,12 +485,13 @@ clean_merged |>
             "Median mortality"=median(Death_rate))
 ```
 
-The table shown above proves the absence of clear difference between the three types of counties. Nevertheless, we can still notice a slightly higher median mortality rate in rural communities, but a smaller median infection rate. The latter can be explained by the lower rate of detection of the disease in areas less equipped with medical structures. Therefore, the absence of detection of mild symptoms of Covid might have led to a higher mortality rate among detected cases.
-Overall, the difference is not large enough to suppose a clear distinction. However, this analysis is only about underserved areas, already more exposed than the rest of the country. Since most rural counties are often among the more exposed, we cannot rule out the impact of living far from a urban center on a high mortality rate from Covid, but the limits of our dataset prevent us to prove it.
+The table shown above proves the absence of clear difference between the three types of counties. Nevertheless, we can still notice a slightly higher median mortality rate in rural communities, but a smaller median infection rate. The latter can be explained by the lower rate of detection of the disease in areas less equipped with medical structures. Therefore, the absence of detection of mild symptoms of Covid might have led to a higher mortality rate among detected cases. Overall, the difference is not large enough to suppose a clear distinction.
+
+However, this analysis is only about underserved areas, already more exposed than the rest of the country. Since most rural counties are often among the more exposed, we cannot rule out the impact of living far from a urban center on a high mortality rate from Covid, but the limits of our dataset prevent us to prove it.
 
 #### Housing
 
-Covid being an infectious disease transmitted through air, the accommodation can play a major role in its transmission. Overcrowded place, indeed, are places with a high risk of infection. To verify this assumption, we use two variables included in our dataset hinting towards overcrowded accommodations. The first one ,`persons_per_household_2019`, specifies the average number of people living under the same roof. The second, `housing_mobile_homes_2019`, indicates the share of mobile homes in the total number of accommodations. 
+Covid being an infectious disease transmitted through air, the accommodation can play a major role in its transmission. Overcrowded locations, indeed, are places with a high risk of infection. To verify this assumption, we use two variables included in our dataset hinting towards overcrowded accommodations. The first one ,`persons_per_household_2019`, specifies the average number of people living under the same roof. The second, `housing_mobile_homes_2019`, indicates the share of mobile homes in the total number of accommodations.
 
 ```{r}
 #| echo: false
@@ -472,6 +512,7 @@ ggplot(clean_merged, aes(x=housing_mobile_homes_2019, y=Infection_rate))+
   geom_rug(alpha=0.5)+
   geom_smooth(method = "lm", col="purple")
 ```
+
 We can observe a positive correlation between each of these variables and the infection rate, in accordance with our hypothesis. However, we do not have any reason to assume that the mortality rate is positively impacted by the number of people in each household. We can test the correlation in order to obtain a clearer idea.
 
 ```{r}
@@ -483,6 +524,7 @@ ggplot(clean_merged, aes(x=persons_per_household_2019, y=Death_rate))+
   geom_point(alpha=0.5)+
   geom_smooth(method = "lm", col="pink")
 ```
+
 ```{r}
 #| echo: false
 #| warning: false
@@ -494,16 +536,17 @@ summary(model)
 
 As expected, the number of persons per household is not positively correlated with the mortality rate. Inversely, rather than a positive correlation, a negative one is observed: ceteris paribus, a county with an average of 3 persons per household is expected to have a mortality rate 0.27% lower than one with an average of 2. This negative correlation can be explained by a higher incidence in counties with more populated accommodations, most notably with children, lowering the share of severe cases.
 
-
 ## II. Analysis of Socio-Economic Data
 
 ### A - Income
 
 To explore the relationship between economic factors and the impact of COVID-19, this analysis focuses on the variable median_household_income_2019. Median household income serves as a key indicator of the financial well-being of populations. To examine disparities, we will compare COVID-19 death and infection rates between counties in the first and tenth income quantiles, representing the lowest and highest income brackets, respectively.
 
-
 ```{r}
 #| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 quantiles <- clean_merged |>
   summarise(quantile_0.1 = quantile(median_household_income_2019, probs = seq(0, 1, 0.1), na.rm = TRUE))
 
@@ -519,10 +562,13 @@ print(quantile_intervals)
 warning = FALSE
 ```
 
-The first decile comprises counties with a median household income below $38,080, representing the lowest 10% of the dataset. Conversely, the tenth decile includes counties with a median household income exceeding $70,321, corresponding to the highest 10% of the data. The following charts illustrate disparities between counties in the first and tenth income deciles with respect to COVID-19 infection and death rates. Notably, the death rate reflects the proportion of COVID-19 cases that resulted in fatalities.
+The first decile comprises counties with a median household income below \$38,080, representing the lowest 10% of the dataset. Conversely, the tenth decile includes counties with a median household income exceeding \$70,321, corresponding to the highest 10% of the data. The following charts illustrate disparities between counties in the first and tenth income deciles with respect to COVID-19 infection and death rates. Notably, the death rate reflects the proportion of COVID-19 cases that resulted in fatalities.
 
 ```{r}
 #| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 result <- clean_merged |>
   summarise(
     count_sup = sum(median_household_income_2019 > 70321, na.rm = TRUE),
@@ -533,9 +579,11 @@ result <- clean_merged |>
 print(result)
 ```
 
-
 ```{r}
 #| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 filtered_data <- clean_merged |>
   filter(
     (median_household_income_2019 < 38800 | median_household_income_2019 > 70321) & 
@@ -552,6 +600,9 @@ filtered_data <- clean_merged |>
 
 ```{r}
 #| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 # Summarizing the data by income category for both infection and death rates
 summary_stats <- filtered_data |>
   group_by(income_category) |>
@@ -574,6 +625,9 @@ summary_stats <- filtered_data |>
 
 ```{r}
 #| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 ggplot(filtered_data, aes(x = income_category, y = Infection_rate, fill = income_category)) +
   geom_boxplot() +
   labs(
@@ -590,6 +644,9 @@ ggplot(filtered_data, aes(x = income_category, y = Infection_rate, fill = income
 
 ```{r}
 #| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 ggplot(filtered_data, aes(x = median_household_income_2019, y = Infection_rate, color = income_category)) +
   geom_point(size = 3, alpha = 0.4) +  # Nuage de points
   labs(
@@ -605,10 +662,14 @@ ggplot(filtered_data, aes(x = median_household_income_2019, y = Infection_rate, 
     plot.title = element_text(size = 18, face = "bold", hjust = 0.5)  # Titre centré et en gras
   )
 ```
+
 Both Graphs illustrate Infection rates between the first and last decile. It shows no striking differences ( mean 32% vs 28,7% )
 
 ```{r}
 #| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 ggplot(filtered_data, aes(x = median_household_income_2019, y = Death_rate, color = income_category)) +
   geom_point(size = 3, alpha = 0.4) +  # Nuage de points
   labs(
@@ -627,6 +688,9 @@ ggplot(filtered_data, aes(x = median_household_income_2019, y = Death_rate, colo
 
 ```{r}
 #| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 ggplot(filtered_data, aes(x = income_category, y = Death_rate, fill = income_category)) + 
   geom_boxplot() + 
   labs(
@@ -641,20 +705,21 @@ ggplot(filtered_data, aes(x = income_category, y = Death_rate, fill = income_cat
   scale_fill_manual(values = c("Revenu < 38800" = "blue", "Revenu > 70321" = "red"))
 ```
 
-The data reveal disparities in infection and mortality rates across income categories. Households with low incomes (less than $38,880) experience a mean infection rate of 32.08%, which is higher than the 28.68% observed among high-income households (earning more than $70,321). The associated confidence intervals (31.35% to 32.82% for low-income households and 27.89% to 29.47% for high-income households) confirm the statistical reliability of these estimates, although the difference in infection rates is relatively moderate.
+The data reveal disparities in infection and mortality rates across income categories. Households with low incomes (less than \$38,880) experience a mean infection rate of 32.08%, which is higher than the 28.68% observed among high-income households (earning more than \$70,321). The associated confidence intervals (31.35% to 32.82% for low-income households and 27.89% to 29.47% for high-income households) confirm the statistical reliability of these estimates, although the difference in infection rates is relatively moderate.
 
 In contrast, the disparity in mortality rates is more pronounced. Low-income households report a mean mortality rate of 1.83%, nearly twice that of high-income households, which stands at 0.88%. This significant gap is reinforced by non-overlapping confidence intervals (1.75% to 1.90% for low-income households and 0.84% to 0.92% for high-income households), highlighting the critical impact of economic inequality on severe health outcomes.
 
 These findings underscore the pivotal role of social determinants in shaping pandemic outcomes. While poverty itself may not exert a direct influence, its downstream effects—such as limited health insurance coverage, economic instability, and restricted access to essential resources—play a decisive role in exacerbating health disparities during crises. To deepen this analysis, we will investigate health insurance coverage, with a particular focus on uninsured populations, including vulnerable groups such as the elderly, to assess the impact of gaps in the U.S. healthcare system on the management of critical cases.
 
-
-
 ### B - Poverty
 
-We now turn our focus to examining poverty within  among individuals aged 65 and olde. The study of poverty in this age group is particularly relevant as it provides critical insights into economic vulnerability and its potential impact on health outcomes. Poverty among seniors can influence access to resources, quality of living conditions, and overall well-being, all of which play a significant role in shaping resilience to health crises such as the COVID-19 pandemic. Understanding these dynamics is essential for addressing disparities and improving outcomes in this vulnerable population.
+We now turn our focus to examining poverty within among individuals aged 65 and older. The study of poverty in this age group is particularly relevant as it provides critical insights into economic vulnerability and its potential impact on health outcomes. Poverty among seniors can influence access to resources, quality of living conditions, and overall well-being, all of which play a significant role in shaping resilience to health crises such as the COVID-19 pandemic. Understanding these dynamics is essential for addressing disparities and improving outcomes in this vulnerable population.
 
 ```{r}
 #| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 clean_poverty_65_and_over_2019 <- clean_merged |>
   filter(!is.na(poverty_65_and_over_2019) & (Death_rate < 2.5 ))  # Remove rows with NA values in the column
 
@@ -663,6 +728,9 @@ print(clean_poverty_65_and_over_2019)
 
 ```{r}
 #| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 # Add a "decile" variable to the clean_merged dataset
 clean_poverty_65_and_over_2019 <- clean_poverty_65_and_over_2019|>
   mutate(
@@ -687,8 +755,12 @@ summary_by_decile <- clean_poverty_65_and_over_2019 |>
 print(summary_by_decile)
 ""
 ```
+
 ```{r}
 #| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 ggplot(summary_by_decile, aes(x = median_poverty_rate, y = median_death_rate)) +
   geom_point(color = "blue", size = 3) +  # Add points to the scatter plot
   geom_smooth(method = "lm", color = "red", se = TRUE) +  # Add regression line with confidence interval
@@ -705,17 +777,19 @@ ggplot(summary_by_decile, aes(x = median_poverty_rate, y = median_death_rate)) +
     plot.title = element_text(size = 16, face = "bold", hjust = 0.5)
   )
 ```
-This graph represents the median death rate in function of the median poverty rate, each blue point represents a decile. The red lign illustrate the linear regression line, while the grey shadow is the confidence interval. It depicts a correlation, the higher the poverty rate, the higher the death rate.
 
+This graph represents the median death rate in function of the median poverty rate, each blue point represents a decile. The red lign illustrate the linear regression line, while the grey shadow is the confidence interval. It depicts a correlation, the higher the poverty rate, the higher the death rate.
 
 ```{r}
 #| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 model <- lm(median_death_rate ~ median_poverty_rate , data = summary_by_decile)
 summary(model)
 ```
 
 The analysis reveals a stark correlation between poverty and COVID-19 mortality. A 1% increase in the median poverty rate corresponds to a 0.05% rise in the death rate. With an R² of 89.65%, it is not surprising that the 65+ age category is the most affected by COVID-19 mortality, as this demographic is particularly vulnerable. Furthermore, poverty plays a significant role in explaining key determinants of mortality, including access to healthcare, living conditions, and overall health status. These factors are critical in shaping outcomes during a health crisis, highlighting the compounded vulnerabilities faced by older individuals living in impoverished conditions.
-
 
 ### C - Insurance
 
@@ -723,6 +797,9 @@ One of the direct consequences of income inequality is the disparity in access t
 
 ```{r}
 #| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 uninsurance <- clean_merged |>
   summarise(mean_uninsured_over_65 = mean(uninsured_65_and_older_2019, na.rm = TRUE))  # Calculate mean while ignoring NAs
 
@@ -731,12 +808,14 @@ print(uninsurance)
 
 ```{r}
 #| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 model <- lm(Death_rate ~ uninsured_65_and_older_2019 , data =clean_merged)
 summary(model)
 ```
-The insurance coverage rate among individuals aged 65 and older exceeds 99.5%, largely due to Medicare eligibility, which supplements or replaces private insurance. Regression analysis shows no significant relationship between the proportion of uninsured seniors and COVID-19 mortality rates (p-value: 0.5687; R-squared: ~0), suggesting that uninsurance does not directly impact mortality outcomes. While exploring differences by insurance type would be valuable, the dataset lacks the granularity needed for such an analysis.
 
-
+The insurance coverage rate among individuals aged 65 and older exceeds 99.5%, largely due to Medicare eligibility, which supplements or replaces private insurance. Regression analysis shows no significant relationship between the proportion of uninsured seniors and COVID-19 mortality rates (p-value: 0.5687; R-squared: \~0), suggesting that uninsurance does not directly impact mortality outcomes. While exploring differences by insurance type would be valuable, the dataset lacks the granularity needed for such an analysis.
 
 ### D - Information capacity
 
@@ -744,17 +823,27 @@ Aggregate_connectivity quantifies household digital access by averaging three ke
 
 ```{r}
 #| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 quantiles2_prefilter  <- clean_merged  |>
    filter(Aggregate_connectivity > 0)
 ```
+
 ```{r}
 #| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 quantiles2 <- quantiles2_prefilter  |>
    summarise(quantile_0.1 = quantile(Aggregate_connectivity, probs = seq(0, 1, 0.1), na.rm = TRUE))
 ```
 
 ```{r}
 #| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 quantiles2_filtered <- clean_merged |>
   filter(
     (Aggregate_connectivity <= 62.09333 & Aggregate_connectivity > 33.83333) |
@@ -771,6 +860,9 @@ quantiles2_filtered <- clean_merged |>
 
 ```{r}
 #| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 ggplot(quantiles2_filtered, aes(x = Connectivity_index, y = Death_rate, fill = Connectivity_index)) +
   geom_violin(trim = FALSE, alpha = 0.7) +  # Violin plot
   geom_boxplot(width = 0.1, alpha = 0.8, outlier.shape = NA) +  # Overlay boxplot for detail
@@ -791,10 +883,14 @@ ggplot(quantiles2_filtered, aes(x = Connectivity_index, y = Death_rate, fill = C
     plot.title = element_text(size = 13, face = "bold", hjust = 0.5)
   )
 ```
+
 This chart shows Death rates differences in function of connetivity. It shows highly connected counties are less impacted than the least ones.
 
 ```{r}
 #| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 ggplot(quantiles2_prefilter, aes(x = Aggregate_connectivity, y = Death_rate)) +
   geom_point(alpha = 0.4, size = 1.5, color = "darkblue") +
   geom_smooth(method = "lm", color = "red", se = TRUE, linetype = "dashed") +  # Ajoute une droite de régression
@@ -813,8 +909,12 @@ ggplot(quantiles2_prefilter, aes(x = Aggregate_connectivity, y = Death_rate)) +
     panel.grid.minor = element_blank()  # Supprime les grilles mineures
   )
 ```
+
 ```{r}
 #| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 # Summarizing the data by connectivity category for infection and death rates
 summary_stats_connectivity <- quantiles2_filtered |>
   group_by(Connectivity_index) |>
@@ -838,14 +938,16 @@ summary_stats_connectivity <- quantiles2_filtered |>
 
 ```{r}
 #| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 model <- lm(Death_rate ~ Aggregate_connectivity , data = quantiles2_filtered)
 summary(model)
 ```
 
+This analysis highlights the profound correlation between connectivity and mortality during the pandemic. Low-connectivity areas (below 62%) experienced a mean death rate of 31.96%, significantly higher than the 28.51% observed in high-connectivity areas (above 83.2%). Each percentage point increase in connectivity reduces death rates by 0.0328%, explaining 45% of mortality variation.
 
-This analysis highlights the profound impact of connectivity on mortality during the pandemic. Low-connectivity areas (below 62%) experienced a mean death rate of 31.96%, significantly higher than the 28.51% observed in high-connectivity areas (above 83.2%). Each percentage point increase in connectivity reduces death rates by 0.0328%, explaining 45% of mortality variation. It can be explained by various factors : the is certainly a correlation between average age and connectivity as aged people own less digital products than younger ones. digital products are costly, so generally poor people have less electronical devices than rich ones, and poor people have generally higher obesity, chronical diseases which play an important role in COVID-19 mortality
-Moreover, strong connectivity also supports remote working, reducing exposure risks and enhancing resilience. 
-
+It can be explained by various factors : the is certainly a correlation between average age and connectivity as aged people own less digital products than younger ones. digital products are costly, so generally poor people have less electronical devices than rich ones, and poor people have generally higher obesity, chronical diseases which play an important role in COVID-19 mortality Moreover, strong connectivity also supports remote working, reducing exposure risks and enhancing resilience.
 
 ## III. Health System
 
@@ -853,9 +955,11 @@ Moreover, strong connectivity also supports remote working, reducing exposure ri
 
 Analyzing disparities between medically underserved and other counties highlights healthcare inequalities, revealing critical gaps in resources, access, and outcomes.
 
-
 ```{r}
 #| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 # Summarizing the data by income category for both infection and death rates
 clean_underserved <- clean_merged |>
   group_by(medically_underserved_dummy) |>
@@ -879,9 +983,14 @@ clean_underserved <- clean_merged |>
 # Print summary statistics
 print(clean_underserved)
 ```
+
 The data reveal that medically underserved counties have higher mean infection rates (31.69%) and death rates (1.68%) compared to non-underserved counties (30.26% and 1.36%, respectively). These findings highlight an impact of the pandemic on underserved areas, emphasizing the need to address healthcare access disparities.
+
 ```{r}
 #| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 ggplot(clean_merged, aes(x = factor(medically_underserved_dummy), y = Death_rate)) +
   geom_boxplot(fill = "lightblue", alpha = 0.3, outlier.size = 2) +  # Use boxplot for clear distribution
   labs(
@@ -897,18 +1006,25 @@ ggplot(clean_merged, aes(x = factor(medically_underserved_dummy), y = Death_rate
   ) +
   scale_x_discrete(labels = c("Not Underserved", "Underserved"))  # Add meaningful labels for categories 
 ```
+
 The difference in death rates between non-underserved counties (1.35%) and medically underserved counties (1.67%) is 0.32 percentage points, representing a 23.7% higher death rate in underserved areas. This emphasizes the significant impact of healthcare disparities on COVID-19 mortality outcomes.
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 model <- lm(Death_rate ~ medically_underserved_dummy , data = clean_merged)
 summary(model)
 ```
 
 ### B - Number of providers
-"
 
 ```{r}
 #| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
 clean_providers <- clean_merged |>
   filter(Death_rate > 0 & Infection_rate > 0 & !is.na(`Providers per 1000 Population`) & `Providers per 1000 Population` > 0 )  # Ensures no NA values in the column
 
@@ -930,3 +1046,54 @@ ggplot(clean_providers, aes(x = `Providers per 1000 Population`, y = Death_rate)
 The scatterplot demonstrates no clear correlation between the number of providers per 1000 population and the death rate. The data points are widely dispersed, and there is no discernible trend or pattern to indicate a strong or consistent relationship between these two variables.
 
 The tests conducted in this study reveal no evidence of a correlation between medical coverage and COVID-19 mortality. However, the absence of evidence does not necessarily imply that no relationship exists. One critical factor to consider is the shortage of medical personnel, which likely played a significant role during the first wave of the pandemic, when healthcare systems were overwhelmed. It is important to note that the data used in this analysis extends only up to 2022, a period significantly removed from the initial wave. Consequently, it would be valuable to replicate this analysis using data specifically from the first wave to better understand the potential relationship between medical coverage and mortality during the most critical phase of the pandemic.
+
+# Conclusion: building a comprehensive model
+
+Throughout our study, we have explored how various factors might have an influence on the variation of the mortality rate from Covid from one county to another. We can now combine the meaningful correlations observed in order to obtain an overview of how the mortality rate can vary.
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
+model <- lm(Death_rate ~ 
+              age_over_65_2019+
+              age_over_85_2019+
+              median_age_2019+
+              black_2019+
+              persons_per_household_2019+
+              median_household_income_2019+
+              poverty_65_and_over_2019+
+              Aggregate_connectivity+
+              medically_underserved_dummy+
+              Infection_rate,
+            data = clean_merged)
+summary(model)
+```
+
+Our model presented here includes variables who are rejected on the 95% confidence interval, although we have failed to reject them previously. This can be explained by the combination of multiple variables, some of them might be too close to both be relevant. Thus, `poverty_65_and_over_2019` and `age_over_65_2019`, both of them rejected, seem to be too similar with respectively `median_household_income_2019` and `age_over_85_2019`.
+
+The t-value of `black_2019`, although lower than the critical value at the 95% confidence level, is too high to keep the variable in the model once we drop the others. This can be explained by the inclusion of economic variables in our model, taking into account the impoverishment of numerous Black-majority counties.
+
+We can now rewrite our final model as:
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| results: "hide"
+model <- lm(Death_rate ~ 
+              age_over_85_2019+
+              median_age_2019+
+              persons_per_household_2019+
+              median_household_income_2019+
+              Aggregate_connectivity+
+              medically_underserved_dummy+
+              Infection_rate,
+            data = clean_merged)
+summary(model)
+```
+
+Our final model explains roughly 36.5% of the mortality rate variation on the county-level. This is a significant improvement from the models only taking into account age. Thus, this study has led us to explain an additional 25% of the mortality rate.
+
+Hence, economic and social factors have played a significant role in the Covid pandemic, confirming the fundamental inequalities in the United States when it comes to healthcare.

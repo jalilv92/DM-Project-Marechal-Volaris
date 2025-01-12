@@ -723,10 +723,11 @@ ggplot(summary_by_decile, aes(x = median_poverty_rate, y = median_death_rate)) +
   theme_minimal() +
   theme(
     text = element_text(size = 13),
-    axis.title = element_text(size = 14),
+    axis.title = element_text(size = 13),
     plot.title = element_text(size = 16, face = "bold", hjust = 0.5)
   )
 ```
+This graph represents the median death rate in function of the median poverty rate, each blue point represents a decile. The red lign illustrate the linear regression line, while the grey shadow is the confidence interval. It depicts a correlation, the higher the poverty rate, the higher the death rate.
 
 
 ```{r}
@@ -792,7 +793,7 @@ ggplot(quantiles2_filtered, aes(x = Connectivity_index, y = Death_rate, fill = C
     plot.title = element_text(size = 13, face = "bold", hjust = 0.5)
   )
 ```
-
+This chart shows Death rates differences in function of connetivity. It shows highly connected counties are less impacted than the least ones.
 
 ```{r}
 #| echo: false
@@ -844,7 +845,9 @@ summary(model)
 ```
 
 
-This analysis highlights the profound impact of connectivity on mortality during the pandemic. Low-connectivity areas (below 62%) experienced a mean death rate of 31.96%, significantly higher than the 28.51% observed in high-connectivity areas (above 83.2%). Each percentage point increase in connectivity reduces death rates by 0.0328%, explaining 45% of mortality variation. Strong connectivity also supports remote working, reducing exposure risks and enhancing resilience. Investing in connectivity infrastructure is essential to mitigate health disparities.
+This analysis highlights the profound impact of connectivity on mortality during the pandemic. Low-connectivity areas (below 62%) experienced a mean death rate of 31.96%, significantly higher than the 28.51% observed in high-connectivity areas (above 83.2%). Each percentage point increase in connectivity reduces death rates by 0.0328%, explaining 45% of mortality variation. It can be explained by various factors : the is certainly a correlation between average age and connectivity as aged people own less digital products than younger ones. digital products are costly, so generally poor people have less electronical devices than rich ones, and poor people have generally higher obesity, chronical diseases which play an important role in COVID-19 mortality
+Moreover, strong connectivity also supports remote working, reducing exposure risks and enhancing resilience. 
+
 
 ## III. Health System
 
@@ -927,3 +930,5 @@ ggplot(clean_providers, aes(x = `Providers per 1000 Population`, y = Death_rate)
 ```
 
 The scatterplot demonstrates no clear correlation between the number of providers per 1000 population and the death rate. The data points are widely dispersed, and there is no discernible trend or pattern to indicate a strong or consistent relationship between these two variables.
+
+The tests conducted in this study reveal no evidence of a correlation between medical coverage and COVID-19 mortality. However, the absence of evidence does not necessarily imply that no relationship exists. One critical factor to consider is the shortage of medical personnel, which likely played a significant role during the first wave of the pandemic, when healthcare systems were overwhelmed. It is important to note that the data used in this analysis extends only up to 2022, a period significantly removed from the initial wave. Consequently, it would be valuable to replicate this analysis using data specifically from the first wave to better understand the potential relationship between medical coverage and mortality during the most critical phase of the pandemic.

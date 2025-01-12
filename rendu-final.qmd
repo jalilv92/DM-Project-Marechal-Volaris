@@ -185,7 +185,7 @@ Here, we can notice a clear difference between quantiles: the two extremes are 0
 
 ## I. Analysis of Demographic Data
 
-### Age
+### A - Age
 
 It is safe to state that the age is among the most important factors explaining Covid-19 mortality. Older people represent a majority of fatalities from the disease and are more sensible to its symptoms. Our dataset provides us with various variables regarding age. We can first test how the percentage of people older than 65 years old impact the death rate within a county.
 
@@ -286,7 +286,7 @@ This new regression, once again, fails to explain much of the mortality rate. Fu
 
 This conclusion prompts us to study other factors not related to age.
 
-### Race
+### B - Race
 
 It has been established by scholars that ancestry does not play a significant role regarding risks of Covid for a patient. However, race continues to play a major role in American society, characterized by a long-lasting system of racial segregation. Although legally disbanded since the 1960s, the negative effects of it are still visible today.
 
@@ -427,7 +427,7 @@ Following this part of our study, we can conclude by putting the role of race as
 
 Aware of the limited impact of race, we can now look for other explaining variables. A study of income and other economic factors would be a better fit to strengthen our model.
 
-### Housing and location
+### C - Housing and location
 
 The United States are the the third largest country in the world and include a wide variety of natural regions and communities. As of 2021, 83% of Americans were living in cities and other urban communities. One can expect a difference of mortality and infection between different types of communities, a hypothesis we can test now based on our dataset.
 
@@ -1047,7 +1047,7 @@ The scatterplot demonstrates no clear correlation between the number of provider
 
 The tests conducted in this study reveal no evidence of a correlation between medical coverage and COVID-19 mortality. However, the absence of evidence does not necessarily imply that no relationship exists. One critical factor to consider is the shortage of medical personnel, which likely played a significant role during the first wave of the pandemic, when healthcare systems were overwhelmed. It is important to note that the data used in this analysis extends only up to 2022, a period significantly removed from the initial wave. Consequently, it would be valuable to replicate this analysis using data specifically from the first wave to better understand the potential relationship between medical coverage and mortality during the most critical phase of the pandemic.
 
-# Conclusion: building a comprehensive model
+## Conclusion: building a comprehensive model
 
 Throughout our study, we have explored how various factors might have an influence on the variation of the mortality rate from Covid from one county to another. We can now combine the meaningful correlations observed in order to obtain an overview of how the mortality rate can vary.
 

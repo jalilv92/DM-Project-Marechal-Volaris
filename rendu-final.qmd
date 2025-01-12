@@ -74,9 +74,13 @@ clean_merged <- clean_merged |>
       !is.na(`Medically Underserved Area/Population (MUA/P) Total Resident Civilian Population` ) |
       !is.na(`Providers per 1000 Population`), 
       1, 
-      0
-    )
-  )
+      0)) |>
+   mutate(Aggregate_connectivity = ifelse(
+      !is.na(household_has_broadband_2019) |
+      !is.na(household_has_computer_2019) |
+      !is.na(household_has_smartphone_2019),
+      rowMeans(cbind(household_has_broadband_2019,household_has_computer_2019, household_has_smartphone_2019), na.rm = TRUE),
+      0))
 ```
 
 ```{r}

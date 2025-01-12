@@ -849,3 +849,83 @@ summary(model)
 This analysis highlights the profound impact of connectivity on mortality during the pandemic. Low-connectivity areas (below 62%) experienced a mean death rate of 31.96%, significantly higher than the 28.51% observed in high-connectivity areas (above 83.2%). Each percentage point increase in connectivity reduces death rates by 0.0328%, explaining 45% of mortality variation. Strong connectivity also supports remote working, reducing exposure risks and enhancing resilience. Investing in connectivity infrastructure is essential to mitigate health disparities.
 
 ## III. Health System
+
+### A - Healthcare Access Disparities: Medically Underserved Counties Compared to Others
+
+Analyzing disparities between medically underserved and other counties highlights healthcare inequalities, revealing critical gaps in resources, access, and outcomes.
+
+
+```{r}
+#| echo: false
+# Summarizing the data by income category for both infection and death rates
+clean_underserved <- clean_merged |>
+  group_by(medically_underserved_dummy) |>
+  filter( Death_rate > 0 & Infection_rate > 0) |>
+  summarise(
+    # Infection Rate Statistics
+    mean_infection_rate2 = mean(Infection_rate, na.rm = TRUE),
+    sd_infection_rate2 = sd(Infection_rate, na.rm = TRUE),
+    n_infection2 = n(),
+    lower_ci_infection2 = mean_infection_rate2 - qt(0.975, df = n_infection2 - 1) * (sd_infection_rate2 / sqrt(n_infection2)),
+    upper_ci_infection2 = mean_infection_rate2 + qt(0.975, df = n_infection2 - 1) * (sd_infection_rate2 / sqrt(n_infection2)),
+    
+    # Death Rate Statistics
+    mean_death_rate2 = mean(Death_rate, na.rm = TRUE),
+    sd_death_rate2 = sd(Death_rate, na.rm = TRUE),
+    n_death2 = n(),
+    lower_ci_death2 = mean_death_rate2 - qt(0.975, df = n_death2 - 1) * (sd_death_rate2 / sqrt(n_death2)),
+    upper_ci_death2 = mean_death_rate2 + qt(0.975, df = n_death2 - 1) * (sd_death_rate2 / sqrt(n_death2))
+  )
+
+# Print summary statistics
+print(clean_underserved)
+```
+The data reveal that medically underserved counties have higher mean infection rates (31.69%) and death rates (1.68%) compared to non-underserved counties (30.26% and 1.36%, respectively). These findings highlight an impact of the pandemic on underserved areas, emphasizing the need to address healthcare access disparities.
+```{r}
+#| echo: false
+ggplot(clean_merged, aes(x = factor(medically_underserved_dummy), y = Death_rate)) +
+  geom_boxplot(fill = "lightblue", alpha = 0.3, outlier.size = 2) +  # Use boxplot for clear distribution
+  labs(
+    title = "Death Rate by Medical Underserved Area Category",
+    x = "Medical Underserved (0 = No, 1 = Yes)",
+    y = "Death Rate (%)"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 16, face = "bold", hjust = 0.5),  # Improve title style
+    axis.title = element_text(size = 14),  # Better axis titles
+    axis.text = element_text(size = 12)  # Improve axis text readability
+  ) +
+  scale_x_discrete(labels = c("Not Underserved", "Underserved"))  # Add meaningful labels for categories 
+```
+The difference in death rates between non-underserved counties (1.35%) and medically underserved counties (1.67%) is 0.32 percentage points, representing a 23.7% higher death rate in underserved areas. This emphasizes the significant impact of healthcare disparities on COVID-19 mortality outcomes.
+
+```{r}
+model <- lm(Death_rate ~ medically_underserved_dummy , data = clean_merged)
+summary(model)
+```
+
+### B - Number of providers
+"
+
+```{r}
+#| echo: false
+clean_providers <- clean_merged |>
+  filter(Death_rate > 0 & Infection_rate > 0 & !is.na(`Providers per 1000 Population`) & `Providers per 1000 Population` > 0 )  # Ensures no NA values in the column
+
+ggplot(clean_providers, aes(x = `Providers per 1000 Population`, y = Death_rate)) +
+  geom_point(alpha = 0.7, color = "blue") +  # Add transparency and color for better visualization
+  labs(
+    title = "Relationship Between Providers per 1000 Population and Death Rate",
+    x = "Providers per 1000 Population",
+    y = "Death Rate (%)"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 16, face = "bold", hjust = 0.5),
+    axis.title = element_text(size = 14),
+    axis.text = element_text(size = 12)
+  )
+```
+
+The scatterplot demonstrates no clear correlation between the number of providers per 1000 population and the death rate. The data points are widely dispersed, and there is no discernible trend or pattern to indicate a strong or consistent relationship between these two variables.

@@ -501,7 +501,6 @@ As expected, the number of persons per household is not positively correlated wi
 
 To explore the relationship between economic factors and the impact of COVID-19, this analysis focuses on the variable median_household_income_2019. Median household income serves as a key indicator of the financial well-being of populations. To examine disparities, we will compare COVID-19 death and infection rates between counties in the first and tenth income quantiles, representing the lowest and highest income brackets, respectively.
 
-To investigate the relationship between economic variables and COVID-19, we will analyze the variable “median_household_income_2019.”Median household income provides insight into the financial well-being of different populations, to differentiate groups, we will compare the death and infection rates between the 1st and 10th income quantiles.
 
 ```{r}
 #| echo: false
@@ -642,7 +641,7 @@ ggplot(filtered_data, aes(x = income_category, y = Death_rate, fill = income_cat
   scale_fill_manual(values = c("Revenu < 38800" = "blue", "Revenu > 70321" = "red"))
 ```
 
-The data reveal substantial disparities in infection and mortality rates across income categories. Households with low incomes (less than $38,880) experience a mean infection rate of 32.08%, which is notably higher than the 28.68% observed among high-income households (earning more than $70,321). The associated confidence intervals (31.35% to 32.82% for low-income households and 27.89% to 29.47% for high-income households) confirm the statistical reliability of these estimates, although the difference in infection rates is relatively moderate.
+The data reveal disparities in infection and mortality rates across income categories. Households with low incomes (less than $38,880) experience a mean infection rate of 32.08%, which is higher than the 28.68% observed among high-income households (earning more than $70,321). The associated confidence intervals (31.35% to 32.82% for low-income households and 27.89% to 29.47% for high-income households) confirm the statistical reliability of these estimates, although the difference in infection rates is relatively moderate.
 
 In contrast, the disparity in mortality rates is more pronounced. Low-income households report a mean mortality rate of 1.83%, nearly twice that of high-income households, which stands at 0.88%. This significant gap is reinforced by non-overlapping confidence intervals (1.75% to 1.90% for low-income households and 0.84% to 0.92% for high-income households), highlighting the critical impact of economic inequality on severe health outcomes.
 
@@ -650,30 +649,9 @@ These findings underscore the pivotal role of social determinants in shaping pan
 
 
 
-### B - Insurance
+### B - Poverty
 
-One of the direct consequences of income inequality is the disparity in access to healthcare coverage, which is often closely tied to financial resources. Given that individuals aged 65 and older account for the majority of COVID-19-related deaths, this analysis will focus specifically on this demographic group.
-
-```{r}
-#| echo: false
-uninsurance <- clean_merged |>
-  summarise(mean_uninsured_over_65 = mean(uninsured_65_and_older_2019, na.rm = TRUE))  # Calculate mean while ignoring NAs
-
-print(uninsurance)
-```
-
-```{r}
-#| echo: false
-model <- lm(Death_rate ~ uninsured_65_and_older_2019 , data =clean_merged)
-summary(model)
-```
-The insurance coverage rate among individuals aged 65 and older exceeds 99.5%, largely due to Medicare eligibility, which supplements or replaces private insurance. Regression analysis shows no significant relationship between the proportion of uninsured seniors and COVID-19 mortality rates (p-value: 0.5687; R-squared: ~0), suggesting that uninsurance does not directly impact mortality outcomes. While exploring differences by insurance type would be valuable, the dataset lacks the granularity needed for such an analysis.
-
-
-
-### C - Poverty
-
-Having analyzed health insurance coverage among individuals aged 65 and older, we now turn our focus to examining poverty within the same demographic. The study of poverty in this age group is particularly relevant as it provides critical insights into economic vulnerability and its potential impact on health outcomes. Poverty among seniors can influence access to resources, quality of living conditions, and overall well-being, all of which play a significant role in shaping resilience to health crises such as the COVID-19 pandemic. Understanding these dynamics is essential for addressing disparities and improving outcomes in this vulnerable population.
+We now turn our focus to examining poverty within  among individuals aged 65 and olde. The study of poverty in this age group is particularly relevant as it provides critical insights into economic vulnerability and its potential impact on health outcomes. Poverty among seniors can influence access to resources, quality of living conditions, and overall well-being, all of which play a significant role in shaping resilience to health crises such as the COVID-19 pandemic. Understanding these dynamics is essential for addressing disparities and improving outcomes in this vulnerable population.
 
 ```{r}
 #| echo: false
@@ -736,7 +714,27 @@ model <- lm(median_death_rate ~ median_poverty_rate , data = summary_by_decile)
 summary(model)
 ```
 
-The analysis reveals a stark correlation between poverty and COVID-19 mortality. A 1% increase in the median poverty rate corresponds to a 0.05% rise in the death rate. With an R² of 89.65%, poverty explains most variability in mortality, underscoring the devastating impact of socioeconomic inequalities during health crises.
+The analysis reveals a stark correlation between poverty and COVID-19 mortality. A 1% increase in the median poverty rate corresponds to a 0.05% rise in the death rate. With an R² of 89.65%, it is not surprising that the 65+ age category is the most affected by COVID-19 mortality, as this demographic is particularly vulnerable. Furthermore, poverty plays a significant role in explaining key determinants of mortality, including access to healthcare, living conditions, and overall health status. These factors are critical in shaping outcomes during a health crisis, highlighting the compounded vulnerabilities faced by older individuals living in impoverished conditions.
+
+
+### C - Insurance
+
+One of the direct consequences of income inequality is the disparity in access to healthcare coverage, which is often closely tied to financial resources. Given that individuals aged 65 and older account for the majority of COVID-19-related deaths, this analysis will focus specifically on this demographic group.
+
+```{r}
+#| echo: false
+uninsurance <- clean_merged |>
+  summarise(mean_uninsured_over_65 = mean(uninsured_65_and_older_2019, na.rm = TRUE))  # Calculate mean while ignoring NAs
+
+print(uninsurance)
+```
+
+```{r}
+#| echo: false
+model <- lm(Death_rate ~ uninsured_65_and_older_2019 , data =clean_merged)
+summary(model)
+```
+The insurance coverage rate among individuals aged 65 and older exceeds 99.5%, largely due to Medicare eligibility, which supplements or replaces private insurance. Regression analysis shows no significant relationship between the proportion of uninsured seniors and COVID-19 mortality rates (p-value: 0.5687; R-squared: ~0), suggesting that uninsurance does not directly impact mortality outcomes. While exploring differences by insurance type would be valuable, the dataset lacks the granularity needed for such an analysis.
 
 
 

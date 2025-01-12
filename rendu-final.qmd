@@ -571,9 +571,6 @@ summary_stats <- filtered_data |>
     lower_ci_death = mean_death_rate - qt(0.975, df = n_death - 1) * (sd_death_rate / sqrt(n_death)),
     upper_ci_death = mean_death_rate + qt(0.975, df = n_death - 1) * (sd_death_rate / sqrt(n_death))
   )
-
-# Print summary statistics
-print(summary_stats)
 ```
 
 ```{r}
@@ -609,6 +606,7 @@ ggplot(filtered_data, aes(x = median_household_income_2019, y = Infection_rate, 
     plot.title = element_text(size = 18, face = "bold", hjust = 0.5)  # Titre centré et en gras
   )
 ```
+Both Graphs illustrate Infection rates between the first and last decile. It shows no striking differences ( mean 32% vs 28,7% )
 
 ```{r}
 #| echo: false

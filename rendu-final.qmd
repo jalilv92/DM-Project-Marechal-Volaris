@@ -645,3 +645,203 @@ The data reveal substantial disparities in infection and mortality rates across 
 In contrast, the disparity in mortality rates is more pronounced. Low-income households report a mean mortality rate of 1.83%, nearly twice that of high-income households, which stands at 0.88%. This significant gap is reinforced by non-overlapping confidence intervals (1.75% to 1.90% for low-income households and 0.84% to 0.92% for high-income households), highlighting the critical impact of economic inequality on severe health outcomes.
 
 These findings underscore the pivotal role of social determinants in shaping pandemic outcomes. While poverty itself may not exert a direct influence, its downstream effects—such as limited health insurance coverage, economic instability, and restricted access to essential resources—play a decisive role in exacerbating health disparities during crises. To deepen this analysis, we will investigate health insurance coverage, with a particular focus on uninsured populations, including vulnerable groups such as the elderly, to assess the impact of gaps in the U.S. healthcare system on the management of critical cases.
+
+
+
+### B - Insurance
+
+One of the direct consequences of income inequality is the disparity in access to healthcare coverage, which is often closely tied to financial resources. Given that individuals aged 65 and older account for the majority of COVID-19-related deaths, this analysis will focus specifically on this demographic group.
+
+```{r}
+#| echo: false
+uninsurance <- clean_merged |>
+  summarise(mean_uninsured_over_65 = mean(uninsured_65_and_older_2019, na.rm = TRUE))  # Calculate mean while ignoring NAs
+
+print(uninsurance)
+```
+
+```{r}
+#| echo: false
+model <- lm(Death_rate ~ uninsured_65_and_older_2019 , data =clean_merged)
+summary(model)
+```
+The insurance coverage rate among individuals aged 65 and older exceeds 99.5%, largely due to Medicare eligibility, which supplements or replaces private insurance. Regression analysis shows no significant relationship between the proportion of uninsured seniors and COVID-19 mortality rates (p-value: 0.5687; R-squared: ~0), suggesting that uninsurance does not directly impact mortality outcomes. While exploring differences by insurance type would be valuable, the dataset lacks the granularity needed for such an analysis.
+
+
+
+### C - Poverty
+
+Having analyzed health insurance coverage among individuals aged 65 and older, we now turn our focus to examining poverty within the same demographic. The study of poverty in this age group is particularly relevant as it provides critical insights into economic vulnerability and its potential impact on health outcomes. Poverty among seniors can influence access to resources, quality of living conditions, and overall well-being, all of which play a significant role in shaping resilience to health crises such as the COVID-19 pandemic. Understanding these dynamics is essential for addressing disparities and improving outcomes in this vulnerable population.
+
+```{r}
+#| echo: false
+clean_poverty_65_and_over_2019 <- clean_merged |>
+  filter(!is.na(poverty_65_and_over_2019) & (Death_rate < 2.5 ))  # Remove rows with NA values in the column
+
+print(clean_poverty_65_and_over_2019)
+```
+
+```{r}
+#| echo: false
+# Add a "decile" variable to the clean_merged dataset
+clean_poverty_65_and_over_2019 <- clean_poverty_65_and_over_2019|>
+  mutate(
+    decile = cut(
+      poverty_65_and_over_2019,
+      breaks = quantile(poverty_65_and_over_2019, probs = seq(0, 1, 0.1), na.rm = TRUE),
+      include.lowest = TRUE,
+      labels = 1:10
+    )
+  )
+
+summary_by_decile <- clean_poverty_65_and_over_2019 |>
+  group_by(decile) |>
+  summarise(
+    avg_death_rate = mean(Death_rate, na.rm = TRUE),
+    median_death_rate = median(Death_rate, na.rm = TRUE),
+    median_poverty_rate = median(poverty_65_and_over_2019, na.rm = TRUE),
+    avg_poverty_rate = mean(poverty_65_and_over_2019, na.rm = TRUE)
+  )
+
+# Print the summary table
+print(summary_by_decile)
+""
+```
+```{r}
+#| echo: false
+ggplot(summary_by_decile, aes(x = median_poverty_rate, y = median_death_rate)) +
+  geom_point(color = "blue", size = 3) +  # Add points to the scatter plot
+  geom_smooth(method = "lm", color = "red", se = TRUE) +  # Add regression line with confidence interval
+  geom_line(color = "blue", linetype = "dashed") +  # Connect the points with lines
+  labs(
+    title = "Relationship Between Median Poverty Rate and Median Death Rate",
+    x = "Median Poverty Rate (%)",
+    y = "Median Death Rate (%)"
+  ) +
+  theme_minimal() +
+  theme(
+    text = element_text(size = 13),
+    axis.title = element_text(size = 14),
+    plot.title = element_text(size = 16, face = "bold", hjust = 0.5)
+  )
+```
+
+
+```{r}
+#| echo: false
+model <- lm(median_death_rate ~ median_poverty_rate , data = summary_by_decile)
+summary(model)
+```
+
+The analysis reveals a stark correlation between poverty and COVID-19 mortality. A 1% increase in the median poverty rate corresponds to a 0.05% rise in the death rate. With an R² of 89.65%, poverty explains most variability in mortality, underscoring the devastating impact of socioeconomic inequalities during health crises.
+
+
+
+### D - Information capacity
+
+Aggregate_connectivity quantifies household digital access by averaging three key components: broadband, smartphone, and computer availability in 2019. The index ranges from 0.33 to 0.94 (indicating near-complete connectivity), excluding missing values. This measure provides a valuable tool for examining digital inclusion and its broader socioeconomic implications with precision and clarity.
+
+```{r}
+#| echo: false
+quantiles2_prefilter  <- clean_merged  |>
+   filter(Aggregate_connectivity > 0)
+```
+```{r}
+#| echo: false
+quantiles2 <- quantiles2_prefilter  |>
+   summarise(quantile_0.1 = quantile(Aggregate_connectivity, probs = seq(0, 1, 0.1), na.rm = TRUE))
+```
+
+```{r}
+#| echo: false
+quantiles2_filtered <- clean_merged |>
+  filter(
+    (Aggregate_connectivity <= 62.09333 & Aggregate_connectivity > 33.83333) |
+    Aggregate_connectivity > 83.20000
+  ) |>
+  mutate(
+    Connectivity_index = case_when(
+      Aggregate_connectivity <= 62.09333 & Aggregate_connectivity > 33.83333 ~ "33.8% < Aggregate_connectivity < 62%",
+      Aggregate_connectivity > 83.20000 ~ "Aggregate_connectivity > 83.2%"
+    )
+  )
+
+```
+
+```{r}
+#| echo: false
+ggplot(quantiles2_filtered, aes(x = Connectivity_index, y = Death_rate, fill = Connectivity_index)) +
+  geom_violin(trim = FALSE, alpha = 0.7) +  # Violin plot
+  geom_boxplot(width = 0.1, alpha = 0.8, outlier.shape = NA) +  # Overlay boxplot for detail
+  labs(
+    title = "Death Rate Distribution by Connectivity Category",
+    x = "Connectivity Category",
+    y = "Death Rate"
+  ) +
+  scale_fill_manual(
+    values = c(
+      "33.8% < Aggregate_connectivity < 62%" = "blue",
+      "Aggregate_connectivity > 83.2%" = "red"
+    )
+  ) +
+  theme_minimal() +
+  theme(
+
+    plot.title = element_text(size = 13, face = "bold", hjust = 0.5)
+  )
+```
+
+
+```{r}
+#| echo: false
+ggplot(quantiles2_prefilter, aes(x = Aggregate_connectivity, y = Death_rate)) +
+  geom_point(alpha = 0.4, size = 1.5, color = "darkblue") +
+  geom_smooth(method = "lm", color = "red", se = TRUE, linetype = "dashed") +  # Ajoute une droite de régression
+  labs(
+    title = "Scatter Plot: Connectivity and Death Rate",
+    subtitle = "Linear regression line added to highlight correlation",
+    x = "Aggregate Connectivity (%)",
+    y = "Death Rate (%)"
+  ) +
+  coord_cartesian(xlim = c(50, 85), ylim = c(0.5, 4)) +  # Ajuste les limites des axes
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 16, face = "bold", hjust = 0.5),  # Style du titre
+    plot.subtitle = element_text(size = 14, hjust = 0.5),  # Style du sous-titre
+    legend.position = "right",  # Position de la légende
+    panel.grid.minor = element_blank()  # Supprime les grilles mineures
+  )
+```
+```{r}
+#| echo: false
+# Summarizing the data by connectivity category for infection and death rates
+summary_stats_connectivity <- quantiles2_filtered |>
+  group_by(Connectivity_index) |>
+  summarise(
+    # Infection Rate Statistics
+    mean_infection_rate = mean(Infection_rate, na.rm = TRUE),
+    sd_infection_rate = sd(Infection_rate, na.rm = TRUE),
+    n_infection = n(),
+    lower_ci_infection = mean_infection_rate - qt(0.975, df = n_infection - 1) * (sd_infection_rate / sqrt(n_infection)),
+    upper_ci_infection = mean_infection_rate + qt(0.975, df = n_infection - 1) * (sd_infection_rate / sqrt(n_infection)),
+
+    # Death Rate Statistics
+    mean_death_rate = mean(Death_rate, na.rm = TRUE),
+    sd_death_rate = sd(Death_rate, na.rm = TRUE),
+    n_death = n(),
+    lower_ci_death = mean_death_rate - qt(0.975, df = n_death - 1) * (sd_death_rate / sqrt(n_death)),
+    upper_ci_death = mean_death_rate + qt(0.975, df = n_death - 1) * (sd_death_rate / sqrt(n_death))
+  )
+
+```
+
+```{r}
+#| echo: false
+model <- lm(Death_rate ~ Aggregate_connectivity , data = quantiles2_filtered)
+summary(model)
+```
+
+
+This analysis highlights the profound impact of connectivity on mortality during the pandemic. Low-connectivity areas (below 62%) experienced a mean death rate of 31.96%, significantly higher than the 28.51% observed in high-connectivity areas (above 83.2%). Each percentage point increase in connectivity reduces death rates by 0.0328%, explaining 45% of mortality variation. Strong connectivity also supports remote working, reducing exposure risks and enhancing resilience. Investing in connectivity infrastructure is essential to mitigate health disparities.
+
+## III. Health System
